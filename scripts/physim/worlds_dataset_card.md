@@ -122,17 +122,21 @@ registry.verify()
 world = registry.load_genome("WORLD_RECORD_ID_FROM_WORLDS_CATALOG")
 ```
 
-Use Physim 0.12.2 and blobkit 0.3.5 with Python 3.12. The reference numerical
-profile pins NumPy 2.5.2 and SciPy 1.18.0. Code and Docker build instructions live
-in the [Physim release](https://github.com/swpo/physim/releases/tag/physim-v0.12.2).
-Both packages are available as public GitHub release wheels and source archives;
-the setup archive includes explicit configs for all three preparations. Physim
-pins the Blobkit wheel by SHA-256. The PyPI project named `physim` is unrelated.
-Use the release's `requirements.txt` for the checksummed installation.
+The preparations whose names end in `centered_v2` use Physim 0.13.0.dev0
+and Blobkit 0.3.5. They bind a source centered on each device's sensor array;
+an injection remains at its launch position if the device subsequently moves.
+The other three preparations retain the original fixed-source apparatus and
+remain reproducible with Physim 0.12.2. These are separate, immutable preparations.
 
-The catalog's `code_versions.physim = 0.12.0` records the original bundle export
-runtime. Version 0.12.2 adds portable selection and distribution while preserving
-the numerical source hashes and all world, preparation, and suite identities.
+Use Python 3.12 with NumPy 2.5.2 and SciPy 1.18.0 on the trusted simulation host.
+The updated environment, installation instructions, and runnable configs are in
+[the PhySim environment PR](https://github.com/PrimeIntellect-ai/residency-environments/pull/22).
+`release.json` records the exact code source used for this dataset export.
+Blobkit is available as a
+[checksummed release](https://github.com/swpo/physim/releases/tag/blobkit-v0.3.5).
+The [Physim 0.12.2 release](https://github.com/swpo/physim/releases/tag/physim-v0.12.2)
+is retained for the historical preparations. The PyPI project named `physim`
+is unrelated.
 
 ## Provenance and reproducibility
 
