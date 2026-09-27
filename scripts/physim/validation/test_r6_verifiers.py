@@ -59,7 +59,8 @@ class NativeTaskTests(unittest.TestCase):
         for checks, reason in (([], "no_predictor"), ([dict(snapshot={"files": []})], "invalid_predictor")):
             with self.subTest(reason=reason):
                 trace = SimpleNamespace(state=T.R6State(checks=checks), info={})
-                self.assertEqual(asyncio.run(T.R6Task.prediction_reward(None, trace)), 0.0)
+                task = SimpleNamespace(config=T.R6TaskConfig())
+                self.assertEqual(asyncio.run(T.R6Task.prediction_reward(task, trace)), 0.0)
                 self.assertEqual(trace.info["r6"]["score_reason"], reason)
                 self.assertIsNone(trace.info["r6"]["primary_joint_energy"])
 
@@ -75,6 +76,7 @@ class NativeTaskTests(unittest.TestCase):
             (obs / "experiment_001.npz").write_bytes(b"public data")
             state = dict(
                 prompt_condition=T.PROMPT_CONDITION,
+                reward_precision=T.DEFAULT_PRECISION,
                 checks=[
                     dict(
                         path="validate_01",
@@ -193,7 +195,7 @@ class NativeTaskTests(unittest.TestCase):
             )
         )
         self.assertEqual(task.data.image, "rlm-test")
-        self.assertEqual(task.data.protocol, f"r6-verifiers-v1-ipython-1-{T.PROMPT_CONDITION}")
+        self.assertEqual(task.data.protocol, f"r6-verifiers-v1-ipython-1-{T.PROMPT_CONDITION}-k-2")
         self.assertIn("persistent IPython", task.data.system_prompt)
         self.assertIn("laboratory_validate", task.data.system_prompt)
         self.assertEqual(task.data.network_allow, [])

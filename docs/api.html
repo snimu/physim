@@ -3,7 +3,8 @@
 <meta name="robots" content="noindex"><title>Page moved · Physim</title>
 <link rel="stylesheet" href="./site.css"></head><body>
 <main style="margin:3rem auto;padding:1rem"><h1>Page moved</h1>
-<p><a href="experiment.html#actions">Continue to this page</a>.</p>
-<p><a href="./index.html">Current Physim documentation</a></p></main>
-<script>window.location.replace("experiment.html" + (window.location.hash || "#actions"));</script>
+<p><a href="index.html#actions">Continue to this page</a>.</p>
+<p><a href="./index.html">Current Physim documentation</a></p>
+<div hidden><a id="preparation" href="index.html#actions">preparation</a> <a id="apparatus" href="index.html#apparatus">apparatus</a> <a id="actions" href="index.html#actions">actions</a> <a id="time" href="index.html#actions">time</a> <a id="event-timing" href="index.html#actions">event-timing</a> <a id="queries" href="index.html#queries">queries</a> <a id="prediction" href="index.html#prediction">prediction</a> <a id="samples" href="index.html#actions">samples</a> <a id="submission" href="index.html#actions">submission</a> </div></main>
+<script>const map = {"preparation": "actions", "apparatus": "apparatus", "actions": "actions", "time": "actions", "event-timing": "actions", "queries": "queries", "prediction": "prediction", "samples": "actions", "submission": "actions"}; window.location.replace("index.html" + (map[window.location.hash.slice(1)] ? "#" + map[window.location.hash.slice(1)] : (window.location.hash || "#actions")));</script>
 </body></html>

@@ -1,0 +1,52 @@
+{
+  "schema": "physim-retrospective-rewards-v1",
+  "precision": 2.0,
+  "mapping": "max(0, min(-log10(S), K)) / K; S=0 -> 1; invalid predictor -> 0",
+  "models": [
+    {
+      "model": "qwen/qwen3.5-35b-a3b",
+      "name": "Qwen3.5 35B A3B",
+      "energy": null,
+      "reward": 0.0
+    },
+    {
+      "model": "qwen/qwen3.5-397b-a17b",
+      "name": "Qwen3.5 397B A17B",
+      "energy": 0.9622214433547235,
+      "reward": 0.008362484480154456
+    },
+    {
+      "model": "openai/gpt-5.6-luna",
+      "name": "GPT-5.6 Luna",
+      "energy": 0.14425154967959716,
+      "reward": 0.42043975628305597
+    },
+    {
+      "model": "x-ai/grok-4.6",
+      "name": "Grok 4.6",
+      "energy": 0.15773178069936702,
+      "reward": 0.4010403968618596
+    },
+    {
+      "model": "openai/gpt-5.6-terra",
+      "name": "GPT-5.6 Terra",
+      "energy": 0.30258520463141975,
+      "reward": 0.25957615564488773
+    },
+    {
+      "model": "anthropic/claude-sonnet-5",
+      "name": "Claude Sonnet 5",
+      "energy": 0.15904388414367093,
+      "reward": 0.39924151327429613
+    },
+    {
+      "model": "z-ai/glm-5.3-flash",
+      "name": "GLM 5.3 Flash",
+      "energy": 0.10119300527214231,
+      "reward": 0.4974247530203331
+    }
+  ],
+  "source": "bf-case-study.json",
+  "source_sha256": "e62b0690bc5887e3988313fb1da7d9944c54ffe8926a7b1d9972ee18f4a77330",
+  "note": "Retrospective remapping of saved energies; no new agent rollouts."
+}

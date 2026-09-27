@@ -1,4 +1,117 @@
-<p class="lead">Physim studies whether AI agents can learn unfamiliar physics through experiments.</p>
-<p>Built with Prime Intellect’s Verifiers, the evaluation environment gives agents a virtual laboratory: they choose experiments, use their observations to build a predictive model, and are tested on predictions of new experiments. Simulation lets these investigations be repeated and scaled without the throughput constraints of physical laboratory work.</p>
-<p>To supply interesting worlds, Blobkit provides tools for searching the space of equations governing primitive, interacting fields. Motion, binding, and collective behavior emerge from the resulting dynamics. The package supports simulation and evolutionary search at scale, customizable measurements, and harvesting worlds together with the recipes that generated them.</p>
-<figure class="intro-film"><video autoplay loop controls muted playsinline preload="metadata" width="418" height="418" poster="assets/worlds/ds3_014-intro.jpg" aria-label="Looping simulation of interacting colored fields"><source src="assets/worlds/ds3_014-intro.mp4" type="video/mp4"><a href="assets/worlds/ds3_014-intro.mp4">Download the simulation film</a>.</video><figcaption>Patterns forming and moving in one simulated world.</figcaption></figure>
+<p>A central challenge in using AI systems to solve problems in science is the need to interact with the world through experiments. Compared to fields like mathematics, it is likely not possible to make fundamental progress in science through thought alone. The cost of experiments, either economic or time, constrains the rate at which AI can build its understanding of physics, chemistry, and biology.</p>
+<p>While improving experimental throughput in reality is a monumental task, we can ask what AI can learn about a virtual world where experiments can be done cheaply in-silico. PhySim was built to answer this question. It defines specifications for</p>
+<ul><li>Virtual worlds in which complex emergent phenomena can arise from simple rules</li><li>An agent evaluation suite that provides tools for experimentation and tests agents’ ability to forecast world dynamics</li></ul>
+<p>While these worlds can be designed by hand, we also provide a package for breeding interesting worlds with an evolutionary algorithm. This combination enables us to measure model performance, use RL to improve this performance, and generate increasingly complex worlds that push models to their limits.</p>
+<figure class="intro-film"><video autoplay muted loop playsinline controls preload="metadata" poster="assets/worlds/ds3_014-intro.jpg" aria-label="Combined fields in the ds3_014 world"><source src="assets/worlds/ds3_014-intro.mp4" type="video/mp4"></video><figcaption>A PhySim virtual world</figcaption></figure>
+
+{{table_of_contents}}
+
+<h2 id="worlds">PhySim Worlds</h2>
+<p id="field-model">PhySim worlds are described by a set of two dimensional fields which evolve according to diffusion and nonlinear couplings. We think of the list of fields, along with various parameters (rates of diffusion and coupling coefficients) as describing a <em>genome</em> for the world. World dynamics can then be simulated on a discrete grid (see <a href="https://github.com/swpo/physim/tree/main/packages/blobkit">the repository</a> for details).</p>
+<p>Even simple genomes can give rise to non-trivial dynamics, such as persistent localized excitations or solitons. Early exploration of such genomes also found examples of moving excitations and bound excitations.</p>
+<div class="grid" id="structures"><figure><video autoplay muted loop playsinline controls preload="metadata" poster="assets/worlds/early-travel.jpg" aria-label="A moving excitation and its distance traveled"><source src="assets/worlds/early-travel.mp4" type="video/mp4"></video><figcaption>A traveling excitation in a small field system.</figcaption></figure><figure><video autoplay muted loop playsinline controls preload="metadata" poster="assets/worlds/early-binding.jpg" aria-label="A bound pair and its separation over time"><source src="assets/worlds/early-binding.mp4" type="video/mp4"></video><figcaption>Two excitations of the same field bind together.</figcaption></figure></div>
+<p>To discover genomes that gave rise to more complex behavior we applied an evolutionary algorithm which selected for interesting behavior and bred worlds by combining their fields and adding couplings between them.</p>
+<details id="generation"><summary>See details of the evolutionary world search</summary>
+<ol><li><strong>Initialize.</strong> Begin with a population of field genomes and a seeded random generator.</li><li><strong>Vary.</strong> Mutate numerical parameters or field structure. To combine two parents, first join their field systems, then share a feedback field, add cross-couplings, or introduce a slowly relaxing field driven by both parents.</li><li><strong>Simulate and measure.</strong> Reject unsupported or unstable candidates. Simulate the remainder and calculate metrics in Python, such as persistence, movement, spatial organization, and interactions. Selection uses these measurements, not an LLM judge.</li><li><strong>Select and repeat.</strong> A recipe converts the metrics into fitness and chooses survivors and parents for the next generation. Recipes can define their own metrics and selection rules; the packaged default retains the highest-scoring distinct genomes.</li><li><strong>Preserve.</strong> Harvest selected worlds with their genomes, recipe, seeds, parentage, metrics, and checkpoints in the registry.</li></ol>
+<p><a href="https://github.com/swpo/physim/blob/main/packages/blobkit/blobkit/generation.py">Search implementation</a> · <a href="https://github.com/swpo/physim/blob/main/packages/blobkit/blobkit/operators.py">Mutation and merge operations</a> · <a href="https://github.com/swpo/physim/blob/main/generators/physim/recipes/small_search.py">Example recipe</a></p></details>
+<p>We package the simulation tools along with the world breeding algorithm into a package called <em>Blobkit</em><sup><span class="term-note" id="blobkit-name" tabindex="0" aria-label="The name comes from our original term for the isolated field excitations — blobs." title="The name comes from our original term for the isolated field excitations — ‘blobs’.">1</span></sup>. Since the evolutionary search is constrained by simulation throughput, we also include accelerated simulation code to run multiple worlds in parallel.</p>
+
+<h2 id="examples">Example Worlds</h2>
+<p>BF and XV are reference constructions; p4g2_044 was found through evolutionary search.</p>
+
+<div>
+
+<h3 id="bf">Persistent trails: BF</h3>
+<p>BF (short for “b-field”) contains four fields. A moving excitation leaves a slowly relaxing trail in one of them. The trail does not diffuse, and its feedback changes the excitation’s subsequent motion: local history can influence a later response.</p>
+<figure class="world-film"><video controls muted loop playsinline preload="metadata" poster="assets/worlds/bf-fields.jpg" aria-label="BF moving excitations and the trails they leave in another field"><source src="assets/worlds/bf-fields.mp4" type="video/mp4"></video><figcaption>Moving excitations in u₀ leave trails in x₂. Both panels show the same fixed 64 × 64 window over 300 time units; white outlines locate the excitations on the trail panel. Colors use fixed scales within each field. No external source is applied.</figcaption></figure>
+{{bf_equations}}
+<h3 id="xv">Orbital binding: XV</h3>
+<p>XV (short for “cross-v”) contains six fields. In this starting state, an excitation in one field travels around a much less mobile partner in another. Perturbing either field changes their later motion.</p>
+<figure class="world-film"><video controls muted loop playsinline preload="metadata" poster="assets/worlds/xv-fields.jpg" aria-label="XV orbiting pair, with the two activator fields overlaid"><source src="assets/worlds/xv-fields.mp4" type="video/mp4"></video><figcaption>Two fields overlaid in the same fixed 32 × 32 window: the cyan excitation in u₀ travels around the orange partner in u₁. The clip spans 650 time units, showing a complete orbit. Positive field values use fixed color scales. No external source is applied.</figcaption></figure>
+{{xv_equations}}
+<h3 id="p4g2_044">Patterns and defects: p4g2_044</h3>
+<p>The name p4g2_044 identifies candidate 044 from generation 2 on search island 4. Its recorded breeding step duplicated an activator in a parent genome while sharing its feedback fields, producing four activators and eight other coupled fields. Localized excitations coexist with extended stripes and defects. The selected clip shows these excitations moving and dividing alongside the changing stripe pattern.</p>
+<figure class="world-film"><video controls muted loop playsinline preload="metadata" poster="assets/worlds/p4g2_044-fields.jpg" aria-label="p4g2_044 localized excitations dividing beside evolving stripe patterns"><source src="assets/worlds/p4g2_044-fields.mp4" type="video/mp4"></video><figcaption>Two fields in the same fixed 80 × 80 window, selected from a longer simulation. Over 450 time units, localized excitations in u₀ elongate and split while stripes in u₁ move and change shape. Colors use fixed scales within each field. No external source is applied.</figcaption></figure>
+{{p4g2_044_equations}}
+<details id="numerics"><summary>Simulation settings for these films</summary><p>Each film is a fresh continuation from its world’s saved evaluation preparation. The native simulator uses a periodic 128 × 128 domain, a 256 × 256 grid, timestep 0.02, and float32 fields. Independent Gaussian increments of amplitude 0.002√Δt are applied to the u fields each step. Reaction is advanced with explicit Euler and diffusion in Fourier space. Only the displayed view is cropped; the complete domain is simulated. The displayed fields are a subset of the complete system; their labels match the equations above. <a href="assets/worlds/p4g2_044-fields.json">p4g2_044 source record</a> · <a href="assets/worlds/bf-fields.json">BF source record</a> · <a href="assets/worlds/xv-fields.json">XV source record</a>.</p></details>
+</div>
+
+<h2 id="experiments">Experimenting with virtual worlds</h2>
+<p>In science we do not have the privilege of knowing the underlying framework behind mechanisms we observe and must develop theories which explain empirical data we collect. When building the agent evaluation suite for PhySim, we likewise chose to keep most details of the virtual worlds hidden from the agent.</p>
+<h3 id="apparatus">Running experiments</h3>
+<p>Agents are given the following experimental apparatus</p>
+<figure><picture><source media="(max-width: 680px)" srcset="assets/apparatus/geometry-mobile.svg"><img src="assets/apparatus/geometry.svg" width="1100" height="460" loading="lazy" alt="Device 0 has 13 sensors and device 1 has 19, each arranged around its central source; dashed circles show source width sigma equals 2"></picture><figcaption>Schematic; array orientation and spacing are illustrative. Circles mark sensors; crosses mark sources. The dashed radius is the source’s Gaussian standard deviation. This spatial diagram is not shown to the agent.</figcaption></figure>
+<p>These devices contain the following components:</p>
+<ul><li>Sensors: record the value of each of the fields at the sensor’s location, interpolating between nearby simulation grid points.</li><li>Sources: allow injecting pulses to each of the fields. The pulses are emitted from the center of the device and have a gaussian distribution with standard deviation shown in the figure.</li><li>Adjustments: the entire device can be moved in either direction within the world grid, as well as dilated.</li></ul>
+<p>However, the agent only sees a nondescript experimental interface:</p>
+<pre id="actions"><code>actions = [
+    {"t": 1.0, "kind": "inject", "device": 0,
+     "port": 2, "amp": 0.7, "dur": 4.0},
+    {"t": 2.0, "kind": "adjust", "device": 0,
+     "u": [0.2, -0.4, 0.1]},
+]
+queries = [
+    {"sensor": "device0", "t": [0, 3, 12]},
+    {"sensor": "device1", "t": [12, 20]},
+    {"sensor": "global", "t": [20]},
+]</code></pre>
+<p>Each experiment consists of actions (changes to the world the agent can specify, these can be either source injections or device adjustments) and queries (readings recorded from the sensors at specified times). In addition to the two devices shown above, agents can query sensors from a <em>global</em> device, which records the spatial mean and variance of each field. Results from each experiment are returned in arrays.</p>
+<pre id="queries"><code># After laboratory_experiment(actions, queries):
+# Example output in BF (four ports).
+observations = np.load("/observations/experiment_001.npz")
+# Axes: realization, times, ports, slots
+observations["query0"].shape  # (1, 3, 4, 13)
+observations["query1"].shape  # (1, 2, 4, 19)
+observations["query2"].shape  # (1, 1, 4, 2)
+# 13 readings at time 3 on port 2:
+observations["query0"][0, 1, 2, :]</code></pre>
+<p>Crucially, the agent is not told anything about the structure of the world; that it exists on a 2d grid, how the devices and their sensors are set up, or even what the inputs and adjustments actually do. Likewise, sensor readouts are just opaque arrays of data with no explicit meaning attributed to them. This means that agents need to learn how the experimental apparatus works by trial and error. Think of this as being born with sense organs, but needing to learn through experience how to make use of their data streams.</p>
+<p>This has interesting implications for interpreting agent rollouts. Agents are free to build their own world models, and the exact shape of those models does not affect how we score agents’ predictions (see below). In particular, agents may come up with diverse theoretical frameworks for describing each world, and we do not judge those frameworks on how close they are to the underlying world description we have chosen.</p>
+<h3 id="prediction">Making predictions</h3>
+<p>When being evaluated, agents must submit a prediction function, which is able to forecast the world response to an arbitrary experiment (that is, a set of actions and queries). Agents do not know ahead of time which actions and queries we will choose to evaluate these predictions, and must build general models of world dynamics.</p>
+<pre><code>def predict(actions, queries, n_samples=64, seed=0):
+    # One array per query, in the same order.
+    # Shape: (n_samples, requested times, n_ports, sensor slots)
+    return {"samples": arrays}</code></pre>
+<p>We allow agents to predict a set of sample outputs rather than a single output, which effectively makes predictions distributional. In addition to running experiments and submitting their final prediction function, we also supply agents with a validation tool which confirms their prediction adheres to the interface we expect. It checks execution, output format, finite values, and repeatability on public example requests. Passing those checks does not guarantee valid predictions for every possible experiment.</p>
+
+<h2 id="evaluation">Evaluating agents</h2>
+<p>The full agent evaluation loop looks like this:</p>
+<ol><li>Agents experiment with the world</li><li>Agents validate (optional) and submit their final prediction function</li><li>We measure how closely the submitted prediction function agrees with simulation for a fixed (and a priori unspecified) set of experiments</li></ol>
+<p>In this section, we explain how the third step works in more detail.</p>
+<p>Even under finite time constraints simple combinatorics tell us that there are a vast number of possible experiments we could use to judge predictions. However, physical intuition tells us that the majority of these will be uninteresting. After all, worlds may exhibit localized excitations, both spatially (worlds with lots of empty space) and temporally (worlds that undergo interesting dynamics and eventually settle into stable equilibria). For this reason, we require that any world we use for agent evaluation come equipped with a set of specific experiments which are designed to capture interesting behavior of that world’s dynamics.</p>
+<div id="suite-validation"><p>For example, BF’s moving excitations occur in field u₀ and leave a slowly relaxing signal in field x₂, which we call the “trail” field. To test whether this stored history affects later motion, we injected a pulse into x₂ for five time units and measured the response in u₀ through the surrounding sensors. The resulting change persisted long after injection ended. We then tested a counterfactual: removing the coupling through which x₂ feeds back into u₀ eliminated the pulse-induced response in u₀. The comparison isolates how the trail field influences the moving excitations.</p>
+<figure><picture><source media="(max-width: 680px)" srcset="assets/evaluation/bf-response-and-feedback-mobile.svg"><img src="assets/evaluation/bf-response-and-feedback.svg" width="1080" height="450" loading="lazy" alt="A: stronger trail pulses produce larger, persistent changes in field 1 readings. B: removing the trail feedback eliminates the pulse's effect."></picture><figcaption>Mean sensor response across three realizations, measured at 13 positions around the source. A: RMS difference from no-pulse readings; shading marks injection and the dashed line shows no-pulse variation. B: the time-50 pulse effect with and without trail feedback, using paired future noise.</figcaption></figure>
+<p>This motivates prediction tests with different trail-pulse strengths, a pulse in another field followed by a trail pulse, and changes in device position. These tests ask whether a model captures the lasting effects of an intervention and how they alter a subsequent response.</p></div>
+<p>Once we have a set of experiments built for a world, we combine them into a single score using the following recipe.</p>
+<div id="score">{{score_recipe}}</div>
+<p>The shaping of the reward requires some explanation. The idea is to reward successive orders of magnitude of reduction in normalized prediction error. In particular, energy of 0.001 corresponds to three orders of magnitude below energy 1. K is a hyperparameter which sets the precision target for full reward. This is analogous to counting “9’s”, but energy is not a literal inaccuracy probability, and even a correct stochastic predictor can have nonzero energy.</p>
+<div>{{reward_calibration}}</div>
+
+<h2 id="results">Preliminary Results</h2>
+<p>We performed rollouts with a set of smaller models to study how agents behave in PhySim environments. All rollouts were conducted in the BF world described above, and used the <a href="https://github.com/PrimeIntellect-ai/prime-agent">Prime Agent</a> harness. Overall performance is shown in the table below.</p>
+<div>{{case_study_table}}
+<p class="figure-note"><a href="https://github.com/swpo/physim/blob/main/BF_CASE_STUDY.md">Experiment record and methodology</a></p>
+<p class="figure-note">Costs marked † are estimated from recorded tokens; unmarked costs are provider-reported. For Grok and GLM, * marks estimates that price cache reads at the full input rate because no separate rate was available. Requests without usage records are omitted. Experiments and usage include delegated work.</p></div>
+<p>The table entries above average over different experimental predictions agents must make, each specific to the BF world. The heatmap below shows performance on each experiment for all models.</p>
+<figure class="score-matrix" id="cases"><img src="assets/results/bf-case-energies.svg" width="1080" height="730" loading="lazy" alt="Energy scores for seven models across fifteen BF experiments, with invalid predictions marked in four Qwen 35B cells"><figcaption>Entries are joint energy per experiment, averaged over its measurement groups; lower is better. Colors use a logarithmic scale.</figcaption></figure>
+<p>The smaller Qwen model scores 0 overall due to invalid predictions across 4 of the experiments tested. Most models learn to build predictors which explain the “no actions” setting well but fail to generalize to other experiments. Sonnet is the outlier in this regard, achieving worse performance in the “no actions” experiment, but a smaller generalization gap from that experiment to the more complex experiments.</p>
+<h3 id="investigations">What agents built</h3>
+<p>While all agents performed experiments and developed their own models for world dynamics, the complexity of those models varied across the rollouts. Several agents used experimental data to train black box models (gradient boosted trees and neural nets) to predict sensor outputs. Both GPT models and Sonnet pushed this approach the furthest, all conducting over 1000 experiments to build their training sets. Alternatively, GLM favored a less data intensive approach, which resulted in stronger inductive biases and a less complex model that still performed well in the experiments evaluated. Full details of the submitted prediction functions can be seen <a href="https://github.com/swpo/physim/tree/main/docs_source/examples/case-study">here</a>.</p>
+
+<h2 id="next">What’s next?</h2>
+<p>The evaluations above serve as a proof of concept for PhySim. We think there are many ways to extend this work. We’d like to run more evaluations on the most capable models available now to see how well they do on worlds like BF. We would also like to put more effort and research into how to build complex worlds. In particular, it would be interesting to see what sorts of worlds can be produced with larger budgets for evolutionary search, and what sorts of selection metrics produce results that most closely align with what humans perceive as “interesting”.</p>
+<p>The most interesting question may be what role environments for virtual science might play in the overall development of AI for science. While predicting the future of this technology is best left to the experts, we can try to reason from first principles about the inputs and outputs to scientific research and make the following conclusions:</p>
+<ul><li>Scientific progress will be bottlenecked by experimental throughput</li><li>To optimize this bottleneck, systems will need full flexibility to design new experimental methodologies</li><li>Our theoretical models for the natural world will be judged not only by their epistemic value, but also their ability to increase experimental throughput (simulation).</li></ul>
+
+<h2 id="get-involved">Get Involved</h2>
+<p>Interested in collaborating on this project?</p>
+<ul><li><a href="https://huggingface.co/datasets/seanpohorence/physim-worlds/blob/main/CONTRIBUTING.md">World contribution guide</a> if you want to build or grow your own PhySim worlds</li><li><a href="https://github.com/swpo/physim">PhySim GitHub</a> if you want to explore the libraries supporting PhySim</li><li><a href="https://github.com/PrimeIntellect-ai/residency-environments">Prime Intellect environments</a> if you want to contribute to the agent evaluation and training environments</li><li><a href="https://x.com/the1pun1isher">@the1pun1isher</a> if you just think the project is cool and want to get in touch</li></ul>
+<h2 id="credit">Credit</h2>
+<p>This work was done as part of <a href="https://www.primeintellect.ai/">Prime Intellect</a>’s RL residency. I would like to thank Prime Intellect for supporting the compute and token costs of this work, as well as <a href="https://x.com/omouamoua">@omouamoua</a> for organizing this residency cohort and for all his input and feedback on this project. PhySim was partially inspired by <a href="https://x.com/patience_cave">@patience_cave</a>’s work on <a href="https://mazebench.com/">MazeBench</a> (be sure to check it out, it’s awesome). I’m also thankful to <a href="https://ykjain.github.io/">Yajit</a> for many discussions on AI, agents, and science which have shaped parts of this work.</p>
+
+<script>
+if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('video[autoplay]').forEach(video => { video.pause(); video.removeAttribute('autoplay'); });
+}
+</script>

@@ -151,7 +151,7 @@ def render(mobile=False):
             print(f"{arm}: final sensor contrast {contrast[:, -1].mean():.12g}")
         noise = np.array([np.sqrt(np.mean((sham[i] - sham[j]) ** 2, axis=-1)) for i, j in ((0, 1), (0, 2), (1, 2))])
         ax.plot(t, noise.mean(axis=0), "--", color="#303940", lw=1.7, label="No-pulse difference")
-        ax.set(xlabel="Time after preparation", ylabel="Activator contrast (RMS)", xlim=(0, 50), ylim=(0, 0.9))
+        ax.set(xlabel="Time after preparation", ylabel="Sensor contrast (RMS)", xlim=(0, 50), ylim=(0, 0.9))
         ax.set_xticks([0, 10, 20, 30, 40, 50])
         ax.set_yticks([0, 0.2, 0.4, 0.6, 0.8])
         ax.legend(

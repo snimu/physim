@@ -1,85 +1,10 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
+<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Prepare a laboratory, measure and perturb its fields, and return predictions through a complete experimental interface.">
-<title>Experiment &amp; predict · Physim</title>
-<link rel="stylesheet" href="site.css">
-</head>
-<body>
-<a class="skip" href="#main">Skip to content</a>
-<header class="site-header"><a class="brand" href="index.html">physim<span>Experimental worlds for AI</span></a>
-<nav aria-label="Main navigation"><a href="index.html">Overview</a><a href="worlds.html">Worlds</a><a href="experiment.html" aria-current="page">Experiment &amp; predict</a><a href="scoring.html">Evaluation</a><a href="results.html">Results</a><a href="contribute.html">Contribute</a></nav></header>
-<div class="layout">
-<main id="main"><p class="eyebrow">Experiment &amp; predict</p><h1>Experiments become predictions</h1><p class="lead">A laboratory makes a world repeatable and observable. An agent uses its instruments to learn a predictive model.</p>
-<p>The investigator receives an anonymous instrument interface, a Python workspace, and declared resource budgets. It chooses interventions and measurements, analyzes the returned arrays, and writes a function that predicts the outcomes of further experiments.</p>
-<div class="contents"><span>In this chapter</span><ol><li><a href="#preparation">Preparing a laboratory</a></li><li><a href="#apparatus">Measuring and perturbing fields</a></li><li><a href="#actions">Specifying an experiment</a></li><li><a href="#prediction">Returning possible trajectories</a></li><li><a href="#submission">Exploration and submission</a></li></ol></div>
-<h2 id="preparation">Preparing a laboratory</h2>
-<p>The field equations allow many initial conditions. A <em>preparation</em> fixes one exact starting field array, instrument arrangements, a time origin, and a noise policy. These belong to the laboratory built around a world; a single world can support several preparations.</p>
-<p>Each experiment restores the saved fields and instrument poses, then draws fresh ongoing noise. It does not restart from an empty domain or a newly randomized collection of spots. This makes repeated treatments comparable while retaining uncertainty in their outcomes. Public time zero is the beginning of this continuation, regardless of how long it took to produce the starting state.</p>
-<p>The original <code>p4g2_044</code> preparation saves fields at simulation time 1700. The BF and XV laboratories use endpoints of fresh 2500-unit simulations: BF from its selected initial realization and XV from a prepared pair without an initial kick. Their numerical settings are those described in <a href="worlds.html#numerics">Worlds</a>. A research movie can show another portion of a simulation and should not be interpreted as a trace from one of these experiments.</p>
-<h2 id="apparatus">Measuring and perturbing fields</h2>
-<p>Every field is exposed through an anonymous numbered <em>port</em>. A port can therefore correspond to an activator or a feedback channel; its physical identity is hidden from the agent. The current laboratories have twelve ports for <code>p4g2_044</code>, four for BF, and six for XV.</p>
-<p>Each of two independently movable instruments carries a source at the center of a sensor array. One array has 13 positions on a square lattice; the other has 19 on a hexagonal lattice. Each sensor measures every field at its location, interpolating between nearby simulation grid points. A separate global sensor reports each field's spatial mean and population variance.</p>
-<figure><picture><source media="(max-width: 680px)" srcset="assets/apparatus/geometry-mobile.svg"><img src="assets/apparatus/geometry.svg" alt="Schematic of two instruments: 13 square-lattice sensors and 19 hexagonal-lattice sensors, each surrounding its own central source. The central sensor is colocated with the source." width="1100" height="460"></picture><figcaption>Sensor positions come from the simulator's array geometry. Orange crosses mark sources; open circles mark sensors, including one at each source center. Orientation and spacing are illustrative. The agent receives anonymous slots rather than this spatial map.</figcaption></figure>
-<p>This apparatus gives the investigator a repeatable relationship between intervention and observation. Readings at different positions around a source can reveal how a disturbance spreads, decays, or interacts with existing structures. Repositioning the instrument changes where the next experiment acts and observes; changing its dilation changes the spacing between its sensors.</p>
-<p>A source pulse adds a localized Gaussian forcing to one selected field, with spatial standard deviation 2 units. At launch it captures the instrument's center; forcing continues there for the requested duration. Later movement carries the sensors and the launch point for <em>future</em> pulses, while already launched pulses stay where they began. The two sources can operate at the same time.</p>
-<p>Adjustment has three controls: two translate the instrument through a hidden control mapping, and one changes array dilation, bounded between 0.5 and 3. The new pose takes effect immediately. Dilation changes sensor spacing around the source center; it does not change the Gaussian source width.</p>
-<p>The agent learns through these measurements. It is not given the genome, equations, complete spatial fields, sensor coordinates, array orientation, slot mapping, or private grading programs and truth. The full physical description remains available to the trusted simulator and to researchers reproducing the laboratory.</p>
-<h2 id="actions">Specifying an experiment</h2>
-<p>One experiment fixes all actions and requested readings in advance. Timestamps are absolute from the prepared start. The agent can adapt between experiments, but actions cannot react to observations during a single program.</p>
-<pre><code>actions = [
-    {"t": 1.0, "kind": "inject", "device": 0, "port": 2, "amp": 0.7, "dur": 4.0},
-    {"t": 2.0, "kind": "adjust", "device": 0, "u": [0.2, -0.4, 0.1]},
-]
-queries = [
-    {"sensor": "device0", "t": [0, 3, 12]},
-    {"sensor": "device1", "t": [12, 20]},
-    {"sensor": "global", "t": [20]},
-]</code></pre>
-<p>This program starts a pulse at instrument 0's initial center at time 1. The pulse continues there until time 5. Instrument 0 moves at time 2, so its later readings observe from the new pose while the original pulse continues at its launch position.</p>
-<figure><picture><source media="(max-width: 680px)" srcset="assets/apparatus/pulse-and-move-mobile.svg"><img src="assets/apparatus/pulse-and-move.svg" alt="Three stages: pulse launches at the array center at time 1; the sensor array moves at time 2 while forcing remains at the original position; a later pulse launches at the array's new center." width="1100" height="400"></picture><figcaption>Pulse launch and repositioning are instantaneous commands. The launched pulse has a finite duration at its captured position; its subsequent physical response evolves according to the world's equations. The final panel illustrates a possible later pulse, beyond the program above.</figcaption></figure>
-<p>Through the agent's <code>laboratory_experiment(actions, queries)</code> tool, this request returns a file containing the observations. For a four-port laboratory such as BF, the agent can inspect it as follows:</p>
-<pre><code>import numpy as np
-
-observations = np.load("/observations/experiment_001.npz")
-observations["query0"].shape  # (1, 3, 4, 13): realization, times, ports, slots
-observations["query1"].shape  # (1, 2, 4, 19)
-observations["query2"].shape  # (1, 1, 4, 2)
-
-# Port 2 at every sensor slot of instrument 0, at time 3, after moving while the pulse is active:
-observations["query0"][0, 1, 2, :]  # 13 measured values</code></pre>
-<p>A port has the same identity across both sources and all sensors, and each slot retains its identity as its instrument moves. The agent must learn the spatial relationships from experiments.</p>
-<ul><li>Injection: select device 0 or 1, a port from 0 through <code>n_ports − 1</code>, amplitude 0–3, and duration in <code>(0, 50]</code>. Forcing acts at the captured launch position on <code>[t, t + dur)</code>.</li><li>Adjustment: select device 0 or 1 and three finite controls in <code>[-1, 1]</code>. Pose changes immediately; that device's movement lane is occupied for five time units.</li><li>Each device has its own movement lane and injection lane. Different lanes may overlap or start simultaneously. Two actions on the same lane cannot overlap; adjacent endpoints are allowed.</li><li>List actions in nondecreasing start-time order. At the same timestamp, actions execute in list order: <code>inject</code> then <code>adjust</code> uses the old center; <code>adjust</code> then <code>inject</code> uses the new center.</li><li>A zero-amplitude injection or zero-effect adjustment still occupies its lane.</li></ul>
-<h3 id="time">Time</h3>
-<p>All times are absolute from the prepared start and nonnegative multiples of <code>0.02</code>, with representation tolerance <code>1e-9</code>. The maximum is 50 time units. Every action's entire occupied interval must end by 50, including actions after the last reading.</p>
-<h3 id="event-timing">Event order</h3>
-<p>At an event time, ending pulse intervals are removed, starting actions execute in list order, and requested readings are taken. Probe adjustments change pose immediately. Source forcing is then applied before the next reaction, noise, and diffusion update. A source that starts at a reading's timestamp has not yet advanced the fields at that reading.</p>
-<h3 id="queries">Queries and measurement arrays</h3>
-<pre><code>{"sensor": "device0", "t": [0, 3, 12]}</code></pre>
-<p>Times within each query must be strictly increasing without duplicates. The same timestamp may appear in different query objects, and query objects may appear in any order. Preserve their order in the result. A laboratory observation has shape <code>(1, len(t), n_ports, sensor_slots)</code>: one realization, with axes for time, port, and sensor slot. A prediction uses the same layout with multiple possible realizations.</p>
-<h2 id="prediction">Returning possible trajectories</h2>
-<p>After experimentation, the agent submits a single prediction function for evaluation. It must predict outcomes for any valid combination of actions and measurement queries in the selected laboratory.</p>
-<pre><code>def predict(actions, queries, n_samples=64, seed=0):
-    # One array per query, in the same order.
-    # Shape: (members, requested times, n_ports, sensor slots)
-    return {"samples": arrays}</code></pre>
-<p>The function returns exactly this dictionary, with one complete array per query. For the twelve-port laboratory and the example above, 64 members give shapes <code>(64, 3, 12, 13)</code>, <code>(64, 2, 12, 19)</code>, and <code>(64, 1, 12, 2)</code>. Use the selected laboratory's port count when constructing a predictor.</p>
-<div class="table-scroll"><table><thead><tr><th>Sensor</th><th>Slots</th><th>Returned array shape</th></tr></thead><tbody><tr><td><code>device0</code></td><td>13</td><td><code>(n_samples, len(t), n_ports, 13)</code></td></tr><tr><td><code>device1</code></td><td>19</td><td><code>(n_samples, len(t), n_ports, 19)</code></td></tr><tr><td><code>global</code></td><td>2: spatial mean, population variance</td><td><code>(n_samples, len(t), n_ports, 2)</code></td></tr></tbody></table></div>
-<p>Every value must be finite. No implicit broadcasting, missing ports, extra keys, NaNs, or infinities are accepted. Empty queries and time lists are supported with the corresponding empty outputs; scored cases contain observations. Exact keys and numeric types matter: booleans are not numeric IDs.</p>
-<p>Each member represents one possible trajectory. A deterministic predictor may repeat its estimate in every member; a stochastic predictor may express a non-Gaussian distribution.</p>
-<h3 id="samples">Sample semantics</h3>
-<p>A member index represents one coherent trajectory across every time, query, and device in a call.</p>
-<p>The same request and predictor seed must reproduce output. Adding future actions or queries must preserve earlier samples. The seed controls only predictor randomness, and the function has no access to experimental or grader seeds.</p>
-<h2 id="submission">Exploration and submission</h2>
-<div class="table-scroll"><table><thead><tr><th>Operation</th><th>Purpose</th></tr></thead><tbody><tr><td><code>experiment(actions, queries)</code></td><td>Run one physical realization and receive the requested arrays.</td></tr><tr><td><code>usage()</code></td><td>Read consumed and remaining experiment resources.</td></tr><tr><td><code>validate()</code></td><td>Run example requests to check that the predictor executes successfully and returns correctly formatted outputs. This checks compatibility, not prediction accuracy.</td></tr><tr><td><code>submit()</code></td><td>Check and freeze the predictor and supporting files. Successful submission ends exploration.</td></tr></tbody></table></div>
-<p>Validation runs a saved copy of the current predictor and supporting files. It checks imports and execution, output structure and dimensions, finite values, empty requests, and repeatability with the same seed. It does not compare predictions with simulated outcomes: a correctly formatted predictor that always returns zero can pass. After validation, the agent can continue editing; successful submission freezes the final artifact.</p>
-<p>The native agent tools expose these operations with a <code>laboratory_</code> prefix. Experiment, model, and execution budgets are specified for each run; they are not properties of the physical world.</p>
-<p>The predictor and any learned parameters or supporting data are saved in the submitted artifact. The evaluator calls the frozen function on further experimental programs in an isolated runtime, without access to the experimental service. Forecasts are finalized before truth observations are loaded for scoring.</p>
-<p>The next chapter defines how these distributions are scored and how a laboratory becomes an evaluation suite. For implementation, download the <a href="examples/AGENT_SPEC.md">twelve-port example contract</a> or use the <a href="https://github.com/swpo/physim/blob/main/REPRODUCING.md#prediction-interface-example">runnable interface example in the repository</a>.</p>
-<div class="page-continuation"><a class="previous" rel="prev" href="worlds.html"><span>Previous</span>← Worlds</a><a class="following" rel="next" href="scoring.html"><span>Next</span>Evaluation →</a></div></main>
-</div>
-<footer><span>Physim · Experimental science through prediction</span><div><a href="contribute.html">Contribute</a><a href="https://github.com/swpo/physim">GitHub</a></div></footer>
-</body>
-</html>
+<meta name="robots" content="noindex"><title>Page moved · Physim</title>
+<link rel="stylesheet" href="./site.css"></head><body>
+<main style="margin:3rem auto;padding:1rem"><h1>Page moved</h1>
+<p><a href="index.html#experiments">Continue to this page</a>.</p>
+<p><a href="./index.html">Current Physim documentation</a></p>
+<div hidden><a id="preparation" href="index.html#experiments">preparation</a> <a id="apparatus" href="index.html#apparatus">apparatus</a> <a id="actions" href="index.html#actions">actions</a> <a id="time" href="index.html#experiments">time</a> <a id="event-timing" href="index.html#experiments">event-timing</a> <a id="queries" href="index.html#queries">queries</a> <a id="prediction" href="index.html#prediction">prediction</a> <a id="samples" href="index.html#experiments">samples</a> <a id="submission" href="index.html#experiments">submission</a> </div></main>
+<script>const map = {"preparation": "experiments", "apparatus": "apparatus", "actions": "actions", "time": "experiments", "event-timing": "experiments", "queries": "queries", "prediction": "prediction", "samples": "experiments", "submission": "experiments"}; window.location.replace("index.html" + (map[window.location.hash.slice(1)] ? "#" + map[window.location.hash.slice(1)] : (window.location.hash || "#experiments")));</script>
+</body></html>

@@ -1,0 +1,33 @@
+{
+  "name": "binding",
+  "rendering": "Original field-panel frames; separation curve from the archived experiment record.",
+  "crop_pixels": [
+    73,
+    34,
+    268,
+    230
+  ],
+  "sources": {
+    "docs/assets/blobs/m2_bind.gif": "d5fab30c9ec65c3de7393593b78c622ead7ff9771140f5c195a62845ba2b0825",
+    "probes/blobs/binding/data/bcs_d18.5.json": "2f937fea5f38d47ef5eb13df04274fd669cfeb393b5ab6dbbd1001413ddbae75"
+  },
+  "encoding": {
+    "width": 480,
+    "height": 660,
+    "frames": 184,
+    "checked_frames": [
+      0,
+      183
+    ],
+    "mean_absolute_pixel_errors": [
+      1.6986363636363637,
+      1.7045896464646464
+    ]
+  },
+  "frames": 184,
+  "fps": 12,
+  "measurement_start": 17.9955,
+  "measurement_end": 15.72226,
+  "data_sha256": "30d1b1d439cf021b75d5f374c2e27ed9f645ea7d55cbe0eeb13363ef6affade1",
+  "video_sha256": "9ed93038a021354082026a30f257458a0553bba9a2e7f3b639a53240ca30944b"
+}

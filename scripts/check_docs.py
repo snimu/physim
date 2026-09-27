@@ -7,7 +7,7 @@ from collections import Counter
 from html.parser import HTMLParser
 from urllib.parse import unquote, urlsplit
 
-from build_docs import DOCS, MAIN, PAGES, REDIRECTS, ROOT, SOURCE, redirect
+from build_docs import DOCS, MAIN, PAGES, PRECISION, REDIRECTS, REWARDS, ROOT, SOURCE, redirect
 
 
 class Page(HTMLParser):
@@ -77,7 +77,7 @@ def check():
             (page.titles == 1, "single title"),
             (bool(page.meta.get("description")), "description"),
             (page.main, "main landmark/skip target"),
-            (page.nav == ["Main navigation"], "single main navigation"),
+            (page.nav == ["Table of contents"], "single table of contents"),
             (not any(n > 1 for n in Counter(page.ids).values()), "unique IDs"),
             (all(img.get("alt") for img in page.images), "image alternatives"),
             ("{{" not in source, "resolved template variables"),
@@ -123,6 +123,39 @@ def check():
         if path.is_file() and path.read_bytes() != (DOCS / "examples" / path.name).read_bytes():
             errors.append(f"{path.name}: example is stale")
     case_study = json.loads((SOURCE / "data/bf-case-study.json").read_text())
+    derived = json.loads((DOCS / "data/bf-reward-summary.json").read_text())
+    if derived["source_sha256"] != hashlib.sha256((SOURCE / "data/bf-case-study.json").read_bytes()).hexdigest():
+        errors.append("Retrospective reward source hash is stale")
+    if derived["precision"] != PRECISION or len(derived["models"]) != len(case_study["models"]):
+        errors.append("Retrospective reward target or model count differs")
+    for original, remapped in zip(case_study["models"], derived["models"]):
+        if (
+            remapped["model"] != original["model"]
+            or remapped["energy"] != original["energy"]
+            or remapped["reward"] != REWARDS["precision_reward"](original["energy"], PRECISION)
+        ):
+            errors.append(f"Retrospective reward does not match saved energy: {original['model']}")
+    calibration_path = SOURCE / "data/reward-calibration.json"
+    if calibration_path.exists():
+        calibration = json.loads(calibration_path.read_text())
+        if calibration_path.read_bytes() != (DOCS / "data/reward-calibration.json").read_bytes():
+            errors.append("Published reward calibration is stale")
+        if calibration["members"] != 64 or calibration["recommended_k"] != PRECISION:
+            errors.append("Calibration does not match the default forecast count or reward target")
+        for world, count in (("bf", 15), ("xv", 15), ("p4g2_044", 19)):
+            record = calibration["worlds"][world]
+            if len(record["cases"]) != count or len({r["case"] for r in record["cases"]}) != count:
+                errors.append(f"Incomplete or repeated native calibration cases for {world}")
+            expected = sum(r["scores"]["64"] for r in record["cases"]) / count
+            if abs(expected - record["mean_energy"]["64"]) > 1e-14:
+                errors.append(f"Native calibration average differs for {world}")
+    for world in ("bf-fields", "xv-fields", "p4g2_044-fields", "early-travel", "early-binding"):
+        record = json.loads((DOCS / "assets/worlds" / f"{world}.json").read_text())
+        video = DOCS / "assets/worlds" / f"{world}.mp4"
+        if hashlib.sha256(video.read_bytes()).hexdigest() != record["video_sha256"]:
+            errors.append(f"Movie no longer matches its simulation record: {world}")
+        if max(record["encoding"]["mean_absolute_pixel_errors"]) > 5:
+            errors.append(f"Encoded movie frames differ from source images: {world}")
     for row in case_study["models"]:
         for source in row["predictor_sources"]:
             for root in (SOURCE, DOCS):
@@ -171,6 +204,8 @@ def check():
         ("predictor_cpu_seconds", "20"),
         ("predictor_wall_seconds", "30"),
         ("coding_tools", "Use the bash and edit tools to run commands and work with files."),
+        ("reward_precision", f"{PRECISION:g}"),
+        ("reward_threshold", f"10^(-{PRECISION:g})"),
     ):
         contract = contract.replace("{" + key + "}", value)
     if contract != (SOURCE / "examples/AGENT_SPEC.md").read_text():

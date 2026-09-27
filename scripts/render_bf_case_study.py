@@ -183,10 +183,12 @@ def save(fig, name):
     FIGURES.mkdir(parents=True, exist_ok=True)
     for extension in ("svg", "png"):
         fig.savefig(FIGURES / f"{name}.{extension}", dpi=180, bbox_inches="tight", facecolor="white")
+    svg = FIGURES / f"{name}.svg"
+    svg.write_text("\n".join(line.rstrip() for line in svg.read_text().splitlines()) + "\n")
     plt.close(fig)
 
 
-def render():
+def render(heatmap_only=False):
     data = read(DATA)
     plt.rcParams.update(
         {
@@ -210,7 +212,13 @@ def render():
     ax.set_xticks(range(7), [r["short"].replace(" ", "\n") for r in data["models"]])
     ax.xaxis.tick_top()
     ax.tick_params(length=0, pad=9)
-    ax.set_yticks(range(15), [c["label"] for c in data["cases"]])
+    ax.set_yticks(
+        range(15),
+        [
+            c["label"].replace("activator", "field 1").replace("Activator", "Field 1").replace("Inhibitor", "Field 0")
+            for c in data["cases"]
+        ],
+    )
     for i, j in np.ndindex(values.shape):
         value = values[i, j]
         if np.isnan(value):
@@ -231,8 +239,10 @@ def render():
                 color="white" if im.norm(value) > 0.58 else "#17242f",
             )
     bar = fig.colorbar(im, ax=ax, fraction=0.027, pad=0.025)
-    bar.set_label("Case energy · lower is better (log color scale)")
+    bar.set_label("Experiment energy · lower is better (log color scale)")
     save(fig, "bf-case-energies")
+    if heatmap_only:
+        return
     t = np.array(data["cases"][0]["queries"][0]["t"])
     for mobile in (False, True):
         fig, axes = plt.subplots(
@@ -279,6 +289,8 @@ def render():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--capture", action="store_true")
-    if parser.parse_args().capture:
+    parser.add_argument("--heatmap-only", action="store_true")
+    args = parser.parse_args()
+    if args.capture:
         capture()
-    render()
+    render(heatmap_only=args.heatmap_only)

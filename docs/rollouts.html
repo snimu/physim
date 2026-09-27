@@ -3,7 +3,8 @@
 <meta name="robots" content="noindex"><title>Page moved · Physim</title>
 <link rel="stylesheet" href="./site.css"></head><body>
 <main style="margin:3rem auto;padding:1rem"><h1>Page moved</h1>
-<p><a href="results.html">Continue to this page</a>.</p>
-<p><a href="./index.html">Current Physim documentation</a></p></main>
-<script>window.location.replace("results.html" + window.location.hash);</script>
+<p><a href="index.html#results">Continue to this page</a>.</p>
+<p><a href="./index.html">Current Physim documentation</a></p>
+<div hidden><a id="runs" href="index.html#results">runs</a> <a id="cases" href="index.html#cases">cases</a> <a id="investigations" href="index.html#investigations">investigations</a> <a id="resources" href="index.html#results">resources</a> </div></main>
+<script>const map = {"runs": "results", "cases": "cases", "investigations": "investigations", "resources": "results"}; window.location.replace("index.html" + (map[window.location.hash.slice(1)] ? "#" + map[window.location.hash.slice(1)] : (window.location.hash || "#results")));</script>
 </body></html>

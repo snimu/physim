@@ -26,9 +26,10 @@ from physim.bundles import Bundle
 
 from . import evaluation as E
 from .artifact_store import MARKER, read_artifact_files
+from .rewards import DEFAULT_PRECISION, REWARD_MAPPING, precision_label, precision_reward
 from .sandbox import ExecutionLimits
 
-PROMPT_CONDITION = "interface-only-v2"
+PROMPT_CONDITION = "interface-only-v3-log-reward"
 PROTOCOL = f"r6-verifiers-v1-bash-1-{PROMPT_CONDITION}"
 AGENT_IMAGE = "physim-agent:0.12.2"
 DEFAULT_OUTPUT = Path("outputs/r6/artifacts")
@@ -39,6 +40,7 @@ class R6State(vf.State):
     # This state channel is host-only; these fields are never tool arguments.
     container_id: str = ""
     prompt_condition: str = PROMPT_CONDITION
+    reward_precision: float = DEFAULT_PRECISION
     output: str = ""
     submitted: bool = False
     artifact: str | None = None
@@ -68,6 +70,7 @@ class R6ToolsConfig(vf.ToolsetConfig):
     max_validation_attempts: int | None = Field(128, ge=1)
     max_submission_attempts: int | None = Field(128, ge=1)
     predictor_limits: ExecutionLimits = ExecutionLimits()
+    reward_precision: float = Field(DEFAULT_PRECISION, gt=0, allow_inf_nan=False)
 
     @model_validator(mode="after")
     def unambiguous_bundle(self):
@@ -147,6 +150,8 @@ def public_prompt(config: R6ToolsConfig, coding_interface: str = "shell") -> str
         predictor_cpu_seconds=config.predictor_limits.cpu_seconds,
         predictor_wall_seconds=config.predictor_limits.wall_seconds,
         coding_tools=coding_tools,
+        reward_precision=precision_label(config.reward_precision),
+        reward_threshold=f"10^(-{precision_label(config.reward_precision)})",
     )
     for key, value in values.items():
         text = text.replace("{" + key + "}", str(value))
@@ -195,13 +200,15 @@ def _checkpoint_file(root: Path, name: str, digest: str) -> tuple[str, bytes]:
     return str(rel), data
 
 
-def load_checkpoint(artifact: Path) -> tuple[dict, list, list]:
+def load_checkpoint(artifact: Path, reward_precision: float = DEFAULT_PRECISION) -> tuple[dict, list, list]:
     """Recover public workspace/data only; never copy host state or private origin."""
     artifact = artifact.resolve()
     state_path = artifact.parent / "laboratory_state.json"
     prior = json.loads(state_path.read_text())
     if prior.get("prompt_condition") != PROMPT_CONDITION:
         raise vf.TaskError("checkpoint belongs to a different or unrecorded prompt condition")
+    if prior.get("reward_precision") != reward_precision:
+        raise vf.TaskError("checkpoint belongs to a different or unrecorded reward precision")
     check = next((c for c in prior["checks"] if c["path"] == artifact.name), None)
     if not check or not check.get("validation", {}).get("ok"):
         raise vf.TaskError("checkpoint must be a previously validated artifact")
@@ -416,6 +423,7 @@ class R6Task(vf.Task[R6Data, R6State, R6TaskConfig]):
             raise vf.TaskError("R6 requires the Verifiers Docker runtime with framework-only network access")
         state = trace.state
         state.container_id = runtime.info.id
+        state.reward_precision = self.config.tools.reward_precision
         output = self.config.output_root.resolve() / trace.id
         output.mkdir(parents=True, exist_ok=False)
         (output / "observations").mkdir()
@@ -433,7 +441,9 @@ class R6Task(vf.Task[R6Data, R6State, R6TaskConfig]):
             "/workspace/AGENT_SPEC.md", public_prompt(self.config.tools, self.config.coding_interface).encode()
         )
         if self.config.checkpoint_artifact is not None:
-            metadata, files, observations = await asyncio.to_thread(load_checkpoint, self.config.checkpoint_artifact)
+            metadata, files, observations = await asyncio.to_thread(
+                load_checkpoint, self.config.checkpoint_artifact, self.config.tools.reward_precision
+            )
             state.checkpoint = metadata
             state.exploration_closed = True
             state.usage.update(
@@ -512,12 +522,13 @@ class R6Task(vf.Task[R6Data, R6State, R6TaskConfig]):
     async def prediction_reward(self, trace) -> float:
         state = trace.state
         info = trace.info.setdefault("r6", {})
+        info["reward_precision"] = self.config.tools.reward_precision
+        info["reward_mapping"] = REWARD_MAPPING
         if not state.submitted:
             attempted = any(c.get("snapshot") for c in state.checks)
             info["score_kind"] = "infinity" if attempted else "nan"
             info["score_reason"] = "invalid_predictor" if attempted else "no_predictor"
             info["primary_joint_energy"] = None
-            info["reward_mapping"] = "missing or invalid predictor -> 0"
             return 0.0
         context = dict(
             trace_id=trace.id,
@@ -525,6 +536,8 @@ class R6Task(vf.Task[R6Data, R6State, R6TaskConfig]):
             models=sorted({call.model for call in trace.calls if call.model}),
             harness=trace.agent.config.harness.id,
             coding_interface=self.config.coding_interface,
+            reward_precision=self.config.tools.reward_precision,
+            reward_mapping=REWARD_MAPPING,
             agent_limits={
                 name: getattr(trace.agent.config, name, None)
                 for name in ("max_turns", "max_input_tokens", "max_output_tokens")
@@ -554,8 +567,7 @@ class R6Task(vf.Task[R6Data, R6State, R6TaskConfig]):
         info["primary_joint_energy"] = score
         # Preserve the lower-is-better scientific score. VF rewards are larger
         # is better; this monotone transform is explicit and recorded.
-        info["reward_mapping"] = "1 / (1 + primary_joint_energy); invalid contract -> 0"
-        return 1 / (1 + score) if score is not None else 0.0
+        return precision_reward(score, self.config.tools.reward_precision)
 
 
 class R6Taskset(vf.Taskset[R6Task, R6Config]):
@@ -569,6 +581,7 @@ class R6Taskset(vf.Taskset[R6Task, R6Config]):
             else f"r6-verifiers-v1-ipython-1-{PROMPT_CONDITION}"
         )
         n_ports = public_roster(self.config.task.tools).n_ports
+        protocol += "-k-" + precision_label(self.config.task.tools.reward_precision)
         if n_ports != 12:
             protocol += f"-ports-{n_ports}"
         if self.config.prompt != DEFAULT_PROMPT:

@@ -85,9 +85,9 @@ def render_equations(key, source, genome):
     rows = []
     for name, label in (
         ("background", "Deviations from the uniform background"),
-        ("drives", "Thresholded channel drive"),
-        ("activators", "Activator fields"),
-        ("channels", "Feedback channels"),
+        ("drives", "Thresholded field response"),
+        ("activators", "Fields u"),
+        ("channels", "Fields x"),
     ):
         if not groups[name]:
             continue

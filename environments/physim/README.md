@@ -222,7 +222,15 @@ There is no custom model loop. The agent has no network access by default.
 ## Reward and reference checks
 
 Lower joint energy is better. The task maps it to Verifiers reward as
-`1 / (1 + primary_joint_energy)`. An otherwise completed rollout with a missing
+`max(0, min(-log10(S), K)) / K`, applied once to the mean energy `S`.
+Zero energy maps to reward one; energies at least one map to zero.
+Set `env.taskset.task.tools.reward_precision` to choose positive, finite `K`
+(default: `2`, full reward at `S <= 0.01`). The prompt discloses this target;
+it does not change experiment or inference budgets. `K` measures orders of
+magnitude in normalized error, not decimal places of literal accuracy.
+The calibration recipe is `python -m scripts.calibrate_reward` in the development
+repository; it uses independent native forecasts on the frozen suites.
+An otherwise completed rollout with a missing
 or invalid predictor receives zero reward. Infrastructure failures remain native
 Verifiers errors.
 The disclosed reference world does not measure unfamiliar-world generalization.

@@ -49,6 +49,19 @@ Unknown Grok/GLM cache-read prices are charged at the full input rate in the
 estimate. Requests without usage records are omitted. Conservative spending
 reserves are not treated as billed cost.
 
+## Retrospective reward presentation
+
+The single-page website applies the logarithmic reward
+`max(0, min(-log10(S), K)) / K` with `K=2` to each saved mean energy `S`.
+An invalid predictor receives zero; `S=0` receives one. These are recalculated
+rewards from the existing rollouts, not new model runs. The original condition
+above predates the explicit precision target in the current prompt.
+
+The original evidence snapshot retains its recorded rewards and energies.
+[Recalculated rewards](docs/data/bf-reward-summary.json) record the source hash
+and mapping; the [calibration record](docs_source/data/reward-calibration.json)
+contains the simulator-based precision calibration across all three worlds.
+
 ## Available evidence and reproduction
 
 The snapshot and [submitted Python sources](docs_source/examples/case-study)

@@ -1,0 +1,41 @@
+{
+  "worlds": [
+    "field-model",
+    "numerics",
+    "structures",
+    "examples",
+    "p4g2_044",
+    "bf",
+    "xv",
+    "generation"
+  ],
+  "experiment": [
+    "preparation",
+    "apparatus",
+    "actions",
+    "time",
+    "event-timing",
+    "queries",
+    "prediction",
+    "samples",
+    "submission"
+  ],
+  "results": [
+    "runs",
+    "cases",
+    "investigations",
+    "resources"
+  ],
+  "scoring": [
+    "score",
+    "diagnostics",
+    "suite-validation",
+    "bf-preparation",
+    "bf-sensors",
+    "bf-validation",
+    "bf-programs",
+    "bf-groups",
+    "prepared-worlds"
+  ],
+  "contribute": []
+}

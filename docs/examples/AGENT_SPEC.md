@@ -147,9 +147,13 @@ The joint distribution of predicted measurements is evaluated using energy
 scores. Output differences are divided by fixed scales before scoring. Scores
 are averaged over predeclared groups of outputs and test programs.
 
-Lower average energy S is better. Your reward is 1/(1+S). A missing or invalid
-predictor receives zero reward. Validation gives no feedback about this accuracy
-score; use your own experiments to assess and improve your predictions.
+Lower average energy S is better. Your reward is
+max(0, min(-log10(S), K)) / K, with reward 1 when S is zero.
+The requested precision is K = 2: full reward is reached when
+S <= 10^(-2), and S >= 1 receives zero. This target describes the
+required reduction in normalized prediction error, not a percentage accuracy.
+A missing or invalid predictor receives zero reward. Validation gives no feedback
+about the energy score; use your own experiments to improve your predictions.
 
 ## Limits and runtime
 

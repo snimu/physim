@@ -22,6 +22,17 @@ a result.
   describes the runtime and run selection. Full local observations, fitted model
   assets, and traces are not included in the documentation downloads.
 
+The current website recomputes reward from those saved energy scores using
+`R = max(0, min(-log10(S), K)) / K` with `K=2`; zero energy maps to one and invalid
+predictions map to zero. This is retrospective scoring, not a new rollout. The
+original snapshot retains its original rewards. Derived values and source hashes
+are in [the reward summary](docs/data/bf-reward-summary.json).
+
+New runs expose the requested `reward_precision` in the `interface-only-v3-log-reward`
+prompt. Set `env.taskset.task.tools.reward_precision` independently of inference and
+experiment budgets. Use the recorded prompt and reward condition when reproducing
+older runs.
+
 Every result should identify four objects:
 
 | Object | What it fixes |

@@ -4,9 +4,11 @@ Sources live in docs_source/. Existing media and historical pages are retained.
 No model, simulator, package manager, network access, or publishing is invoked.
 """
 
+import hashlib
 import json
 import os
 import re
+import runpy
 import shutil
 from decimal import Decimal
 from html import escape
@@ -17,94 +19,51 @@ from world_equations import render_equations
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE, DOCS = ROOT / "docs_source", ROOT / "docs"
-PAGES = {
-    "index": ("Overview", "Learning physical systems through experiments", "Overview"),
-    "worlds": ("Worlds", "Worlds made of interacting fields", "Worlds"),
-    "experiment": ("Experiment & predict", "Experiments become predictions", "Experiment & predict"),
-    "scoring": ("Evaluation", "Evaluating a prediction function", "Evaluation"),
-    "results": ("Results", "BF evaluation case study", "Results"),
-    "contribute": ("Contribute", "Contributing to Physim", "Contribute"),
+PAGES = {"index": ("PhySim", "PhySim: a virtual science environment", "")}
+MAIN = ("index",)
+SECTIONS = {
+    "worlds": "PhySim Worlds",
+    "examples": "Example Worlds",
+    "experiments": "Experimenting with virtual worlds",
+    "evaluation": "Evaluating agents",
+    "results": "Preliminary Results",
+    "next": "What’s next?",
+    "get-involved": "Get Involved",
+    "credit": "Credit",
 }
-MAIN = ("index", "worlds", "experiment", "scoring", "results", "contribute")
+# Use the exact runtime mapping without importing simulator dependencies.
+REWARDS = runpy.run_path(str(ROOT / "environments/physim/physim/rewards.py"))
+PRECISION = REWARDS["DEFAULT_PRECISION"]
+LEGACY_FRAGMENTS = json.loads((SOURCE / "legacy-fragments.json").read_text())
 REDIRECTS = {
-    "fields.html": "worlds.html#field-model",
-    "generation.html": "worlds.html#generation",
-    "simulator.html": "worlds.html#numerics",
-    "api.html": "experiment.html#actions",
+    "worlds.html": "index.html#worlds",
+    "experiment.html": "index.html#experiments",
+    "scoring.html": "index.html#evaluation",
+    "results.html": "index.html#results",
+    "contribute.html": "index.html#get-involved",
+    "fields.html": "index.html#field-model",
+    "generation.html": "index.html#generation",
+    "simulator.html": "index.html#numerics",
+    "api.html": "index.html#actions",
     "registry.html": "https://github.com/swpo/physim/blob/main/registry/README.md",
     "try.html": "https://github.com/swpo/physim/blob/main/REPRODUCING.md",
     "archive/index.html": "https://github.com/swpo/physim/tree/main/probes",
 }
 DESCRIPTIONS = {
     "index": "Physim evaluates agents learning physics through experiments; Blobkit discovers worlds through simulation and evolutionary search over field equations.",
-    "worlds": "Field equations, numerical dynamics, emergent structures, and the generation of worlds with patterns, trails, and orbital motion.",
-    "experiment": "Prepare a laboratory, measure and perturb its fields, and return predictions through a complete experimental interface.",
-    "scoring": "Joint energy scoring and framework reward, with a worked BF investigation connecting physical effects, sensor evidence, and evaluation cases.",
-    "results": "Seven BF case studies: experiments, submitted predictors, held-out scores, token use, and concrete prediction failures with Prime Agent.",
-    "contribute": "Contribute reproducible worlds, evaluation suites, code, and documentation.",
-}
-CONTROL_NAMES = {
-    "zero": "Always zero",
-    "initial_persistence": "Persist initial readings",
-    "frozen_initial_field": "Frozen fields, correct probe movement",
-    "physics_25pct": "25% native physics + 75% frozen fields",
-    "physics_50pct": "50% native physics + 50% frozen fields",
-    "physics_75pct": "75% native physics + 25% frozen fields",
-    "native_physics": "Native physics, independent noise",
-    "ignore_later_pulses": "Native physics, omit later pulses",
-    "ignore_probe_moves": "Native physics, ignore probe movement",
-    "five_unit_time_grid": "Native physics, five-unit time grid",
-    "spatially_flat": "Native physics, flatten spatial readings",
-    "ensemble_mean": "Native ensemble mean, repeated",
-    "spread_x100": "Native mean with 100-fold spread",
-}
-MODEL_NAMES = {
-    "deepseek/deepseek-v4-pro": "DeepSeek V4 Pro",
-    "openai/gpt-5.6-sol": "GPT-5.6 Sol",
-    "openai/gpt-5.6-terra": "GPT-5.6 Terra",
-    "Qwen/Qwen3.5-122B-A10B": "Qwen3.5 122B",
-    "qwen/qwen3.5-397b-a17b": "Qwen3.5 397B",
-    "anthropic/claude-sonnet-5": "Claude Sonnet 5",
-}
-STOP_NAMES = {
-    "submitted": "Submitted",
-    "max_output_tokens": "Output-token limit",
-    "agent_completed": "Agent ended",
-    "error": "Runtime error",
-    "dollar_budget": "Dollar stop",
 }
 
 
-def nav(keys, active, prefix=""):
-    return "".join(
-        f'<a href="{prefix}{key}.html"'
-        + (' aria-current="page"' if key == active else "")
-        + f">{escape(PAGES[key][0])}</a>"
-        for key in keys
-    )
+def table_of_contents():
+    links = "".join(f'<li><a href="#{key}">{escape(label)}</a></li>' for key, label in SECTIONS.items())
+    return '<nav class="contents" aria-label="Table of contents"><p>Contents</p><ol>' + links + "</ol></nav>"
 
 
 def page_context(key, section, prefix=""):
-    return f'<p class="eyebrow">{escape(section)}</p>'
+    return ""
 
 
 def continuation(key, prefix=""):
-    if key in MAIN:
-        index = MAIN.index(key)
-        links = []
-        if index:
-            previous = MAIN[index - 1]
-            links.append(
-                f'<a class="previous" rel="prev" href="{prefix}{previous}.html">'
-                f"<span>Previous</span>← {escape(PAGES[previous][0])}</a>"
-            )
-        if index + 1 < len(MAIN):
-            following = MAIN[index + 1]
-            links.append(
-                f'<a class="following" rel="next" href="{prefix}{following}.html">'
-                f"<span>Next</span>{escape(PAGES[following][0])} →</a>"
-            )
-        return '<div class="page-continuation">' + "".join(links) + "</div>"
     return ""
 
 
@@ -128,88 +87,17 @@ def table(headers, rows, caption, numeric=True):
     )
 
 
-def registry_content():
-    catalog = json.loads((SOURCE / "registry.json").read_text())
-    worlds = catalog["worlds"]
-    counts = catalog["availability"]["counts"]
-    heading = (
-        f"<p><strong>{len(worlds)} world records · "
-        f"{len({w['genome'] for w in worlds})} distinct genomes · "
-        f"{counts.get('eval-ready', 0)} eval-ready.</strong> "
-        "Separate harvests can refer to the same genome.</p>"
-    )
-    rows = []
-    for status, label in (("eval-ready", "Eval-ready"), ("preserved", "Preserved")):
-        selected = [w for w in worlds if w["status"] == status]
-        names = ", ".join(f"<code>{escape(n)}</code>" for n in sorted({w["name"] for w in selected}))
-        rows.append([label, len(selected), names])
-    return heading + table(["Status", "Records", "Names"], rows, "Current registry contents", numeric=False)
-
-
-def displayed_results(rows):
-    """Show one result per model; a scored attempt supersedes missing artifacts.
-
-    Snapshot order is retained. When several attempts have scores, use the last
-    recorded one, regardless of whether its score improves. Full history stays
-    in the downloadable snapshot.
-    """
-    selected = {}
-    for row in rows:
-        previous = selected.get(row["model"])
-        if previous is None or row["score_kind"] != "nan" or previous["score_kind"] == "nan":
-            selected[row["model"]] = row
-    return list(selected.values())
-
-
 def generated_content():
-    catalog = json.loads((SOURCE / "worlds.json").read_text())
-    evidence = json.loads((SOURCE / "results.json").read_text())
-    evaluation_table = table(
-        ("Preparation", "Ports", "Prediction programs"),
-        [
-            (f"<code>{escape(bundle['world_name'])}</code>", bundle["public_ports"], bundle["case_count"])
-            for bundle in catalog["evaluation_bundles"]
-        ],
-        "Published evaluation preparations · one starting state per genome",
-    )
-    controls = table(
-        ("Predictor", "Joint energy", "Marginal CRPS"),
-        [
-            (escape(CONTROL_NAMES[k]), f"{v['joint_energy']:.6f}", f"{v['marginal_crps_all_coordinates']:.6f}")
-            for k, v in evidence["controls"]["aggregate"].items()
-        ],
-        "Hand-written controls · 4 forecast members · 2 truths per case",
-    )
-    profiles = []
-    for profile in evidence["profiles"]:
-        rows = []
-        for row in displayed_results(profile["rows"]):
-            name = MODEL_NAMES.get(row["model"], row["model"])
-            score = (
-                f"{row['primary_joint_energy']:.6f}"
-                if row["score_kind"] == "finite"
-                else "Invalid (∞)"
-                if row["score_kind"] == "infinity"
-                else "No score"
-            )
-            rows.append(
-                (
-                    escape(name),
-                    score,
-                    str(row["experiments"]),
-                    escape(STOP_NAMES.get(row["stop"], row["stop"])),
-                    f"${row['provider_reported_cost_usd']:.4f}",
-                )
-            )
-        profiles.append(
-            table(("Model", "Joint energy", "Experiments", "Run ended", "Run cost"), rows, profile["label"])
-        )
-    predictor = (SOURCE / "examples/predictor.py").read_text()
-    sample_code = predictor[predictor.index("SLOTS =") : predictor.index("\n\nif __name__")].strip()
-    registry_counts = registry_content()
     case_study = json.loads((SOURCE / "data/bf-case-study.json").read_text())
-    case_rows, token_rows = [], []
+    calibration_path = SOURCE / "data/reward-calibration.json"
+    calibration = json.loads(calibration_path.read_text()) if calibration_path.exists() else None
+    if calibration and calibration["recommended_k"] != PRECISION:
+        raise ValueError("Runtime precision does not match the reviewed calibration")
+    reward_rows = []
+    case_rows = []
     for row in case_study["models"]:
+        reward = REWARDS["precision_reward"](row["energy"], PRECISION)
+        reward_rows.append(dict(model=row["model"], name=row["name"], energy=row["energy"], reward=reward))
         usage = row["usage"]
         cost_note = ("†" if row["cost_basis"] == "estimate" else "") + (
             "*" if usage["undiscounted_cache_estimate"] else ""
@@ -219,41 +107,54 @@ def generated_content():
         case_rows.append(
             (
                 name,
-                f"{row['reward']:.3f}",
+                f"{reward:.3f}",
+                f"{row['energy']:.4f}" if row["energy"] is not None else "Invalid",
                 f"{row['experiments']:,}",
-                f"{row['elapsed_minutes']:.0f}",
                 f"${row['cost_usd']:.2f}{cost_note}",
             )
         )
-        token_rows.append(
-            (
-                escape(row["name"]),
-                f"{usage['fresh_input_tokens']:,}",
-                f"{usage['cached_input_tokens']:,}",
-                f"{usage['output_tokens']:,}",
-            )
+    derived = dict(
+        schema="physim-retrospective-rewards-v1",
+        precision=PRECISION,
+        mapping=REWARDS["REWARD_MAPPING"],
+        models=reward_rows,
+        source="bf-case-study.json",
+        source_sha256=hashlib.sha256((SOURCE / "data/bf-case-study.json").read_bytes()).hexdigest(),
+        note="Retrospective remapping of saved energies; no new agent rollouts.",
+    )
+    (DOCS / "data").mkdir(exist_ok=True, parents=True)
+    (DOCS / "data/bf-reward-summary.json").write_text(json.dumps(derived, indent=2, allow_nan=False) + "\n")
+    calibration_text = "<p>Native-simulator calibration is running; the precision target is provisional.</p>"
+    if calibration:
+        energies = ", ".join(
+            f"{world}: {record['mean_energy']['64']:.5f}" for world, record in calibration["worlds"].items()
+        )
+        calibration_text = (
+            f"<p>We use <var>K</var> = {PRECISION:g}, giving full reward at <var>S</var> ≤ {10**-PRECISION:g}. "
+            "The agent’s prompt states this target; it can be varied independently of the experiment and token budgets.</p>"
+            "<details><summary>Precision calibration</summary><p>We generated 64 forecast samples using the actual world equations, with independent realizations of the world’s noise. These "
+            "were scored against two saved simulation realizations for every experiment in all three suites. Mean energies were "
+            + escape(energies)
+            + ". We chose the largest integer K whose full-reward threshold is at least twice "
+            "the largest simulator-based suite score. This margin applies to these preparations and measurement scales; "
+            'it is not a universal precision limit. <a href="data/reward-calibration.json">Calibration record</a> · '
+            '<a href="data/bf-reward-summary.json">Recomputed model rewards</a>.</p></details>'
         )
     return {
+        "table_of_contents": table_of_contents(),
+        "score_recipe": (SOURCE / "partials/scoring.html").read_text(),
+        "reward_precision": f"{PRECISION:g}",
+        "reward_calibration": calibration_text,
         **{
             f"{key}_equations": render_equations(
                 key, source, json.loads((SOURCE / source["file"]).read_text(), parse_float=Decimal)
             )
             for key, source in json.loads((SOURCE / "data/equation-sources.json").read_text()).items()
         },
-        "evaluation_table": evaluation_table,
-        "control_table": controls,
-        "model_tables": "\n".join(profiles),
-        "predictor_code": escape(sample_code),
-        "registry_counts": registry_counts,
         "case_study_table": table(
-            ("Model / predictor source", "Reward ↑", "Experiments", "Minutes", "Cost"),
+            ("Model / predictor source", "Reward ↑", "Energy ↓", "Experiments", "Cost"),
             case_rows,
-            "One BF rollout per model · Prime Agent · 15 grading cases",
-        ),
-        "case_study_tokens": table(
-            ("Model", "Fresh input", "Cache reads", "Output"),
-            token_rows,
-            "Recorded token use for the displayed rollouts",
+            "One BF rollout per model · Prime Agent · 15 evaluation experiments",
         ),
     }
 
@@ -266,7 +167,6 @@ def render(key, heading, section, body, title=None, description=None, prefix="")
         "heading": escape(heading),
         "context": page_context(key, section, prefix),
         "body": body,
-        "navigation": nav(MAIN, key, prefix),
         "continuation": continuation(key, prefix),
     }
     source = (SOURCE / "template.html").read_text()
@@ -284,14 +184,32 @@ def redirect(old, target):
         # Retain deep links within the site; repository destinations have their own anchors.
         js_hash = f"(window.location.hash || {json.dumps(fallback)})" if fallback else "window.location.hash"
     js_target = json.dumps(relative).replace("<", "\\u003c")
+    chapter = {
+        "fields": "worlds",
+        "generation": "worlds",
+        "simulator": "worlds",
+        "api": "experiment",
+        "blobs": "worlds",
+        "rollouts": "results",
+    }.get(Path(old).stem, Path(old).stem)
+    aliases = LEGACY_FRAGMENTS.get(chapter, [])
+    current_ids = set(re.findall(r'id="([^"]+)"', (SOURCE / "pages/index.html").read_text()))
+    mapping = {name: name if name in current_ids else fallback.lstrip("#") for name in aliases}
+    anchors = "".join(
+        f'<a id="{escape(name)}" href="{escape(relative)}#{escape(destination)}">{escape(name)}</a> '
+        for name, destination in mapping.items()
+    )
+    if mapping:
+        js_hash = f'(map[window.location.hash.slice(1)] ? "#" + map[window.location.hash.slice(1)] : {js_hash})'
     return f'''<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex"><title>Page moved · Physim</title>
 <link rel="stylesheet" href="{prefix}site.css"></head><body>
 <main style="margin:3rem auto;padding:1rem"><h1>Page moved</h1>
 <p><a href="{escape(relative + fallback, quote=True)}">Continue to this page</a>.</p>
-<p><a href="{prefix}index.html">Current Physim documentation</a></p></main>
-<script>window.location.replace({js_target} + {js_hash});</script>
+<p><a href="{prefix}index.html">Current Physim documentation</a></p>
+<div hidden>{anchors}</div></main>
+<script>const map = {json.dumps(mapping)}; window.location.replace({js_target} + {js_hash});</script>
 </body></html>'''
 
 
@@ -312,7 +230,9 @@ def build():
     for filename in ("worlds.json", "results.json", "registry.json"):
         (DOCS / "data").mkdir(exist_ok=True)
         shutil.copyfile(SOURCE / filename, DOCS / "data" / filename)
-    for filename in ("bf-evaluation.json", "bf-evaluation.npz", "bf-case-study.json"):
+    for filename in ("bf-evaluation.json", "bf-evaluation.npz", "bf-case-study.json", "reward-calibration.json"):
+        if not (SOURCE / "data" / filename).exists():
+            continue
         shutil.copyfile(SOURCE / "data" / filename, DOCS / "data" / filename)
     (DOCS / "examples").mkdir(exist_ok=True)
     for path in (SOURCE / "examples").iterdir():
@@ -321,9 +241,9 @@ def build():
     shutil.copytree(SOURCE / "examples/case-study", DOCS / "examples/case-study", dirs_exist_ok=True)
     # Only explicitly mapped old URLs are rewritten. Archive pages/media are inputs.
     records = json.loads((SOURCE / "archive-map.json").read_text())
-    aliases = {"blobs.html": "worlds.html", "rollouts.html": "results.html"}
+    aliases = {"blobs.html": "index.html#worlds", "rollouts.html": "index.html#results"}
     for record in records:
-        if record["old"] in {f"{key}.html" for key in PAGES}:
+        if record["old"] in {f"{key}.html" for key in PAGES} | set(REDIRECTS):
             continue
         target = aliases.get(record["old"], record["archive"])
         path = DOCS / record["old"]

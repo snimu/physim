@@ -67,9 +67,7 @@ def render(mobile=False):
         setup(ax, ((-8, 8), (-7, 7)))
         sensors(ax, lattice)
         source(ax)
-        ax.set_title(
-            f"Instrument {i} · {len(lattice_offsets(lattice, 3))} sensors", fontsize=15, fontweight="bold", pad=15
-        )
+        ax.set_title(f"Device {i} · {len(lattice_offsets(lattice, 3))} sensors", fontsize=15, fontweight="bold", pad=15)
     fig.legend(
         handles=[
             Line2D(
@@ -98,7 +96,7 @@ def render(mobile=False):
     fig.subplots_adjust(
         left=0.02, right=0.98, top=0.91 if mobile else 0.75, bottom=0.09 if mobile else 0.20, wspace=0.12, hspace=0.65
     )
-    titles = ["1. Launch pulse", "2. Reposition instrument", "3. Launch next pulse"]
+    titles = ["1. Launch pulse", "2. Reposition device", "3. Launch next pulse"]
     subtitles = ["t = 1", "t = 2 · first pulse continues", "t = 6 · first pulse has ended"]
     for i, ax in enumerate(axes):
         setup(ax, ((-4.5, 11), (-5.5, 5.5)))
@@ -110,9 +108,9 @@ def render(mobile=False):
         ax.set_title(titles[i], fontsize=13, fontweight="bold", pad=31)
         ax.text(0.5, 1.09, subtitles[i], transform=ax.transAxes, ha="center", fontsize=10, color=MUTED)
     label = (
-        "A launched pulse stays at its launch position.\nFuture pulses use the instrument’s new center."
+        "A launched pulse stays at its launch position.\nFuture pulses use the device’s new center."
         if mobile
-        else "A launched pulse stays at its launch position. Future pulses use the instrument’s new center."
+        else "A launched pulse stays at its launch position. Future pulses use the device’s new center."
     )
     fig.text(0.5, 0.025 if mobile else 0.07, label, ha="center", fontsize=12)
     save(fig, "pulse-and-move" + suffix)

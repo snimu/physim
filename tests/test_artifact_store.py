@@ -112,6 +112,7 @@ def test_archived_checkpoint_preserves_both_names(tmp_path):
         json.dumps(
             dict(
                 prompt_condition=taskset.PROMPT_CONDITION,
+                reward_precision=taskset.DEFAULT_PRECISION,
                 checks=[dict(path=artifact.name, validation=dict(ok=True), snapshot=manifest)],
                 experiments=[],
                 usage=dict(experiments=0, charged_tu=0),
