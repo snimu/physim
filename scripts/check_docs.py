@@ -81,7 +81,7 @@ def check():
             (not any(n > 1 for n in Counter(page.ids).values()), "unique IDs"),
             (all(img.get("alt") for img in page.images), "image alternatives"),
             ("{{" not in source, "resolved template variables"),
-            ("site.css" in page.links, "shared stylesheet"),
+            (any(urlsplit(link).path == "site.css" for link in page.links), "shared stylesheet"),
         ):
             if not condition:
                 errors.append(f"{path.name}: failed {problem}")

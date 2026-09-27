@@ -28,6 +28,7 @@ h2[id],h3[id]{scroll-margin-top:1.5rem}
 
 .footnote,.figure-note{font-size:.85rem;color:var(--muted)}.footnote{margin-top:-.4rem}.term-note{padding:.2em;font-size:.8em;cursor:help}
 .world-film{max-width:690px;margin:1.5rem auto}.world-film video{background:white}
+.world-film-single video{max-width:460px;margin-inline:auto}
 
 /* Paper framing for the article; keep the reading area full-width on phones. */
 .article-page{background:#eeede8;display:flow-root}

@@ -162,6 +162,7 @@ def generated_content():
 def render(key, heading, section, body, title=None, description=None, prefix=""):
     values = {
         "root": prefix,
+        "stylesheet": prefix + "site.css?v=" + hashlib.sha256((SOURCE / "site.css").read_bytes()).hexdigest()[:12],
         "title": escape(title or PAGES[key][0]),
         "description": escape(description or DESCRIPTIONS[key], quote=True),
         "heading": escape(heading),
