@@ -28,3 +28,12 @@ h2[id],h3[id]{scroll-margin-top:1.5rem}
 
 .footnote,.figure-note{font-size:.85rem;color:var(--muted)}.footnote{margin-top:-.4rem}.term-note{padding:.2em;font-size:.8em;cursor:help}
 .world-film{max-width:690px;margin:1.5rem auto}.world-film video{background:white}
+
+/* Paper framing for the article; keep the reading area full-width on phones. */
+.article-page{background:#eeede8;display:flow-root}
+.article-page .layout{width:calc(100% - 3rem);max-width:1014px;margin:3rem auto;padding:4rem clamp(2rem,7.5vw,6rem);background:var(--paper);border:1px solid #e1e0db}
+.article-title{margin-bottom:2.5rem}
+.article-title h1{font-size:clamp(2.5rem,4vw,3.25rem);line-height:1.1;margin:0 0 .4rem}
+.article-title p{font-size:clamp(1.15rem,2vw,1.5rem);line-height:1.4;color:var(--muted);margin:0}
+@media(max-width:680px){.article-page{background:var(--paper)}.article-page .layout{width:100%;margin:0;padding:1.7rem 1.2rem 2.5rem;border:0}.article-title{margin-bottom:2rem}}
+@media print{.article-page{background:white}.article-page .layout{width:100%;max-width:none;margin:0;padding:0;border:0}}
