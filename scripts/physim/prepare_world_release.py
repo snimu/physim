@@ -10,6 +10,7 @@ import shutil
 import subprocess
 import sys
 import tomllib
+from importlib.metadata import version
 from pathlib import Path
 
 from blobkit.registry import Registry
@@ -113,7 +114,7 @@ def stage_release(*, registry_root, bundle_paths, output, release):
                 truth_members=2,
                 forecast_members=64,
                 public_ports=bundle.roster.n_ports,
-                code_versions=dict(physim="0.12.0", blobkit=implementation["blobkit_version"]),
+                code_versions=dict(physim=version("physim"), blobkit=implementation["blobkit_version"]),
                 reference_dependencies=implementation["reference_dependencies"],
                 licenses=bundle.manifest["licenses"],
             )

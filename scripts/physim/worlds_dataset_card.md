@@ -67,8 +67,9 @@ loads or executes archived recipe code.
 
 One world can support multiple preparations and suites. `preserved` means its
 definition and available history are archived. `eval-ready` means an exact
-preparation and suite have been validated and packaged for evaluation. Availability
-does not automatically select a world when running Physim.
+preparation and suite have been validated and packaged for evaluation. The Physim
+taskset defaults to every evaluation preparation at its pinned dataset revision;
+explicit selection can restrict a run to one preparation or a subset.
 
 ## Contributing worlds
 
@@ -122,11 +123,10 @@ registry.verify()
 world = registry.load_genome("WORLD_RECORD_ID_FROM_WORLDS_CATALOG")
 ```
 
-The preparations whose names end in `centered_v2` use Physim 0.13.0.dev0
+The current preparations use Physim 0.13.0.dev0
 and Blobkit 0.3.5. They bind a source centered on each device's sensor array;
 an injection remains at its launch position if the device subsequently moves.
-The other three preparations retain the original fixed-source apparatus and
-remain reproducible with Physim 0.12.2. These are separate, immutable preparations.
+Superseded preparations are removed from the current catalog and file tree.
 
 Use Python 3.12 with NumPy 2.5.2 and SciPy 1.18.0 on the trusted simulation host.
 The updated environment, installation instructions, and runnable configs are in
@@ -134,9 +134,7 @@ The updated environment, installation instructions, and runnable configs are in
 `release.json` records the exact code source used for this dataset export.
 Blobkit is available as a
 [checksummed release](https://github.com/swpo/physim/releases/tag/blobkit-v0.3.5).
-The [Physim 0.12.2 release](https://github.com/swpo/physim/releases/tag/physim-v0.12.2)
-is retained for the historical preparations. The PyPI project named `physim`
-is unrelated.
+The PyPI project named `physim` is unrelated.
 
 ## Provenance and reproducibility
 

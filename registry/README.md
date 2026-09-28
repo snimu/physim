@@ -10,7 +10,7 @@ It covers preserved worlds, eval-ready preparations, and reviewed HF pull reques
 without granting contributors write access to the main dataset. Its editable
 source in the code repository is `registry/CONTRIBUTING.md`.
 
-The import includes the 15 packaged worlds and the prepared `p4g2_044` reference.
+The registry includes sourced worlds and validated evaluation preparations.
 Historical evidence is marked partial where complete generation settings or
 checkpoints are unavailable. Existing physical world/preparation/suite/bundle
 identities are linked without changing them. New searches archive executable
@@ -45,11 +45,10 @@ physical references and validation evidence. Every other record is preserved.
 The exporter verifies those references and evidence before export or staging;
 actual bundle loading still performs the environment's full validation.
 
-The current catalog has 21 preserved records and three eval-ready records:
-`p4g2_044`, `bf_trail_lab`, and `xv_rotor_lab`, representing 19 distinct genomes
-in total. BF and XV preserve their complete runnable bundles, fresh observations,
-mechanism controls, preparation recipes, and model pilot artifacts. The original
-source-world records remain preserved. Availability annotations
+BF, XV, and p4g2_044 have runnable evaluation preparations. The published
+`catalog.jsonl` lists the current bundle paths, identities, and grading-program
+counts; `worlds.jsonl` lists all preserved and eval-ready records. The original
+source-world records and generation provenance remain preserved. Availability annotations
 never change immutable genomes, recipes or world records. The registry contains
 no review priorities or future plans. Run the exporter with `--sync-docs` to
 refresh the documentation catalog as well.
@@ -60,6 +59,6 @@ preparation's bundle from registry artifacts. See the
 [preparation workflow](../generators/physim/EVALUATION_WORKFLOW.md) and
 [scientific report](../handoff/eval_preparation/REPORT.md) for reproduction and scope.
 
-The complete registry and three evaluation bundles were [published on Hugging Face](https://huggingface.co/datasets/seanpohorence/physim-worlds/tree/dcd6abd5eae76a47f326c70518315d2d1e101d86)
-at `dcd6abd5eae76a47f326c70518315d2d1e101d86`. Publication and anonymous verification
-receipts are recorded in `handoff/hf_release_20260914/`.
+The current registry and evaluation bundles are [published on Hugging Face](https://huggingface.co/datasets/seanpohorence/physim-worlds).
+Superseded evaluation preparations are removed from the current dataset. Use the
+dataset revision pinned in the environment's config for a reproducible run.
