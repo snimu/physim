@@ -14,7 +14,7 @@ PYTHONPATH=environments/physim:packages/blobkit python scripts/render_bf_thread.
 Runs are cached under `outputs/bf-thread-20261002` (about 40 MB each). `--only`
 renders a subset; `--layout desktop|mobile|both` selects variants. Static figures
 take about two minutes including the BF runs; each video takes several minutes. The
-p4g2_044 film first regenerates that world's preparation (about 35 minutes, once).
+p4g2_044 film downloads that world's published reference bundle once (about 3 MB).
 
 ## One way of showing a world
 
@@ -30,7 +30,9 @@ p4g2_044 film first regenerates that world's preparation (about 35 minutes, once
     so natural trails near 0.02 and source pulses near 0.25 are both readable.
   The four hues are validated categorical slots: all pairs stay distinguishable
   under protanopia and deuteranopia (ΔE ≥ 9.2) and for normal vision (ΔE ≥ 16.3).
-  The p4g2_044 film uses the same four slots for the four fields it shows.
+  The p4g2_044 film uses the same four slots for the four fields it shows. Its u₃
+  rests high and dips into a labyrinth, so its ramp runs the other way (white at its
+  resting value, dark at its low channels).
 - Apparatus markers are identical on every panel because every sensor reads every
   field: device 0 sensors are circles, device 1 sensors are squares, the source is a
   plus. While a pulse runs, a dashed circle of radius σ = 2 marks its launch position
@@ -54,7 +56,7 @@ p4g2_044 film first regenerates that world's preparation (about 35 minutes, once
 | `bf-pulse.mp4` | Sources | The high trail pulse (suite c006) with device-0 readings, with and without the pulse |
 | `bf-walk.mp4` | Adjustments | Device 0 steps down, then right, launches a pulse mid-walk, then widens |
 | `bf-score.mp4` | Evaluating agents | What suite experiment c006 is scored on: the four score groups, their scales, and where the pulse shows up in each |
-| `p4g2_044-highlights.mp4` | Discovering new worlds | Four of p4g2_044's twelve fields over an unforced 450-unit continuation |
+| `p4g2_044-highlights.mp4` | Discovering new worlds | u₀, u₁, u₃ and x₇ of p4g2_044's twelve fields over an unforced 450-unit continuation of the published preparation, in the published film's 80 × 80 window; poster at t = 300 |
 
 `bf-score.png` is the static version of the scoring film. `bf-walk` is an apparatus
 demonstration, not a suite case; all other BF experiment figures use suite actions.
@@ -86,8 +88,14 @@ equals the recorded causal-check effect.
   `scripts/render_world_movies.py`. A one-time comparison outside the script:
   re-rendered in the old style, its t = 250 frame matches the published film within
   encoding error (mean absolute pixel difference 1.7 of 255).
-- The p4g2_044 preparation is regenerated from its recorded soup seed (928) and step
-  count (85,000) and must match the recorded field hash before the film is drawn.
+- The p4g2_044 film starts from the published reference bundle at the Hugging Face
+  dataset revision pinned in `docs_source/worlds.json`. The manifest must match the
+  catalog's hash, every file its manifest entry, and the preparation the recorded
+  t = 1700 field hash. The continuation is built as `scripts/render_world_movies.py`
+  builds the published p4g2_044 film, with the same seed. A one-time comparison outside
+  the script: re-rendered in the old style, it matches the published film within
+  encoding error (mean absolute pixel difference 0.75 to 0.95 of 255 at t = 0, 150, 300
+  and 450).
 
 ## Page markup
 

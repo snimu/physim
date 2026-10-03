@@ -28,6 +28,7 @@ import hashlib
 import json
 import os
 import sys
+import urllib.request
 from pathlib import Path
 
 for _key in ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "VECLIB_MAXIMUM_THREADS"):
@@ -46,6 +47,7 @@ from matplotlib.colors import AsinhNorm, LinearSegmentedColormap, Normalize
 from matplotlib.lines import Line2D
 from matplotlib.patches import Circle, ConnectionPatch, Rectangle
 from physim import blobround6 as R6
+from physim.bundles import Bundle
 from physim.devices import INJ_SIGMA, ProbeDevice, bilinear, step_chunk
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -63,8 +65,7 @@ PORT_PERM = [2, 0, 3, 1]  # public port -> field index; fields are (u0, x0, x1, 
 SEED = 53001  # the recorded causal-check truth seed; all comparisons share future noise
 FILM_SEED = 926201  # the published BF film's continuation seed
 CAUSAL_TIMES = [0, 2, 5, 10, 20, 30, 40, 50]
-P4_GENOME = ROOT / "docs_source/data/genomes/p4g2_044.json"
-P4_SEED, P4_STEPS, P4_FIELD_SHA = 928, 85000, "847754b2bff40693e2f830ea083a97d1b23a513fab50ad11ca7f9d44399cc7ea"
+P4_FIELD_SHA = "847754b2bff40693e2f830ea083a97d1b23a513fab50ad11ca7f9d44399cc7ea"  # the t = 1700 preparation
 P4_FILM_SEED = 926203  # the published p4g2_044 film's continuation seed
 DX, N, HALF = 0.5, 256, 80  # grid spacing, grid size, crop half-width in cells (40 units)
 LAB = 16.0  # half-width of the laboratory view around the device center
@@ -217,13 +218,33 @@ for _f in FIELDS:
     _f["cmap"] = ramp(_f["hue"])
 
 
-# p4g2_044 highlights: four of its twelve fields, with the same display rules as BF.
-P4_CENTER, P4_HALF, P4_POSTER_T = (30.0, 50.0), 32.0, 225.0  # view center (y, x), half-width, poster time
+# p4g2_044 highlights: four of its twelve fields, with the same display rules as BF, in the
+# published film's window. u3 rests high and dips into a labyrinth, so its ramp is reversed.
+P4_CENTER, P4_HALF, P4_POSTER_T = (30.0, 50.0), 40.0, 300.0  # view center (y, x), half-width, poster time
 P4_FIELDS = [
-    dict(key="u0", index=0, sym="u₀", role="blobs", hue="#2a78d6", vmin=-0.7, vmax=1.1, ticks=[-0.7, 0, 1]),
-    dict(key="u1", index=1, sym="u₁", role="stripes", hue="#1baf7a", vmin=-0.9, vmax=1.1, ticks=[-0.9, 0, 1]),
-    dict(key="u2", index=2, sym="u₂", role="", hue="#4a3aa7", vmin=-1.0, vmax=1.5, ticks=[-1, 0, 1]),
-    dict(key="x7", index=11, sym="x₇", role="slow memory", hue="#eb6834", vmin=0.0, vmax=0.3, ticks=[0, 0.1, 0.2, 0.3]),
+    dict(key="u0", index=0, sym="u₀", role="blobs", hue="#2a78d6", vmin=-1.0, vmax=1.1, ticks=[-1, 0, 1]),
+    dict(key="u1", index=1, sym="u₁", role="stripes", hue="#1baf7a", vmin=-1.3, vmax=1.25, ticks=[-1, 0, 1]),
+    dict(
+        key="u3",
+        index=3,
+        sym="u₃",
+        role="labyrinth",
+        hue="#4a3aa7",
+        vmin=-1.7,
+        vmax=1.7,
+        ticks=[-1.5, 0, 1.5],
+        reverse=True,
+    ),
+    dict(
+        key="x7",
+        index=11,
+        sym="x₇",
+        role="slow memory",
+        hue="#eb6834",
+        vmin=0.0,
+        vmax=0.03,
+        ticks=[0, 0.01, 0.02, 0.03],
+    ),
 ]
 for _f in P4_FIELDS:
     # White marks the resting value; fields that rest high and dip get the reversed ramp.
@@ -397,55 +418,56 @@ class Lab:
         return timeline
 
 
-def p4_preparation():
-    """p4g2_044 prepared the way its evaluation preparation was: the seed-928 soup stepped to t = 1700.
+def p4_bundle():
+    """The published p4g2_044 reference bundle (simulation profile), downloaded once and verified.
 
-    probes/blobs/agentenv/device.py::run_cached built the recorded preparation on a different
-    platform. Floating-point differences compound over 85,000 steps, so this run is another
-    realization of the same world; its field hash is recorded next to the original's.
+    docs_source/worlds.json pins the dataset revision and the manifest hash; the manifest pins
+    every file, and the preparation must carry the recorded t = 1700 field hash.
     """
-    path = CACHE / "p4g2_044-preparation.npz"
-    if path.exists():
-        with np.load(path, allow_pickle=False) as z:
-            fields = z["fields"].copy()
-    else:
-        genome = json.loads(P4_GENOME.read_text())
-        sim = sim_cpu.init_soup(genome, L=128.0, seed=P4_SEED, dtype="f32", workers=2)
-        for _ in range(P4_STEPS // 2500):
-            step_chunk(sim, 2500)
-            print(f"p4g2_044 preparation t = {sim['t_step'] * sim['dt']:g}", flush=True)
-        fields = np.asarray(sim["F"], dtype=np.float32)
-        CACHE.mkdir(parents=True, exist_ok=True)
-        np.savez_compressed(path, fields=fields)
-    sha = hashlib.sha256(fields.tobytes()).hexdigest()
-    identity = dict(
-        soup_seed=P4_SEED,
-        steps=P4_STEPS,
-        field_sha256=sha,
-        recorded_field_sha256=P4_FIELD_SHA,
-        same_realization_as_recorded=sha == P4_FIELD_SHA,
+    record = next(
+        w for w in json.loads((ROOT / "docs_source/worlds.json").read_text())["worlds"] if w["id"] == "p4g2_044"
     )
-    return fields, identity
+    ref = record["reference_bundle"]
+    base = (
+        f"https://huggingface.co/datasets/{ref['dataset_repo']}/resolve/{ref['dataset_revision']}/{ref['bundle_path']}"
+    )
+    root = CACHE / "p4g2_044-bundle"
+    manifest = root / "manifest.json"
+    if not manifest.exists():
+        root.mkdir(parents=True, exist_ok=True)
+        urllib.request.urlretrieve(f"{base}/manifest.json", manifest)
+    if digest(manifest) != ref["references"]["manifest_sha256"]:
+        raise ValueError("p4g2_044 manifest differs from the catalog's reference bundle")
+    for item in json.loads(manifest.read_text())["files"]:
+        target = root / item["path"]
+        if "simulation" in item["profiles"] and not target.exists():
+            target.parent.mkdir(parents=True, exist_ok=True)
+            urllib.request.urlretrieve(f"{base}/{item['path']}", target)
+    bundle = Bundle(root, profile="simulation")
+    if bundle.manifest["objects"]["preparation"]["field_sha256"] != P4_FIELD_SHA:
+        raise ValueError("the reference bundle's preparation is not the recorded p4g2_044 preparation")
+    return bundle, dict(source=base, **bundle.references())
 
 
 def p4_continuation(horizon=450.0, record_dt=2.5):
-    """Unforced continuation of the p4g2_044 preparation, as scripts/render_world_movies.py runs it."""
-    fields, preparation = p4_preparation()
+    """Unforced continuation of the published preparation, built as scripts/render_world_movies.py builds it."""
+    bundle, reference = p4_bundle()
     identity = dict(
         seed=P4_FILM_SEED,
         horizon=horizon,
         record_dt=record_dt,
-        field_sha256=preparation["field_sha256"],
-        noise=0.002,
+        field_sha256=P4_FIELD_SHA,
+        bundle=reference["bundle"],
     )
     path = CACHE / "p4g2_044-film.npz"
     if path.exists():
         with np.load(path, allow_pickle=False) as z:
             if json.loads(str(z["identity"])) == identity:
-                return dict(times=z["times"], frames=z["frames"], identity=identity, preparation=preparation, path=path)
-    genome = json.loads(P4_GENOME.read_text())
-    sim = sim_cpu.init_soup(genome, L=128.0, seed=0, n_soup=0, dtype="f32", noise=0.002, workers=2)
-    sim["F"], sim["t_step"] = fields.copy(), 0
+                return dict(times=z["times"], frames=z["frames"], identity=identity, reference=reference, path=path)
+    sim = copy.deepcopy(bundle.make_oracle()._template)
+    if hashlib.sha256(np.asarray(sim["F"]).tobytes()).hexdigest() != P4_FIELD_SHA:
+        raise ValueError("p4g2_044 preparation identity mismatch")
+    sim["workers"] = 1
     sim["rng"] = np.random.default_rng(P4_FILM_SEED)
     times = np.arange(0, horizon + record_dt / 2, record_dt)
     frames = []
@@ -456,7 +478,7 @@ def p4_continuation(horizon=450.0, record_dt=2.5):
             print(f"p4g2_044 continuation t = {t:g}", flush=True)
     frames = np.asarray(frames)
     np.savez_compressed(path, times=times, frames=frames, identity=json.dumps(identity))
-    return dict(times=times, frames=frames, identity=identity, preparation=preparation, path=path)
+    return dict(times=times, frames=frames, identity=identity, reference=reference, path=path)
 
 
 def verify(lab, runs):
@@ -1176,7 +1198,7 @@ def film_p4(film, L, fps=12, hold=12, poster_t=P4_POSTER_T):
         ax.set_ylim(P4_HALF, -P4_HALF)
         colorbar(cv, f, L.x(i), y + L.panel + 0.07, L.panel)
         if i == 0:
-            scalebar(ax, 10)
+            scalebar(ax, 20)
     path, poster = OUT / f"p4g2_044-highlights{L.suffix}.mp4", OUT / f"p4g2_044-highlights{L.suffix}.jpg"
     order = list(range(len(times))) + [len(times) - 1] * hold
     with video_writer(cv.fig, path, fps=fps) as frame:
@@ -1195,7 +1217,10 @@ def film_p4(film, L, fps=12, hold=12, poster_t=P4_POSTER_T):
         poster_time=poster_t,
         times=[float(times[0]), float(times[-1])],
         view=dict(center_yx=list(P4_CENTER), half_width=P4_HALF),
-        fields=[{k: f[k] for k in ("key", "index", "role", "hue", "vmin", "vmax", "ticks")} for f in P4_FIELDS],
+        fields=[
+            {k: f[k] for k in ("key", "index", "role", "hue", "vmin", "vmax", "ticks", "reverse") if k in f}
+            for f in P4_FIELDS
+        ],
     )
 
 
@@ -1687,8 +1712,8 @@ def main():
         ),
         p4_film=(
             dict(
-                genome=dict(path=str(P4_GENOME.relative_to(ROOT)), sha256=digest(P4_GENOME)),
-                preparation=p4_film["preparation"],
+                reference_bundle=p4_film["reference"],
+                field_sha256=P4_FIELD_SHA,
                 seed=P4_FILM_SEED,
                 horizon=450.0,
                 record_dt=2.5,
