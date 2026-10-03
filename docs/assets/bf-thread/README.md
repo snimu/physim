@@ -20,7 +20,7 @@ p4g2_044 film downloads that world's published reference bundle once (about 3 MB
 
 - One panel per field, in genome order. Desktop figures put four panels in a row;
   `-mobile` variants reflow the same panels into a 2 × 2 grid at the same panel size,
-  and the page serves them below 680 pixels.
+  and the page serves them only at phone widths (560 pixels or less).
 - Each field keeps one identity hue and one fixed color scale in every figure.
   White is the resting value; darker means larger.
   - u₀ excitation, blue, −0.7 to 1.1
@@ -99,8 +99,10 @@ equals the recorded causal-check effect.
 
 ## Page markup
 
-Static figures use `<picture>` with the `-mobile` PNG as a `max-width: 680px` source.
-Films use two `<source>` elements the same way, plus `data-mobile-poster`, which the
-page script swaps in on narrow screens. The script also plays each figure film while
-it is on screen (muted, looped) and leaves it paused for readers who prefer reduced
-motion.
+Static figures use `<picture>` with the `-mobile` PNG as a `max-width: 560px` source.
+Films carry the desktop file as their `<source>` and the phone versions in
+`data-mobile-src` and `data-mobile-poster`; the page script picks the matching file and
+poster and switches again whenever the width crosses 560 pixels, as `<picture>` does
+(a `<source media>` on a video is only evaluated once, at load). The script also plays
+each figure film while it is on screen (muted, looped) and leaves it paused for readers
+who prefer reduced motion.
