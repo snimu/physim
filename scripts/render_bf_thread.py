@@ -44,7 +44,7 @@ from blobkit.soup import sim_cpu
 from matplotlib.cm import ScalarMappable
 from matplotlib.colors import AsinhNorm, LinearSegmentedColormap, Normalize
 from matplotlib.lines import Line2D
-from matplotlib.patches import Circle, ConnectionPatch, FancyArrowPatch, Rectangle
+from matplotlib.patches import Circle, ConnectionPatch, Rectangle
 from physim import blobround6 as R6
 from physim.devices import INJ_SIGMA, ProbeDevice, bilinear, step_chunk
 
@@ -63,6 +63,9 @@ PORT_PERM = [2, 0, 3, 1]  # public port -> field index; fields are (u0, x0, x1, 
 SEED = 53001  # the recorded causal-check truth seed; all comparisons share future noise
 FILM_SEED = 926201  # the published BF film's continuation seed
 CAUSAL_TIMES = [0, 2, 5, 10, 20, 30, 40, 50]
+P4_GENOME = ROOT / "docs_source/data/genomes/p4g2_044.json"
+P4_SEED, P4_STEPS, P4_FIELD_SHA = 928, 85000, "847754b2bff40693e2f830ea083a97d1b23a513fab50ad11ca7f9d44399cc7ea"
+P4_FILM_SEED = 926203  # the published p4g2_044 film's continuation seed
 DX, N, HALF = 0.5, 256, 80  # grid spacing, grid size, crop half-width in cells (40 units)
 LAB = 16.0  # half-width of the laboratory view around the device center
 WORLD_OFFSET, WORLD = (-6.0, 4.0), 28.0  # world view: center offset (y, x) from the device, half-width
@@ -70,7 +73,7 @@ CENTER_EXTENT = [(-HALF - 0.5) * DX, (HALF - 0.5) * DX, (HALF - 0.5) * DX, (-HAL
 
 INK, MUTED, LINE, WASH = "#17242f", "#52616e", "#dbe2e8", "#f3f6f9"
 GRAY_TRACE = "#b9c3cc"
-MONO = "DejaVu Sans Mono"
+MONO = ["Liberation Mono", "DejaVu Sans Mono"]  # the page uses ui-monospace
 
 
 def inject(port, amp, t=0, device=0, dur=5):
@@ -89,9 +92,9 @@ RUNS = {
         actions=[inject(2, 0.05)], feedback=False, note="causal control without the x2*x1 term"
     ),
     "walk": dict(
-        actions=[adjust([1, 0, 0], t=t) for t in (0, 5, 10, 15)]
-        + [inject(2, 0.05, t=18)]
-        + [adjust([1, 0, 0], t=t) for t in (20, 25)]
+        actions=[adjust([1, 0, 0], t=t) for t in (0, 5, 10)]
+        + [adjust([0, 1, 0], t=15), inject(2, 0.05, t=18)]
+        + [adjust([0, 1, 0], t=t) for t in (20, 25)]
         + [adjust([0, 0, 0.4], t=30)],
         feedback=True,
         note="apparatus demonstration, not a suite case",
@@ -214,6 +217,19 @@ for _f in FIELDS:
     _f["cmap"] = ramp(_f["hue"])
 
 
+# p4g2_044 highlights: four of its twelve fields, with the same display rules as BF.
+P4_CENTER, P4_HALF, P4_POSTER_T = (30.0, 50.0), 32.0, 225.0  # view center (y, x), half-width, poster time
+P4_FIELDS = [
+    dict(key="u0", index=0, sym="u₀", role="blobs", hue="#2a78d6", vmin=-0.7, vmax=1.1, ticks=[-0.7, 0, 1]),
+    dict(key="u1", index=1, sym="u₁", role="stripes", hue="#1baf7a", vmin=-0.9, vmax=1.1, ticks=[-0.9, 0, 1]),
+    dict(key="u2", index=2, sym="u₂", role="", hue="#4a3aa7", vmin=-1.0, vmax=1.5, ticks=[-1, 0, 1]),
+    dict(key="x7", index=11, sym="x₇", role="slow memory", hue="#eb6834", vmin=0.0, vmax=0.3, ticks=[0, 0.1, 0.2, 0.3]),
+]
+for _f in P4_FIELDS:
+    # White marks the resting value; fields that rest high and dip get the reversed ramp.
+    _f["cmap"] = ramp(_f["hue"]).reversed() if _f.get("reverse") else ramp(_f["hue"])
+
+
 def norm(f):
     if "linear_width" in f:
         return AsinhNorm(f["linear_width"], vmin=f["vmin"], vmax=f["vmax"])
@@ -222,7 +238,7 @@ def norm(f):
 
 plt.rcParams.update(
     {
-        "font.family": "DejaVu Sans",
+        "font.family": ["Liberation Sans", "DejaVu Sans"],  # page: system sans, Helvetica/Arial fallback
         "font.size": 9,
         "text.color": INK,
         "axes.linewidth": 0.6,
@@ -381,6 +397,68 @@ class Lab:
         return timeline
 
 
+def p4_preparation():
+    """p4g2_044 prepared the way its evaluation preparation was: the seed-928 soup stepped to t = 1700.
+
+    probes/blobs/agentenv/device.py::run_cached built the recorded preparation on a different
+    platform. Floating-point differences compound over 85,000 steps, so this run is another
+    realization of the same world; its field hash is recorded next to the original's.
+    """
+    path = CACHE / "p4g2_044-preparation.npz"
+    if path.exists():
+        with np.load(path, allow_pickle=False) as z:
+            fields = z["fields"].copy()
+    else:
+        genome = json.loads(P4_GENOME.read_text())
+        sim = sim_cpu.init_soup(genome, L=128.0, seed=P4_SEED, dtype="f32", workers=2)
+        for _ in range(P4_STEPS // 2500):
+            step_chunk(sim, 2500)
+            print(f"p4g2_044 preparation t = {sim['t_step'] * sim['dt']:g}", flush=True)
+        fields = np.asarray(sim["F"], dtype=np.float32)
+        CACHE.mkdir(parents=True, exist_ok=True)
+        np.savez_compressed(path, fields=fields)
+    sha = hashlib.sha256(fields.tobytes()).hexdigest()
+    identity = dict(
+        soup_seed=P4_SEED,
+        steps=P4_STEPS,
+        field_sha256=sha,
+        recorded_field_sha256=P4_FIELD_SHA,
+        same_realization_as_recorded=sha == P4_FIELD_SHA,
+    )
+    return fields, identity
+
+
+def p4_continuation(horizon=450.0, record_dt=2.5):
+    """Unforced continuation of the p4g2_044 preparation, as scripts/render_world_movies.py runs it."""
+    fields, preparation = p4_preparation()
+    identity = dict(
+        seed=P4_FILM_SEED,
+        horizon=horizon,
+        record_dt=record_dt,
+        field_sha256=preparation["field_sha256"],
+        noise=0.002,
+    )
+    path = CACHE / "p4g2_044-film.npz"
+    if path.exists():
+        with np.load(path, allow_pickle=False) as z:
+            if json.loads(str(z["identity"])) == identity:
+                return dict(times=z["times"], frames=z["frames"], identity=identity, preparation=preparation, path=path)
+    genome = json.loads(P4_GENOME.read_text())
+    sim = sim_cpu.init_soup(genome, L=128.0, seed=0, n_soup=0, dtype="f32", noise=0.002, workers=2)
+    sim["F"], sim["t_step"] = fields.copy(), 0
+    sim["rng"] = np.random.default_rng(P4_FILM_SEED)
+    times = np.arange(0, horizon + record_dt / 2, record_dt)
+    frames = []
+    for t in times:
+        step_chunk(sim, round(t / sim["dt"]) - sim["t_step"])
+        frames.append(np.asarray(sim["F"], dtype=np.float16))  # full domain, all twelve fields
+        if t % 50 == 0:
+            print(f"p4g2_044 continuation t = {t:g}", flush=True)
+    frames = np.asarray(frames)
+    np.savez_compressed(path, times=times, frames=frames, identity=json.dumps(identity))
+    return dict(times=times, frames=frames, identity=identity, preparation=preparation, path=path)
+
+
 def verify(lab, runs):
     """Reproduce recorded evidence before drawing anything."""
     with np.load(EVIDENCE, allow_pickle=False) as ev:
@@ -469,8 +547,17 @@ def field_axes(cv, x, y, size, f, titled=True):
         spine.set_linewidth(0.7)
     if titled:
         ax.add_patch(Rectangle((0.0, 1.045), 0.05, 0.05, transform=ax.transAxes, color=f["hue"], clip_on=False))
-        ax.text(0.075, 1.035, f["sym"], transform=ax.transAxes, fontsize=10.5, fontweight="bold", va="bottom")
-        ax.text(0.235, 1.035, f["role"], transform=ax.transAxes, fontsize=9.5, va="bottom", color=MUTED)
+        sym = ax.text(0.075, 1.035, f["sym"], transform=ax.transAxes, fontsize=10.5, fontweight="bold", va="bottom")
+        ax.annotate(
+            f["role"],
+            xy=(1, 0),
+            xycoords=sym,
+            xytext=(5, 0),
+            textcoords="offset points",
+            fontsize=9.5,
+            va="bottom",
+            color=MUTED,
+        )
     return ax
 
 
@@ -485,8 +572,19 @@ def column_title(cv, x, y, size, f):
             transform=cv.fig.transFigure,
         )
     )
-    cv.text(x + 0.075 * size, y - 0.035 * size, f["sym"], fontsize=10.5, fontweight="bold", va="bottom")
-    cv.text(x + 0.235 * size, y - 0.035 * size, f["role"], fontsize=9.5, va="bottom", color=MUTED)
+    sym = cv.text(x + 0.075 * size, y - 0.035 * size, f["sym"], fontsize=10.5, fontweight="bold", va="bottom")
+    cv.fig.add_artist(
+        matplotlib.text.Annotation(
+            f["role"],
+            xy=(1, 0),
+            xycoords=sym,
+            xytext=(5, 0),
+            textcoords="offset points",
+            fontsize=9.5,
+            va="bottom",
+            color=MUTED,
+        )
+    )
 
 
 def show(ax, img, f, center=(0.0, 0.0), half=LAB, interpolation="bilinear"):
@@ -605,17 +703,113 @@ def fig_fields(lab, runs, L):
         y = 0.04 + title + L.row(i) * row_h
         ax = field_axes(cv, L.x(i), y, L.panel, f)
         show(ax, runs["sham"]["crops"][0, i], f, center, WORLD)
-        ax.add_patch(
-            Rectangle(
-                (-LAB, -LAB), 2 * LAB, 2 * LAB, fill=False, ec=INK, lw=0.7, ls=(0, (3, 2.5)), alpha=0.55, zorder=7
-            )
-        )
         colorbar(cv, f, L.x(i), y + L.panel + 0.07, L.panel)
         if i == 0:
             scalebar(ax, 10)
-    return save(cv, "bf-fields", L), dict(
-        time=0, view_center_from_device=list(WORLD_OFFSET), half_width=WORLD, lab_box_half_width=LAB
+    return save(cv, "bf-fields", L), dict(time=0, view_center_from_device=list(WORLD_OFFSET), half_width=WORLD)
+
+
+def fig_grid(lab, runs, L):
+    """The continuous picture and the discrete grid: whole domain, one blob, then individual cells."""
+    f = FIELDS[0]
+    rows, cols = [(np.arange(-N // 2, N // 2) + c) % N for c in np.floor(lab.center / DX).astype(int)]
+    whole = lab.fields[0][rows][:, cols]  # periodic domain, centered on the devices' blob
+    ext = [(-N // 2 - 0.5) * DX, (N // 2 - 0.5) * DX, (N // 2 - 0.5) * DX, (-N // 2 - 0.5) * DX]
+    cells = (np.arange(N) - N // 2) * DX
+    blob_half = 8.0
+    cy0, cx0 = -1.0, 2.0  # lower-left cell center of the 6 x 6 cell window on the blob's flank
+    gy = cells[(cells >= cy0 - 1e-9) & (cells < cy0 + 3.0 - 1e-9)]
+    gx = cells[(cells >= cx0 - 1e-9) & (cells < cx0 + 3.0 - 1e-9)]
+    win = [gx[0] - DX / 2, gx[-1] + DX / 2, gy[-1] + DX / 2, gy[0] - DX / 2]
+
+    size = L.panel * (2.0 if L.mobile else 1.22)
+    small = L.panel if L.mobile else size
+    gap = 0.12 if L.mobile else (L.W - 2 * L.x0 - 3 * size) / 2
+    if L.mobile:
+        xa, ya, xb, yb, xc, yc = L.x0, 0.34, L.x0, 0.34 + size + 0.62, L.x0 + small + gap, 0.34 + size + 0.62
+        height = yb + small + 0.42
+    else:
+        xa = L.x0
+        xb, xc = xa + size + gap, xa + 2 * (size + gap)
+        ya = yb = yc = 0.34
+        height = 0.34 + size + 0.44
+    cv = Canvas(L.W, height)
+
+    a = field_axes(cv, xa, ya, size, f)
+    a.imshow(whole, cmap=f["cmap"], norm=norm(f), extent=ext, interpolation="bilinear")
+    a.set_xlim(ext[0], ext[1])
+    a.set_ylim(ext[2], ext[3])
+    a.add_patch(Rectangle((-blob_half, -blob_half), 2 * blob_half, 2 * blob_half, fill=False, ec=INK, lw=0.9, zorder=5))
+    scalebar(a, 20)
+
+    b = field_axes(cv, xb, yb, small, f, titled=False)
+    b.imshow(whole, cmap=f["cmap"], norm=norm(f), extent=ext, interpolation="bilinear")
+    b.set_xlim(-blob_half, blob_half)
+    b.set_ylim(blob_half, -blob_half)
+    for sp in b.spines.values():
+        sp.set_color(INK)
+        sp.set_linewidth(0.9)
+    b.add_patch(Rectangle((win[0], win[3]), win[1] - win[0], win[2] - win[3], fill=False, ec=INK, lw=0.9, zorder=5))
+    scalebar(b, 2)
+
+    c = field_axes(cv, xc, yc, small, f, titled=False)
+    c.imshow(whole, cmap=f["cmap"], norm=norm(f), extent=ext, interpolation="nearest")
+    c.set_xlim(win[0], win[1])
+    c.set_ylim(win[2], win[3])
+    for sp in c.spines.values():
+        sp.set_color(INK)
+        sp.set_linewidth(0.9)
+    for e in np.arange(win[0], win[1] + 1e-9, DX):
+        c.axvline(e, color="white", lw=1.2, zorder=2)
+    for e in np.arange(win[3], win[2] + 1e-9, DX):
+        c.axhline(e, color="white", lw=1.2, zorder=2)
+    index = {round(v, 6): k for k, v in enumerate(cells)}
+    for yy in gy:
+        for xx in gx:
+            v = whole[index[round(yy, 6)], index[round(xx, 6)]]
+            rgba = f["cmap"](norm(f)(v))
+            dark = 0.2126 * rgba[0] + 0.7152 * rgba[1] + 0.0722 * rgba[2] < 0.45
+            c.plot(xx, yy - 0.13, ".", ms=2.2, color="white" if dark else INK, alpha=0.7, zorder=3)
+            c.text(
+                xx,
+                yy + 0.06,
+                f"{v:.2f}",
+                ha="center",
+                va="center",
+                fontsize=6.2 if L.mobile else 7,
+                color="white" if dark else INK,
+                zorder=4,
+            )
+
+    for src, dst, box in ((a, b, (-blob_half, blob_half, blob_half, -blob_half)), (b, c, win)):
+        x_right, y_top, y_bottom = box[1], box[3], box[2]
+        if L.mobile and src is a:
+            corners = (((box[0], y_bottom), (0, 1)), ((x_right, y_bottom), (1, 1)))
+        else:
+            corners = (((x_right, y_top), (0, 1)), ((x_right, y_bottom), (0, 0)))
+        for xy, uv in corners:
+            cv.fig.add_artist(
+                ConnectionPatch(
+                    xyA=xy, coordsA=src.transData, xyB=uv, coordsB=dst.transAxes, color=MUTED, lw=0.6, zorder=0
+                )
+            )
+    labels = (
+        (a, xa, ya + size, f"Whole domain: {N * DX:g} × {N * DX:g} units, periodic"),
+        (b, xb, yb + small, f"{2 * blob_half:g} × {2 * blob_half:g} units around one blob"),
+        (c, xc, yc + small, f"{len(gx)} × {len(gy)} grid points, spacing {DX:g}"),
     )
+    for _, x, y, text in labels:
+        cv.text(x, y + 0.08, text, fontsize=8.5, color=MUTED, va="top")
+    meta = dict(
+        field="u0",
+        time=0,
+        grid=[N, N],
+        spacing=DX,
+        domain=N * DX,
+        zoom_half_width=blob_half,
+        cell_window_yx=[[float(gy[0]), float(gy[-1])], [float(gx[0]), float(gx[-1])]],
+    )
+    return save(cv, "bf-grid", L), meta
 
 
 def fig_apparatus(lab, runs, L):
@@ -754,189 +948,6 @@ def fig_sensor_grid(lab, runs, L, u=(0.2, -0.4, 0.1)):
         time=0,
     )
     return save(cv, "bf-sensor-grid", L), meta
-
-
-def fig_agent_view(lab, runs, L, t=3.0):
-    """The same 52 readings, first labeled by field and sensor, then as the agent receives them."""
-    run = runs["trail_pulse"]
-    ti = int(np.flatnonzero(np.isclose(run["times"], t))[0])
-    device = lab.devices[0]
-    by_field = lab.read(run["crops"][ti], device.node_positions())  # rows u0..x2, canonical sensor order
-    agent = by_field[PORT_PERM][:, device.node_perm]  # rows = public ports, columns = stream slots
-    cell_w = 0.27 if L.mobile else 0.5
-    cell_h = 0.25
-    heading_lines = 2 if L.mobile else 1
-    x0, y0 = L.x0 + (0.42 if L.mobile else 0.76), 0.10 + 0.2 * heading_lines + 0.36
-    wrap = 7 if L.mobile else 13
-    lines = 4 * int(np.ceil(13 / wrap))
-    code_h = 0.32 + lines * 0.2 + 0.12
-    ya = y0 + 4 * cell_h + 0.08
-    cv = Canvas(L.W, ya + 0.44 + code_h + 0.06)
-    heading = (
-        "What device 0's 13 sensors record\nat t = 3 during the trail pulse"
-        if L.mobile
-        else ("What device 0's 13 sensors record at t = 3, during the trail pulse")
-    )
-    cv.text(L.x0 - 0.06, 0.08, heading, fontsize=10, fontweight="bold", va="top", linespacing=1.3)
-    ax = cv.ax(x0, y0, 13 * cell_w, 4 * cell_h)
-    ax.set_xlim(0, 13)
-    ax.set_ylim(4, 0)
-    ax.axis("off")
-    for i, f in enumerate(FIELDS):
-        colors = f["cmap"](norm(f)(by_field[i]))
-        for j in range(13):
-            ax.add_patch(Rectangle((j + 0.04, i + 0.06), 0.92, 0.88, color=colors[j]))
-            luminance = 0.2126 * colors[j][0] + 0.7152 * colors[j][1] + 0.0722 * colors[j][2]
-            ax.text(
-                j + 0.5,
-                i + 0.5,
-                f"{by_field[i, j]:.2f}",
-                ha="center",
-                va="center",
-                fontsize=5.8 if L.mobile else 7.4,
-                color="white" if luminance < 0.45 else INK,
-            )
-        cv.fig.add_artist(
-            Rectangle(
-                ((x0 - (0.36 if L.mobile else 0.66)) / cv.W, 1 - (y0 + (i + 0.72) * cell_h) / cv.H),
-                0.05 / cv.W,
-                0.12 / cv.H,
-                color=f["hue"],
-                transform=cv.fig.transFigure,
-            )
-        )
-        cv.text(
-            x0 - (0.27 if L.mobile else 0.56),
-            y0 + (i + 0.5) * cell_h,
-            f["sym"],
-            fontsize=9.5,
-            fontweight="bold",
-            va="center",
-        )
-    for a, b, label in ((0, 1, "ctr" if L.mobile else "center"), (1, 5, "inner ring"), (5, 13, "outer ring")):
-        xa, xb = x0 + a * cell_w + 0.03, x0 + b * cell_w - 0.03
-        cv.fig.add_artist(Line2D([xa / cv.W, xb / cv.W], [1 - (y0 - 0.07) / cv.H] * 2, color=MUTED, lw=0.7))
-        cv.text((xa + xb) / 2, y0 - 0.1, label, fontsize=7.5 if L.mobile else 8, color=MUTED, ha="center", va="bottom")
-    ax_x = x0 + (6.5 if not L.mobile else 6.5) * cell_w
-    cv.fig.add_artist(
-        FancyArrowPatch(
-            (ax_x / cv.W, 1 - ya / cv.H),
-            (ax_x / cv.W, 1 - (ya + 0.32) / cv.H),
-            arrowstyle="-|>",
-            mutation_scale=10,
-            color=INK,
-            lw=1.0,
-            transform=cv.fig.transFigure,
-        )
-    )
-    note = (
-        "names removed;\nhidden row and column order"
-        if L.mobile
-        else ("field names removed; rows and columns in a hidden order")
-    )
-    cv.text(
-        ax_x + 0.14, ya + 0.16, note, fontsize=8.5 if not L.mobile else 7.5, color=MUTED, va="center", linespacing=1.2
-    )
-    box = cv.ax(L.x0 - 0.06, ya + 0.44, L.W - 2 * L.x0 + 0.12, code_h)
-    box.set_xlim(0, 1)
-    box.set_ylim(code_h, 0)
-    box.set_xticks([])
-    box.set_yticks([])
-    box.set_facecolor(WASH)
-    for spine in box.spines.values():
-        spine.set_color(LINE)
-    size = 6.9 if L.mobile else 8.1
-    comment = "# query0[0, 1]: time index 1 (t = 3), 4 ports x 13 slots"
-    box.text(0.02, 0.2, comment, color=MUTED, family=MONO, fontsize=size, va="center")
-    row = 0
-    for p in range(4):
-        values = [f"{v:6.2f}" for v in agent[p]]
-        for start in range(0, 13, wrap):
-            prefix = f"port {p} [" if start == 0 else " " * 8
-            end = " ]" if start + wrap >= 13 else ""
-            box.text(
-                0.02,
-                0.44 + row * 0.2,
-                prefix + " ".join(values[start : start + wrap]) + end,
-                color=INK,
-                family=MONO,
-                fontsize=size,
-                va="center",
-            )
-            row += 1
-    meta = dict(
-        run="trail_pulse",
-        time=float(run["times"][ti]),
-        readings_by_field=by_field.tolist(),
-        agent_array=agent.tolist(),
-        port_to_field=[FIELDS[k]["key"] for k in PORT_PERM],
-        slot_to_sensor=device.node_perm.tolist(),
-    )
-    return save(cv, "bf-agent-view", L), meta
-
-
-def fig_measure(lab, runs, L, t=50.0):
-    """Two controlled comparisons at t = 50, each against its own no-pulse run with the same noise."""
-    rows = [
-        ("trail_pulse", "sham", "Trail pulse"),
-        ("feedback_removed_trail_pulse", "feedback_removed_sham", "Trail pulse, x₂ → u₀ feedback removed"),
-    ]
-    device = lab.devices[0]
-    cells = (np.arange(2 * HALF) - HALF) * DX
-    if L.mobile:
-        top, head, row_gap = 0.08, 0.88, L.panel + 0.32
-        block = head + 2 * L.panel + 0.32 + 0.30
-    else:
-        top, head, row_gap = 0.40, 0.30, 0.0
-        block = head + L.panel + 0.24
-    cv = Canvas(L.W, top + 2 * block + 0.30)
-    if not L.mobile:
-        for i, f in enumerate(FIELDS):
-            column_title(cv, L.x(i), top - 0.06, L.panel, f)
-    info = {}
-    for r, (key, reference, label) in enumerate(rows):
-        run, base = runs[key], runs[reference]
-        ti = int(np.flatnonzero(np.isclose(run["times"], t))[0])
-        a = lab.read(run["crops"][ti], device.node_positions())[0]
-        b = lab.read(base["crops"][ti], device.node_positions())[0]
-        rms = float(np.sqrt(np.mean((a - b) ** 2)))
-        info[key] = rms
-        if rms > 0:
-            note = f"u₀ at device 0's 13 sensors differs from the no-pulse run by {rms:.3f} (RMS)"
-        else:
-            note = "u₀ readings equal the no-pulse run exactly (difference 0)"
-        y = top + r * block
-        heading = cv.text(L.x0 - 0.02, y, label, fontsize=10, fontweight="bold", va="top")
-        if L.mobile:
-            wrapped = note.replace(" from the", "\nfrom the") if rms > 0 else note.replace(" run ", " run\n")
-            cv.text(L.x0 - 0.02, y + 0.24, wrapped, fontsize=8, color=MUTED, va="top", linespacing=1.3)
-        else:
-            cv.text(L.x0 - 0.02 + cv.width_of(heading) + 0.12, y + 0.015, note, fontsize=8.5, color=MUTED, va="top")
-        for i, f in enumerate(FIELDS):
-            ax = field_axes(cv, L.x(i), y + head + L.row(i) * row_gap, L.panel, f, titled=L.mobile)
-            show(ax, run["crops"][ti, i], f)
-            sensors(ax, lab.rel(device.node_positions()), 0)
-            source(ax, lab.rel(lab.center))
-            if i == 0:
-                ax.contour(
-                    cells,
-                    cells,
-                    base["crops"][ti, 0],
-                    levels=[0.2],
-                    colors=[INK],
-                    linewidths=1.0,
-                    linestyles=[(0, (3, 2))],
-                    zorder=3,
-                )
-                if r == 0:
-                    scalebar(ax)
-    footer = (
-        f"t = {t:g}. Dashed: the excitation (u₀ = 0.2) in the\nmatching run without the pulse."
-        if L.mobile
-        else f"t = {t:g}. Dashed outline: the excitation (u₀ = 0.2) in the matching run without the pulse."
-    )
-    cv.text(L.x0 - 0.02, cv.H - 0.08, footer, fontsize=8, color=MUTED, va="bottom", linespacing=1.3)
-    return save(cv, "bf-measure", L), dict(time=t, u0_rms_vs_no_pulse=info)
 
 
 # ------------------------------------------------------------------------------------------
@@ -1104,7 +1115,7 @@ def anim_experiment(lab, runs, L, run_name, header, subheader, name, gray=None, 
     )
 
 
-def film_world(lab, film, L, fps=16, hold=16):
+def film_world(lab, film, L, fps=16, hold=16, poster_t=150.0):
     """Four fields over an unforced 300-time-unit continuation, in the world view."""
     times = film["times"]
     title, bar = 0.30, 0.42
@@ -1128,7 +1139,7 @@ def film_world(lab, film, L, fps=16, hold=16):
             for i in range(4):
                 images[i].set_data(film["crops"][ti, i])
             clock.set_text(f"t = {times[ti]:g}")
-            frame(poster if n == 0 else None)
+            frame(poster if n < len(times) and abs(times[ti] - poster_t) < 1e-9 else None)
     plt.close(cv.fig)
     print("wrote", path.relative_to(ROOT), flush=True)
     return dict(
@@ -1136,7 +1147,55 @@ def film_world(lab, film, L, fps=16, hold=16):
         encoding=frame.validation,
         fps=fps,
         hold_frames=hold,
+        poster_time=poster_t,
         times=[float(times[0]), float(times[-1])],
+    )
+
+
+def film_p4(film, L, fps=12, hold=12, poster_t=P4_POSTER_T):
+    """Four of p4g2_044's twelve fields over an unforced continuation, displayed the way BF is."""
+    times, frames = film["times"], film["frames"]
+    cells = round(P4_HALF / DX)
+    rows, cols = [(np.arange(-cells, cells) + round(c / DX)) % N for c in P4_CENTER]
+    crop = lambda ti, k: frames[ti, k][rows][:, cols].astype(np.float32)  # noqa: E731
+    extent = [(-cells - 0.5) * DX, (cells - 0.5) * DX, (cells - 0.5) * DX, (-cells - 0.5) * DX]
+    title, bar = 0.30, 0.42
+    row_h = title + L.panel + bar
+    top = 0.34
+    cv = Canvas(L.W, top + L.rows * row_h, dpi=L.dpi)
+    cv.text(L.x0, 0.1, "4 of 12 fields · unforced continuation", fontsize=8.5, color=MUTED, va="top")
+    clock = cv.text(L.W - L.x0, 0.1, "t = 0", fontsize=10, ha="right", va="top")
+    images = []
+    for i, f in enumerate(P4_FIELDS):
+        y = top + title + L.row(i) * row_h
+        ax = field_axes(cv, L.x(i), y, L.panel, f)
+        images.append(
+            ax.imshow(crop(0, f["index"]), cmap=f["cmap"], norm=norm(f), extent=extent, interpolation="bilinear")
+        )
+        ax.set_xlim(-P4_HALF, P4_HALF)
+        ax.set_ylim(P4_HALF, -P4_HALF)
+        colorbar(cv, f, L.x(i), y + L.panel + 0.07, L.panel)
+        if i == 0:
+            scalebar(ax, 10)
+    path, poster = OUT / f"p4g2_044-highlights{L.suffix}.mp4", OUT / f"p4g2_044-highlights{L.suffix}.jpg"
+    order = list(range(len(times))) + [len(times) - 1] * hold
+    with video_writer(cv.fig, path, fps=fps) as frame:
+        for n, ti in enumerate(order):
+            for image, f in zip(images, P4_FIELDS):
+                image.set_data(crop(ti, f["index"]))
+            clock.set_text(f"t = {times[ti]:g}")
+            frame(poster if n < len(times) and abs(times[ti] - poster_t) < 1e-9 else None)
+    plt.close(cv.fig)
+    print("wrote", path.relative_to(ROOT), flush=True)
+    return dict(
+        files=[str(path.relative_to(OUT)), str(poster.relative_to(OUT))],
+        encoding=frame.validation,
+        fps=fps,
+        hold_frames=hold,
+        poster_time=poster_t,
+        times=[float(times[0]), float(times[-1])],
+        view=dict(center_yx=list(P4_CENTER), half_width=P4_HALF),
+        fields=[{k: f[k] for k in ("key", "index", "role", "hue", "vmin", "vmax", "ticks")} for f in P4_FIELDS],
     )
 
 
@@ -1501,15 +1560,15 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     names = [
         "fields",
+        "grid",
         "apparatus",
         "sensor-grid",
-        "agent-view",
-        "measure",
         "world",
         "pulse",
         "walk",
         "score",
         "score-video",
+        "p4-film",
     ]
     parser.add_argument("--only", nargs="*", choices=names, help="Render a subset of figures")
     parser.add_argument("--layout", choices=["desktop", "mobile", "both"], default="both")
@@ -1523,6 +1582,7 @@ def main():
     checks = verify(lab, runs)
     print("verified:", checks, flush=True)
     film = lab.continuation() if "world" in selected else None
+    p4_film = p4_continuation() if "p4-film" in selected else None
 
     record_path = OUT / "provenance.json"
     figures = {}
@@ -1542,25 +1602,30 @@ def main():
                 meta = anim_experiment(lab, runs, L, "trail_pulse", header, sub, "bf-pulse", gray="sham")
             elif name == "score-video":
                 meta = anim_score(lab, runs, L)
+            elif name == "p4-film":
+                meta = film_p4(p4_film, L)
             elif name == "walk":
                 header = (
-                    "adjust device 0 by u = [1, 0, 0] every 5 tu\ninject port 2 at t = 18 · widen at t = 30"
+                    "adjust u = [1, 0, 0] at t = 0, 5, 10\nadjust u = [0, 1, 0] at t = 15, 20, 25\n"
+                    "inject port 2 at t = 18\nadjust u = [0, 0, 0.4] at t = 30"
                     if L.mobile
-                    else "adjust device 0 by u = [1, 0, 0] every 5 tu · inject port 2 at t = 18 · widen at t = 30"
+                    else "adjust device 0 by u = [1, 0, 0] at t = 0, 5, 10, then by u = [0, 1, 0] at t = 15, 20, 25\n"
+                    "inject port 2 at t = 18 · adjust by u = [0, 0, 0.4] at t = 30"
                 )
                 sub = (
-                    "Moves carry the sensors and the next launch point.\nA launched pulse stays where it started."
+                    "In the world: the device steps down, then right, then\nwidens. Moves carry the sensors and "
+                    "the next launch\npoint; a launched pulse stays where it started."
                     if L.mobile
-                    else "Moves carry the sensors and the next launch point. A launched pulse stays where it started."
+                    else "In the world: the device steps down, then right, then widens. Moves carry the sensors and "
+                    "the next\nlaunch point; a launched pulse stays where it started."
                 )
                 meta = anim_experiment(lab, runs, L, "walk", header, sub, "bf-walk", poster_t=40.0)
             else:
                 fn = {
                     "fields": fig_fields,
+                    "grid": fig_grid,
                     "apparatus": fig_apparatus,
                     "sensor-grid": fig_sensor_grid,
-                    "agent-view": fig_agent_view,
-                    "measure": fig_measure,
                     "score": fig_score,
                 }[name]
                 path, meta = fn(lab, runs, L)
@@ -1620,6 +1685,19 @@ def main():
             if film
             else None
         ),
+        p4_film=(
+            dict(
+                genome=dict(path=str(P4_GENOME.relative_to(ROOT)), sha256=digest(P4_GENOME)),
+                preparation=p4_film["preparation"],
+                seed=P4_FILM_SEED,
+                horizon=450.0,
+                record_dt=2.5,
+                cache_sha256=digest(p4_film["path"]),
+                construction="scripts/render_world_movies.py capture('p4g2_044')",
+            )
+            if p4_film
+            else None
+        ),
         verification=checks,
         display=dict(
             fields=[
@@ -1635,12 +1713,13 @@ def main():
     )
     # Merge with entries written meanwhile by other invocations (e.g. one per figure).
     previous = json.loads(record_path.read_text()) if record_path.exists() else {}
-    merged = previous.get("figures", {})
+    merged = {k: v for k, v in previous.get("figures", {}).items() if k in names}
     for name, entry in figures.items():
         merged.setdefault(name, {}).update(entry)
     record["figures"] = dict(sorted(merged.items()))
-    if record["film"] is None:
-        record["film"] = previous.get("film")
+    for key in ("film", "p4_film"):
+        if record[key] is None:
+            record[key] = previous.get(key)
     record_path.write_text(json.dumps(record, indent=2, default=float) + "\n")
     print("wrote", record_path.relative_to(ROOT))
 

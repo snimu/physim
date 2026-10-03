@@ -22,9 +22,11 @@ class Page(HTMLParser):
             self.ids.append(a["id"])
         if tag == "a" and "name" in a:
             self.ids.append(a["name"])
-        for key in ("href", "src", "poster"):
+        for key in ("href", "src", "poster", "data-mobile-poster"):
             if key in a:
                 self.links.append(a[key])
+        if "srcset" in a:
+            self.links.extend(candidate.split()[0] for candidate in a["srcset"].split(","))
         if tag == "html":
             self.lang = a.get("lang")
         if tag == "h1":

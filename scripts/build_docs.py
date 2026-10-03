@@ -23,10 +23,10 @@ PAGES = {"index": ("PhySim", "PhySim: a virtual science environment", "")}
 MAIN = ("index",)
 SECTIONS = {
     "worlds": "PhySim Worlds",
-    "examples": "Example Worlds",
     "experiments": "Experimenting with virtual worlds",
     "evaluation": "Evaluating agents",
     "results": "Preliminary Results",
+    "discovering": "Discovering new worlds",
     "next": "What’s next?",
     "get-involved": "Get Involved",
     "credit": "Credit",

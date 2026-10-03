@@ -38,3 +38,10 @@ h2[id],h3[id]{scroll-margin-top:1.5rem}
 .article-title p{font-size:clamp(1.15rem,2vw,1.5rem);line-height:1.4;color:var(--muted);margin:0}
 @media(max-width:680px){.article-page{background:var(--paper)}.article-page .layout{width:100%;margin:0;padding:1.7rem 1.2rem 2.5rem;border:0}.article-title{margin-bottom:2rem}}
 @media print{.article-page{background:white}.article-page .layout{width:100%;max-width:none;margin:0;padding:0;border:0}}
+
+/* Field figures and films: one panel per field on white, designed for the full column. */
+.field-figure img,.field-figure video{width:100%}.field-figure video{background:white}
+/* Apparatus components: stacked disclosures, each holding its figure. */
+.components{margin:1rem 0 1.6rem}.components details{margin:0;padding:.8rem 1rem}.components details+details{border-top:0}
+.components summary{font-weight:400}.components summary strong{font-weight:600}.components details[open] summary{margin-bottom:0}.components figure{margin:1rem 0 .2rem}
+@media(max-width:680px){.components details{padding:.7rem .75rem}}

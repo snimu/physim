@@ -97,7 +97,7 @@ def render_equations(key, source, genome):
         rows.append("</div>")
     return (
         f'<details class="world-equations" id="{escape(key)}-equations">'
-        f"<summary>Exact field equations · {escape(source['label'])}</summary>"
+        f"<summary>View the full {escape(source['label'])} field equations</summary>"
         "<p>Coefficients are shown at their full stored precision. Indices start at zero, as in the genome. "
         'These are the deterministic field equations; the <a href="#numerics">numerical profile</a> '
         "specifies discretization and noise, and experiments may add source forcing.</p>"
