@@ -560,6 +560,20 @@ class Canvas:
         return artist.get_window_extent().width / self.fig.dpi
 
 
+class Clock:
+    """Elapsed time: a fixed "t =" and a right-aligned value in a slot sized for the longest one.
+
+    Digits share one width and every value shows one decimal, so nothing moves between frames.
+    """
+
+    def __init__(self, cv, right, y, longest):
+        self.value = cv.text(right, y, f"{longest:.1f}", fontsize=10, ha="right", va="top")
+        cv.text(right - cv.width_of(self.value) - 0.05, y, "t =", fontsize=10, ha="right", va="top")
+
+    def set(self, t):
+        self.value.set_text(f"{t:.1f}")
+
+
 def field_axes(cv, x, y, size, f, titled=True):
     ax = cv.ax(x, y, size, size)
     ax.set_xticks([])
@@ -1025,7 +1039,7 @@ def anim_experiment(lab, runs, L, run_name, header, subheader, name, gray=None, 
     trace_h = 1.0
     row_h = L.panel + 0.30 + trace_h + 0.48
     cv = Canvas(L.W, top + L.rows * row_h + 0.12, dpi=L.dpi)
-    cv.text(L.x0, 0.12, header, fontsize=8.6 if L.mobile else 9, va="top", family=MONO, linespacing=1.35)
+    cv.text(L.x0, 0.12, header, fontsize=9, va="top", linespacing=1.35)
     cv.text(
         L.x0,
         0.14 + 0.2 * (header.count("\n") + 1) + 0.06,
@@ -1035,7 +1049,7 @@ def anim_experiment(lab, runs, L, run_name, header, subheader, name, gray=None, 
         va="top",
         linespacing=1.35,
     )
-    clock = cv.text(L.W - L.x0, 0.12, "t = 0", fontsize=10, ha="right", va="top")
+    clock = Clock(cv, L.W - L.x0, 0.12, times.max())
     images, live, ghosts, rings, curves, twins, cursors = [], [], [], [], [], [], []
     for i, f in enumerate(FIELDS):
         y = top + L.row(i) * row_h
@@ -1124,7 +1138,7 @@ def anim_experiment(lab, runs, L, run_name, header, subheader, name, gray=None, 
                     if gray:
                         twins[i][k].set_data(times[: ti + 1], twin[: ti + 1, i, k])
                 cursors[i].set_xdata([t, t])
-            clock.set_text(f"t = {t:g}")
+            clock.set(t)
             frame(poster if n < len(times) and abs(t - poster_t) < 1e-9 else None)
     plt.close(cv.fig)
     print("wrote", path.relative_to(ROOT), flush=True)
@@ -1145,7 +1159,7 @@ def film_world(lab, film, L, fps=16, hold=16, poster_t=150.0):
     top = 0.34
     cv = Canvas(L.W, top + L.rows * row_h, dpi=L.dpi)
     cv.text(L.x0, 0.1, "Unforced continuation · no sources applied", fontsize=8.5, color=MUTED, va="top")
-    clock = cv.text(L.W - L.x0, 0.1, "t = 0", fontsize=10, ha="right", va="top")
+    clock = Clock(cv, L.W - L.x0, 0.1, times.max())
     images = []
     for i, f in enumerate(FIELDS):
         y = top + title + L.row(i) * row_h
@@ -1160,7 +1174,7 @@ def film_world(lab, film, L, fps=16, hold=16, poster_t=150.0):
         for n, ti in enumerate(order):
             for i in range(4):
                 images[i].set_data(film["crops"][ti, i])
-            clock.set_text(f"t = {times[ti]:g}")
+            clock.set(times[ti])
             frame(poster if n < len(times) and abs(times[ti] - poster_t) < 1e-9 else None)
     plt.close(cv.fig)
     print("wrote", path.relative_to(ROOT), flush=True)
@@ -1186,7 +1200,7 @@ def film_p4(film, L, fps=12, hold=12, poster_t=P4_POSTER_T):
     top = 0.34
     cv = Canvas(L.W, top + L.rows * row_h, dpi=L.dpi)
     cv.text(L.x0, 0.1, "4 of 12 fields · unforced continuation", fontsize=8.5, color=MUTED, va="top")
-    clock = cv.text(L.W - L.x0, 0.1, "t = 0", fontsize=10, ha="right", va="top")
+    clock = Clock(cv, L.W - L.x0, 0.1, times.max())
     images = []
     for i, f in enumerate(P4_FIELDS):
         y = top + title + L.row(i) * row_h
@@ -1205,7 +1219,7 @@ def film_p4(film, L, fps=12, hold=12, poster_t=P4_POSTER_T):
         for n, ti in enumerate(order):
             for image, f in zip(images, P4_FIELDS):
                 image.set_data(crop(ti, f["index"]))
-            clock.set_text(f"t = {times[ti]:g}")
+            clock.set(times[ti])
             frame(poster if n < len(times) and abs(times[ti] - poster_t) < 1e-9 else None)
     plt.close(cv.fig)
     print("wrote", path.relative_to(ROOT), flush=True)
@@ -1299,7 +1313,7 @@ def score_figure(lab, runs, L, dpi=100):
     rd = np.stack([lab.read(c, device0.node_positions()) for c in run["crops"]])
     rs = np.stack([lab.read(c, device0.node_positions()) for c in base["crops"]])
 
-    top = 1.86 if L.mobile else 1.18
+    top = 1.70 if L.mobile else 1.18
     trace_h, row_gap = 0.98, 0.5
     row_h = L.panel + 0.40 + trace_h + row_gap
     table_rows = len(groups)
@@ -1308,22 +1322,13 @@ def score_figure(lab, runs, L, dpi=100):
     table_h = 0.34 + table_rows * card_h + 0.12
     cv = Canvas(L.W, table_top + table_h + (0.86 if L.mobile else 0.5), dpi=dpi)
 
-    action = json.dumps(RUNS[run_name]["actions"][0])
+    action = "Pulse into x₂ (trail) at device 0's center from t = 0 to 5"  # RUNS[run_name], in words
     heading = cv.text(L.x0, 0.10, f"{case_id} · {title}", fontsize=10, fontweight="bold", va="top")
     if L.mobile:
+        cv.text(L.x0, 0.36, action, fontsize=8.5, va="top", color=MUTED)
         cv.text(
             L.x0,
-            0.34,
-            action.replace(', "port"', ',\n "port"'),
-            fontsize=8.2,
-            family=MONO,
-            va="top",
-            color=MUTED,
-            linespacing=1.3,
-        )
-        cv.text(
-            L.x0,
-            0.82,
+            0.64,
             "Four groups of readings are scored. Each reading\nis divided by its group's scale; x₁ and the "
             "global\nsensor are recorded but not scored.",
             fontsize=8.5,
@@ -1332,7 +1337,7 @@ def score_figure(lab, runs, L, dpi=100):
             linespacing=1.35,
         )
     else:
-        cv.text(L.x0 + cv.width_of(heading) + 0.16, 0.115, action, fontsize=8.6, family=MONO, va="top", color=MUTED)
+        cv.text(L.x0 + cv.width_of(heading) + 0.16, 0.115, action, fontsize=8.6, va="top", color=MUTED)
         cv.text(
             L.x0,
             0.40,
@@ -1343,7 +1348,7 @@ def score_figure(lab, runs, L, dpi=100):
             va="top",
             linespacing=1.35,
         )
-    clock = cv.text(L.W - L.x0, 0.10, "t = 0", fontsize=10, ha="right", va="top")
+    clock = Clock(cv, L.W - L.x0, 0.10, times.max())
 
     images, dots, bands = [], [], []
     for i, f in enumerate(FIELDS):
@@ -1528,7 +1533,7 @@ def score_figure(lab, runs, L, dpi=100):
                 total.set_text(f"{np.sqrt((d**2).mean()):.2f}")
             else:
                 total.set_text("–")
-        clock.set_text(f"t = {t:g}")
+        clock.set(t)
 
     meta = dict(
         case=case_id,
@@ -1617,12 +1622,15 @@ def main():
             if name == "world":
                 meta = film_world(lab, film, L)
             elif name == "pulse":
-                act = RUNS["trail_pulse"]["actions"][0]
-                header = json.dumps(act) if not L.mobile else (json.dumps(act).replace(', "port"', ',\n "port"'))
-                sub = (
-                    "In the world: a Gaussian source (σ = 2) adds to x₂\nat device 0's center for 5 time units."
+                header = (
+                    "Pulse into x₂ (trail) at device 0's center\nfrom t = 0 to 5"
                     if L.mobile
-                    else "In the world: a Gaussian source (σ = 2) adds to x₂ at device 0's center for 5 time units."
+                    else "Pulse into x₂ (trail) at device 0's center from t = 0 to 5"
+                )
+                sub = (
+                    "The source is a Gaussian with σ = 2 (dashed circle),\ncentered on the device."
+                    if L.mobile
+                    else "The source is a Gaussian with σ = 2 (dashed circle), centered on the device."
                 )
                 meta = anim_experiment(lab, runs, L, "trail_pulse", header, sub, "bf-pulse", gray="sham")
             elif name == "score-video":
@@ -1631,18 +1639,16 @@ def main():
                 meta = film_p4(p4_film, L)
             elif name == "walk":
                 header = (
-                    "adjust u = [1, 0, 0] at t = 0, 5, 10\nadjust u = [0, 1, 0] at t = 15, 20, 25\n"
-                    "inject port 2 at t = 18\nadjust u = [0, 0, 0.4] at t = 30"
+                    "Shift down 1 unit at t = 0, 5, 10\nShift right 1 unit at t = 15, 20, 25\n"
+                    "Pulse into x₂ at t = 18\nDilate 1.5× at t = 30"
                     if L.mobile
-                    else "adjust device 0 by u = [1, 0, 0] at t = 0, 5, 10, then by u = [0, 1, 0] at t = 15, 20, 25\n"
-                    "inject port 2 at t = 18 · adjust by u = [0, 0, 0.4] at t = 30"
+                    else "Shift device 0 down 1 unit at t = 0, 5, 10, then right 1 unit at t = 15, 20, 25\n"
+                    "Pulse into x₂ at t = 18 · dilate 1.5× at t = 30"
                 )
                 sub = (
-                    "In the world: the device steps down, then right, then\nwidens. Moves carry the sensors and "
-                    "the next launch\npoint; a launched pulse stays where it started."
+                    "Moves carry the sensors and the next launch point;\na launched pulse stays where it started."
                     if L.mobile
-                    else "In the world: the device steps down, then right, then widens. Moves carry the sensors and "
-                    "the next\nlaunch point; a launched pulse stays where it started."
+                    else "Moves carry the sensors and the next launch point; a launched pulse stays where it started."
                 )
                 meta = anim_experiment(lab, runs, L, "walk", header, sub, "bf-walk", poster_t=40.0)
             else:

@@ -40,6 +40,9 @@ p4g2_044 film downloads that world's published reference bundle once (about 3 MB
   ends, a faint dotted circle marks where it ran.
 - Two BF views: the world view (56 × 56 units, 6 units above and 4 to the right of
   the devices) and the lab view (32 × 32 units centered on the devices).
+- Figures describe actions in words (shift, dilate, pulse into a field); only the
+  page's interface code shows the agent's adjustment vectors and port numbers.
+  Film clocks keep "t =" fixed and show one decimal, so the digits never shift.
 - Text uses Liberation Sans and Liberation Mono (metric-compatible with Arial and
   Courier New), with the page's ink, muted and line colors. Figures are designed for
   the 820-pixel column at 100 pixels per inch and saved at 2x or more.
@@ -54,7 +57,7 @@ p4g2_044 film downloads that world's published reference bundle once (about 3 MB
 | `bf-apparatus.png` | Running experiments | Both devices and their shared source on every field |
 | `bf-sensor-grid.png` | Sensors | A sensor between grid points, its bilinear weights, and its four readings |
 | `bf-pulse.mp4` | Sources | The high trail pulse (suite c006) with device-0 readings, with and without the pulse |
-| `bf-walk.mp4` | Adjustments | Device 0 steps down, then right, launches a pulse mid-walk, then widens |
+| `bf-walk.mp4` | Adjustments | Device 0 shifts down, then right, launches a pulse mid-walk, then dilates |
 | `bf-score.mp4` | Evaluating agents | What suite experiment c006 is scored on: the four score groups, their scales, and where the pulse shows up in each |
 | `p4g2_044-highlights.mp4` | Discovering new worlds | u₀, u₁, u₃ and x₇ of p4g2_044's twelve fields over an unforced 450-unit continuation of the published preparation, in the published film's 80 × 80 window; poster at t = 300 |
 
