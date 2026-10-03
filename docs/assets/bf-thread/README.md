@@ -49,11 +49,21 @@ take about two minutes including the runs; each video takes several minutes.
 | `bf-pulse.mp4` | Sources | The high trail pulse (suite c006) with device-0 readings, with and without the pulse |
 | `bf-walk.mp4` | Adjustments | Device 0 steps, launches a pulse mid-walk, keeps stepping, then widens |
 | `bf-agent-view.png` | "the agent only sees a nondescript experimental interface" | The same 52 readings labeled by field and sensor, then as the agent receives them |
-| `bf-measure.png` | Evaluating agents, beside the response and feedback plot | What the plot compares at t = 50, with no-pulse outlines |
+| `bf-score.png` or `bf-score.mp4` | Evaluating agents, beside the response and feedback plot | What suite experiment c006 is scored on: the four score groups, their scales, and where the pulse shows up in each |
+| `bf-measure.png` | Alternative to `bf-score` | The feedback counterfactual at t = 50, with no-pulse outlines |
 
 `bf-walk` is an apparatus demonstration, not a suite case. All other experiment
 figures use suite actions. Every comparison shares future noise (truth seed 53001,
 member 0, the recorded causal-check seed).
+
+`bf-score` takes its groups from `score_groups()` in
+`generators/physim/build_evaluation_bundle.py`, the function that built the BF
+suite, so the figure follows any change to the groups. Every BF experiment is
+scored on the same four groups; x₁ and the global sensor are recorded but not
+scored. "Effect of the pulse" is the RMS difference between the c006 readings and
+the no-pulse readings after scaling. A forecast that ignored the pulse would score
+roughly that energy in each group. At t = 50 the activator-history value (0.754)
+equals the recorded causal-check effect.
 
 ## Checks before drawing
 
@@ -91,6 +101,12 @@ Captions are starting points; the paths assume `docs/index.html`.
 
 <figure class="bf-figure"><picture><source media="(max-width: 680px)" srcset="assets/bf-thread/bf-agent-view-mobile.png"><img src="assets/bf-thread/bf-agent-view.png" width="1640" height="696" loading="lazy" alt="A table of 52 sensor readings labeled by field and sensor ring, and the same numbers as an unlabeled 4 by 13 array in a hidden order"></picture><figcaption>The 52 numbers device 0 records at t = 3 of the trail pulse, labeled by field and sensor (top), and as the agent receives them (bottom). Ports and slots follow a fixed hidden order; here port 1 is u₀ and port 2 is x₂.</figcaption></figure>
 
+<figure class="bf-figure"><picture><source media="(max-width: 680px)" srcset="assets/bf-thread/bf-score-mobile.png"><img src="assets/bf-thread/bf-score.png" width="1640" height="1504" loading="lazy" alt="Suite experiment c006 at t = 50: the four fields with scored sensors highlighted, readings divided by each group's scale with scored readings marked, and a table of the four score groups showing the pulse's effect at each scored time"></picture><figcaption>How suite experiment c006 is scored. The same four groups score every BF experiment: u₀ and x₀ and x₂ at device 0's sensors, and u₀ at device 1's wider ring, each at fixed times and divided by a fixed scale. x₁ and the global sensor are recorded but not scored. In this experiment the pulse is stored in x₂ from the start, while its effect on the excitation, and so on u₀, builds up after t = 20. The bars show how far the pulse moves each group's readings at each scored time, in scale units.</figcaption></figure>
+
+<!-- Animated version of the same figure: scored readings appear as time passes them. -->
+<figure class="bf-figure"><video controls muted loop playsinline preload="metadata" poster="assets/bf-thread/bf-score.jpg" aria-label="Suite experiment c006 over time, with scored readings appearing as their times pass"><source media="(max-width: 680px)" src="assets/bf-thread/bf-score-mobile.mp4" type="video/mp4"><source src="assets/bf-thread/bf-score.mp4" type="video/mp4"></video><figcaption>How suite experiment c006 is scored, as it runs. Dots mark scored readings as their times pass, and each group's bars and RMS update with them.</figcaption></figure>
+
+<!-- Alternative: the feedback counterfactual. -->
 <figure class="bf-figure"><picture><source media="(max-width: 680px)" srcset="assets/bf-thread/bf-measure-mobile.png"><img src="assets/bf-thread/bf-measure.png" width="1640" height="1108" loading="lazy" alt="At t = 50, the trail pulse moves the excitation away from its no-pulse position; with the feedback term removed, the excitation stays exactly in place"></picture><figcaption>What the response measurement compares, at t = 50. With feedback, the trail pulse moves the excitation away from where it sits without the pulse (dashed). With the x₂ → u₀ term removed, the pulse writes the same spot in x₂, but u₀, x₀ and x₁ are identical to the run without it.</figcaption></figure>
 ```
 

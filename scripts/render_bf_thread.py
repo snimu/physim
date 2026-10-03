@@ -1141,9 +1141,376 @@ def film_world(lab, film, L, fps=16, hold=16):
 
 
 # ------------------------------------------------------------------------------------------
+# What an evaluation experiment is scored on
+# ------------------------------------------------------------------------------------------
+QUERY_TIMES = [0, 2, 5, 8, 10, 12, 15, 20, 22, 25, 30, 35, 40, 45, 50]  # every BF suite query
+SCORE_CASE = ("c006", "High trail pulse", "trail_pulse", "sham")
+
+
+def scoring_groups():
+    """The BF suite's score groups, taken from the suite builder itself and restated in world terms."""
+    sys.path.insert(0, str(ROOT / "generators/physim"))
+    from build_evaluation_bundle import score_groups
+
+    case = dict(
+        id=SCORE_CASE[0],
+        actions=RUNS[SCORE_CASE[2]]["actions"],
+        queries=[dict(sensor=s, t=QUERY_TIMES) for s in ("device0", "device1", "global")],
+    )
+    groups = []
+    for group in score_groups(case, PORT_PERM):
+        selectors = group["selectors"]
+        queries, ports, scales = {s["query"] for s in selectors}, {s["port"] for s in selectors}, set(group["scales"])
+        if len(queries) != 1 or len(ports) != 1 or len(scales) != 1:
+            raise ValueError("expected one sensor, one port and one scale per BF score group")
+        times = sorted({QUERY_TIMES[s["time_index"]] for s in selectors})
+        slots = sorted({s["slot"] for s in selectors})
+        if len(selectors) != len(times) * len(slots):
+            raise ValueError("expected every selected slot at every selected time")
+        port = ports.pop()
+        groups.append(
+            dict(
+                id=group["id"],
+                name=group["id"].replace("_", " "),
+                device=queries.pop(),
+                port=port,
+                field=PORT_PERM[port],
+                times=times,
+                slots=slots,
+                scale=scales.pop(),
+                size=len(selectors),
+            )
+        )
+    return case, groups
+
+
+def group_values(lab, run, group):
+    """Scaled readings (times x slots) in the oracle's port and slot order."""
+    device = lab.devices[group["device"]]
+    if np.abs(lab.rel(device.node_positions())).max() > (HALF - 1) * DX:
+        raise ValueError("sensor outside the stored crop")
+    rows = []
+    for t in group["times"]:
+        ti = int(np.flatnonzero(np.isclose(run["times"], t))[0])
+        stream = lab.read(run["crops"][ti], device.node_positions())[PORT_PERM][:, device.node_perm]
+        rows.append(stream[group["port"], group["slots"]])
+    return np.array(rows) / group["scale"]
+
+
+def score_figure(lab, runs, L, dpi=100):
+    """The scoring view of one suite experiment; returns the canvas, a per-frame update, and metadata."""
+    case_id, title, run_name, base_name = SCORE_CASE
+    case, groups = scoring_groups()
+    run, base = runs[run_name], runs[base_name]
+    times = run["times"]
+    for g in groups:
+        g["values"], g["baseline"] = group_values(lab, run, g), group_values(lab, base, g)
+        g["effect_by_time"] = np.sqrt(((g["values"] - g["baseline"]) ** 2).mean(axis=1))
+    by_field = {}
+    for g in groups:
+        if g["device"] == 0:
+            by_field[g["field"]] = g
+    wide = [g for g in groups if g["device"] == 1]
+    device0 = lab.devices[0]
+    rd = np.stack([lab.read(c, device0.node_positions()) for c in run["crops"]])
+    rs = np.stack([lab.read(c, device0.node_positions()) for c in base["crops"]])
+
+    top = 1.86 if L.mobile else 1.18
+    trace_h, row_gap = 0.98, 0.5
+    row_h = L.panel + 0.40 + trace_h + row_gap
+    table_rows = len(groups)
+    card_h = 1.1 if L.mobile else 0.42
+    table_top = top + L.rows * row_h - 0.06
+    table_h = 0.34 + table_rows * card_h + 0.12
+    cv = Canvas(L.W, table_top + table_h + (0.86 if L.mobile else 0.5), dpi=dpi)
+
+    action = json.dumps(RUNS[run_name]["actions"][0])
+    heading = cv.text(L.x0, 0.10, f"{case_id} · {title}", fontsize=10, fontweight="bold", va="top")
+    if L.mobile:
+        cv.text(
+            L.x0,
+            0.34,
+            action.replace(', "port"', ',\n "port"'),
+            fontsize=8.2,
+            family=MONO,
+            va="top",
+            color=MUTED,
+            linespacing=1.3,
+        )
+        cv.text(
+            L.x0,
+            0.82,
+            "Four groups of readings are scored. Each reading\nis divided by its group's scale; x₁ and the "
+            "global\nsensor are recorded but not scored.",
+            fontsize=8.5,
+            color=MUTED,
+            va="top",
+            linespacing=1.35,
+        )
+    else:
+        cv.text(L.x0 + cv.width_of(heading) + 0.16, 0.115, action, fontsize=8.6, family=MONO, va="top", color=MUTED)
+        cv.text(
+            L.x0,
+            0.40,
+            "Four groups of readings are scored, and each reading is divided by its group's scale.\n"
+            "x₁ and the global sensor are recorded but not scored.",
+            fontsize=8.5,
+            color=MUTED,
+            va="top",
+            linespacing=1.35,
+        )
+    clock = cv.text(L.W - L.x0, 0.10, "t = 0", fontsize=10, ha="right", va="top")
+
+    images, dots, bands = [], [], []
+    for i, f in enumerate(FIELDS):
+        y = top + L.row(i) * row_h
+        ax = field_axes(cv, L.x(i), y, L.panel, f)
+        images.append(show(ax, run["crops"][0, i], f))
+        scored0 = i in by_field
+        scored1 = any(g["field"] == i for g in wide)
+        sensors(ax, lab.rel(device0.node_positions()), 0, alpha=1.0 if scored0 else 0.22)
+        sensors(ax, lab.rel(lab.devices[1].node_positions()), 1, alpha=1.0 if scored1 else 0.22)
+        source(ax, lab.rel(lab.center))
+        if i == 0:
+            scalebar(ax)
+        if not (scored0 or scored1):
+            ax.add_patch(Rectangle((0, 0), 1, 1, transform=ax.transAxes, color="white", alpha=0.62, zorder=7))
+            ax.text(
+                0.5,
+                0.5,
+                "not scored",
+                transform=ax.transAxes,
+                ha="center",
+                va="center",
+                fontsize=9.5,
+                color=MUTED,
+                zorder=8,
+                bbox=dict(boxstyle="round,pad=0.35", fc="white", ec=LINE, lw=0.6),
+            )
+        # Readings over time, divided by the group's scale; dots mark scored readings.
+        ty = y + L.panel + 0.40
+        tr = cv.ax(L.x(i) + 0.30, ty, L.panel - 0.30, trace_h)
+        for side in ("top", "right"):
+            tr.spines[side].set_visible(False)
+        for side in ("left", "bottom"):
+            tr.spines[side].set_color("#c3ccd4")
+        tr.set_xlim(0, 50)
+        tr.set_xticks(range(0, 51, 10))
+        tr.set_xticklabels(["0", "", "", "", "", "50"])
+        tr.tick_params(labelsize=7, length=2, width=0.5, pad=1.5, colors=MUTED)
+        g = by_field.get(i)
+        label_y = ty - 0.07
+        if g is None:
+            tr.set_ylim(*f["trace"])
+            tr.set_yticks([])
+            for k in range(13):
+                tr.plot(times, rd[:, i, k], color=f["hue"], lw=0.7, alpha=0.22)
+            cv.text(L.x(i) + 0.30, label_y, "recorded, not scored", fontsize=8, color=MUTED, va="bottom")
+            dots.append(([], None, None))
+            continue
+        lo, hi = f["trace"]
+        if f["key"] == "u0":
+            hi = 1.75  # headroom for the band label
+        tr.set_ylim(lo / g["scale"], hi / g["scale"])
+        ticks = {"u0": [-1, 0, 1], "x0": [0, 1, 2], "x2": [0, 2, 4, 6]}[f["key"]]
+        tr.set_yticks(ticks)
+        tr.grid(axis="y", color="#eef1f4", lw=0.6, zorder=0)
+        for t in g["times"]:
+            tr.axvline(t, color="#c3ccd4", lw=0.6, zorder=0.5)
+        tr.axvspan(0, 5, color=FIELDS[3]["hue"], alpha=0.12, lw=0, zorder=0)
+        if f["key"] == "u0":
+            band = tr.axvspan(20, 50, color=f["hue"], alpha=0.07, lw=0, zorder=0.2)
+            note = tr.text(
+                35, 0.97 * hi / g["scale"], "delayed response", fontsize=7, color=MUTED, va="top", ha="center"
+            )
+            bands.append((20, band, note))
+        name = cv.text(L.x(i) + 0.30, label_y, g["name"], fontsize=8.5, fontweight="bold", va="bottom")
+        cv.text(
+            L.x(i) + 0.30 + cv.width_of(name) + 0.08,
+            label_y,
+            f"÷ {g['scale']:g}",
+            fontsize=8.5,
+            color=MUTED,
+            va="bottom",
+            family=MONO,
+        )
+        twins = [tr.plot([], [], color=GRAY_TRACE, lw=0.7, zorder=1)[0] for _ in range(13)]
+        lines = [tr.plot([], [], color=f["hue"], lw=0.9, alpha=0.85, zorder=2)[0] for _ in range(13)]
+        stamps = []
+        for j, t in enumerate(g["times"]):
+            # values are in stream-slot order; each slot is one of the 13 sensors
+            pts = tr.plot(
+                [t] * len(g["slots"]),
+                g["values"][j],
+                "o",
+                ms=3.2,
+                color=f["hue"],
+                mec="white",
+                mew=0.6,
+                zorder=4,
+                visible=False,
+            )[0]
+            stamps.append((t, pts))
+        dots.append((stamps, lines, twins))
+        tr.yaxis.set_minor_locator(matplotlib.ticker.NullLocator())
+
+    # Group table: what is scored, its scale, and where this experiment's evidence sits.
+    cv.text(L.x0, table_top, "Scored groups", fontsize=10, fontweight="bold", va="top")
+    if not L.mobile:
+        for x, text in (
+            (1.85, "Scored readings"),
+            (4.42, "Scale"),
+            (5.02, "Effect of the pulse at each scored time"),
+            (7.38, "RMS"),
+        ):
+            cv.text(L.x0 + x, table_top + 0.02, text, fontsize=8, color=MUTED, va="top")
+    ymax = 1.12 * max(g["effect_by_time"].max() for g in groups)
+    bars, totals = [], []
+    for r, g in enumerate(groups):
+        f = FIELDS[g["field"]]
+        y = table_top + 0.34 + r * card_h
+        cv.fig.add_artist(Line2D([L.x0 / cv.W, (L.W - L.x0) / cv.W], [1 - (y - 0.06) / cv.H] * 2, color=LINE, lw=0.6))
+        cv.fig.add_artist(
+            Rectangle(
+                (L.x0 / cv.W, 1 - (y + 0.13) / cv.H),
+                0.1 / cv.W,
+                0.1 / cv.H,
+                color=f["hue"],
+                transform=cv.fig.transFigure,
+            )
+        )
+        cv.text(L.x0 + 0.17, y + 0.04, g["name"], fontsize=9, fontweight="bold", va="center")
+        what = f"{f['sym']} at device {g['device']}'s {len(g['slots'])} sensors"
+        when = f"t = {', '.join(f'{t:g}' for t in g['times'])} · {g['size']} values"
+        if L.mobile:
+            cv.text(L.x0 + 0.17, y + 0.27, what + f"  ÷ {g['scale']:g}", fontsize=8, va="center")
+            cv.text(L.x0 + 0.17, y + 0.45, when, fontsize=7.6, color=MUTED, va="center")
+            bx, by, bw = L.x0 + 0.17, y + 0.58, L.W - 2 * L.x0 - 0.75
+        else:
+            cv.text(L.x0 + 1.85, y + 0.04, what, fontsize=8, va="center")
+            cv.text(L.x0 + 1.85, y + 0.21, when, fontsize=7.4, color=MUTED, va="center")
+            cv.text(L.x0 + 4.42, y + 0.04, f"÷ {g['scale']:g}", fontsize=8.6, va="center", family=MONO)
+            bx, by, bw = L.x0 + 5.02, y - 0.06, 2.1
+        ax = cv.ax(bx, by, bw, 0.28)
+        ax.set_xlim(-1.5, 51.5)
+        ax.set_ylim(0, ymax)
+        ax.axis("off")
+        ax.axhline(0, color="#c3ccd4", lw=0.6)
+        rects = ax.bar(g["times"], g["effect_by_time"], width=2.4, color=f["hue"], zorder=2)
+        for rect in rects:
+            rect.set_visible(False)
+        for t in g["times"]:
+            ax.plot([t, t], [0, -0.06 * ymax], color="#c3ccd4", lw=0.6, clip_on=False)
+        if r == table_rows - 1 or L.mobile:
+            ax.text(-1.5, -0.1 * ymax, "t = 0", fontsize=6.5, color=MUTED, va="top")
+            ax.text(51.5, -0.1 * ymax, "50", fontsize=6.5, color=MUTED, va="top", ha="right")
+        bars.append(list(zip(g["times"], rects)))
+        total = cv.text(
+            L.W - L.x0, (y + 0.04) if not L.mobile else (y + 0.72), "", fontsize=9, va="center", ha="right", family=MONO
+        )
+        totals.append(total)
+    note = (
+        "Effect of the pulse: RMS difference from the run without it,\nin scale units (same noise). A forecast that "
+        "ignored the pulse\nwould score roughly these values. Each group gives one\nenergy score; the experiment's "
+        "score is their equal-weight mean."
+        if L.mobile
+        else "Effect of the pulse: RMS difference from the run without it, in scale units (same noise). A forecast that "
+        "ignored the pulse\nwould score roughly these values. Each group gives one energy score; the experiment's "
+        "score is their equal-weight mean."
+    )
+    cv.text(L.x0, cv.H - 0.08, note, fontsize=8, color=MUTED, va="bottom", linespacing=1.35)
+
+    def update(ti):
+        t = times[ti]
+        for i in range(4):
+            images[i].set_data(run["crops"][ti, i])
+            stamps, lines, twins = dots[i]
+            if lines is not None:
+                g = by_field[i]
+                for k in range(13):
+                    lines[k].set_data(times[: ti + 1], rd[: ti + 1, i, k] / g["scale"])
+                    twins[k].set_data(times[: ti + 1], rs[: ti + 1, i, k] / g["scale"])
+            for ts, pts in stamps:
+                pts.set_visible(t >= ts - 1e-9)
+        for start, band, label in bands:
+            band.set_visible(t >= start)
+            label.set_visible(t >= start)
+        for g, row, total in zip(groups, bars, totals):
+            seen = [k for k, (ts, _) in enumerate(row) if t >= ts - 1e-9]
+            for k, (_, rect) in enumerate(row):
+                rect.set_visible(k in seen)
+            if seen:
+                d = (g["values"] - g["baseline"])[seen]
+                total.set_text(f"{np.sqrt((d**2).mean()):.2f}")
+            else:
+                total.set_text("–")
+        clock.set_text(f"t = {t:g}")
+
+    meta = dict(
+        case=case_id,
+        run=run_name,
+        baseline=base_name,
+        query_times=QUERY_TIMES,
+        groups=[
+            dict(
+                id=g["id"],
+                device=g["device"],
+                field=FIELDS[g["field"]]["key"],
+                port=g["port"],
+                times=g["times"],
+                slots=g["slots"],
+                scale=g["scale"],
+                values=g["size"],
+                effect_rms_by_time=g["effect_by_time"].tolist(),
+                effect_rms=float(np.sqrt(((g["values"] - g["baseline"]) ** 2).mean())),
+            )
+            for g in groups
+        ],
+        source="generators/physim/build_evaluation_bundle.py::score_groups",
+    )
+    return cv, update, times, meta
+
+
+def fig_score(lab, runs, L):
+    cv, update, times, meta = score_figure(lab, runs, L)
+    update(len(times) - 1)
+    return save(cv, "bf-score", L), meta
+
+
+def anim_score(lab, runs, L, fps=12, hold=24):
+    cv, update, times, meta = score_figure(lab, runs, L, dpi=L.dpi)
+    path, poster = OUT / f"bf-score{L.suffix}.mp4", OUT / f"bf-score{L.suffix}.jpg"
+    order = list(range(len(times))) + [len(times) - 1] * hold
+    with video_writer(cv.fig, path, fps=fps) as frame:
+        for n, ti in enumerate(order):
+            update(ti)
+            frame(poster if n == len(order) - 1 else None)
+    plt.close(cv.fig)
+    print("wrote", path.relative_to(ROOT), flush=True)
+    return dict(
+        meta,
+        files=[str(path.relative_to(OUT)), str(poster.relative_to(OUT))],
+        encoding=frame.validation,
+        fps=fps,
+        hold_frames=hold,
+    )
+
+
+# ------------------------------------------------------------------------------------------
 def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    names = ["fields", "apparatus", "sensor-grid", "agent-view", "measure", "world", "pulse", "walk"]
+    names = [
+        "fields",
+        "apparatus",
+        "sensor-grid",
+        "agent-view",
+        "measure",
+        "world",
+        "pulse",
+        "walk",
+        "score",
+        "score-video",
+    ]
     parser.add_argument("--only", nargs="*", choices=names, help="Render a subset of figures")
     parser.add_argument("--layout", choices=["desktop", "mobile", "both"], default="both")
     args = parser.parse_args()
@@ -1173,6 +1540,8 @@ def main():
                     else "In the world: a Gaussian source (σ = 2) adds to x₂ at device 0's center for 5 time units."
                 )
                 meta = anim_experiment(lab, runs, L, "trail_pulse", header, sub, "bf-pulse", gray="sham")
+            elif name == "score-video":
+                meta = anim_score(lab, runs, L)
             elif name == "walk":
                 header = (
                     "adjust device 0 by u = [1, 0, 0] every 5 tu\ninject port 2 at t = 18 · widen at t = 30"
@@ -1192,6 +1561,7 @@ def main():
                     "sensor-grid": fig_sensor_grid,
                     "agent-view": fig_agent_view,
                     "measure": fig_measure,
+                    "score": fig_score,
                 }[name]
                 path, meta = fn(lab, runs, L)
                 meta = dict(meta, file=str(path.relative_to(OUT)))
