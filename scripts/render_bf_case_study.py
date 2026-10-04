@@ -35,6 +35,24 @@ MODELS = [
     ("anthropic/claude-sonnet-5", "Claude Sonnet 5", "Sonnet", True),
     ("z-ai/glm-5.3-flash", "GLM 5.3 Flash", "GLM", True),
 ]
+# Experiment names on the write-up, in world terms (fields u0, x1, x2; devices 0 and 1).
+DISPLAY_NAMES = {
+    "c001": "No actions",
+    "c002": "Weak u₀ pulse",
+    "c003": "Strong u₀ pulse",
+    "c004": "Low trail pulse",
+    "c005": "Medium trail pulse",
+    "c006": "High trail pulse",
+    "c007": "u₀ pulse, then trail pulse",
+    "c008": "Delayed u₀ pulse",
+    "c009": "x₁ pulse",
+    "c010": "Shift device 0",
+    "c011": "Dilate device 1",
+    "c012": "u₀ pulse, then shift",
+    "c013": "Shift, then u₀ pulse",
+    "c014": "Two sources",
+    "c015": "Shift during u₀ pulse",
+}
 CASE_NAMES = [
     "No actions",
     "Weak activator pulse",
@@ -212,13 +230,7 @@ def render(heatmap_only=False):
     ax.set_xticks(range(7), [r["short"].replace(" ", "\n") for r in data["models"]])
     ax.xaxis.tick_top()
     ax.tick_params(length=0, pad=9)
-    ax.set_yticks(
-        range(15),
-        [
-            c["label"].replace("activator", "field 1").replace("Activator", "Field 1").replace("Inhibitor", "Field 0")
-            for c in data["cases"]
-        ],
-    )
+    ax.set_yticks(range(15), [DISPLAY_NAMES[c["id"]] for c in data["cases"]])
     for i, j in np.ndindex(values.shape):
         value = values[i, j]
         if np.isnan(value):

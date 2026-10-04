@@ -1,0 +1,912 @@
+{
+  "description": "BF thread figures: native simulations of the recorded BF preparation; no inference.",
+  "script": "scripts/render_bf_thread.py",
+  "script_sha256": "8a91adc7bf6b42e6e6be30995aa9610a864b745246c7802600b5711ad3fa2ba1",
+  "inputs": {
+    "genome": {
+      "path": "registry/artifact/d59f7d9d7ffdb0251bceb2f989f91d2e2ac86dce4409f5d36f3f3e65cad3e038.bin",
+      "sha256": "d59f7d9d7ffdb0251bceb2f989f91d2e2ac86dce4409f5d36f3f3e65cad3e038"
+    },
+    "preparation": {
+      "path": "registry/artifact/de9dda65ef430cd70353e472a956c32df462a5bb33b41641e26ced0b07bd68f8.bin",
+      "sha256": "de9dda65ef430cd70353e472a956c32df462a5bb33b41641e26ced0b07bd68f8",
+      "field_sha256": "c4c3c0c67b0eab22367b1780ae1ad5d6386f356048db9ad1862b3187cbf904c7"
+    },
+    "recorded_evidence": {
+      "path": "docs_source/data/bf-evaluation.npz",
+      "sha256": "e1fcbc3b13e0b3dd022475589af57d7759d159ec0103143829f8fbc1b3a634d7"
+    }
+  },
+  "apparatus": {
+    "protocol": "centered-pulse-v2",
+    "port_permutation": [
+      2,
+      0,
+      3,
+      1
+    ],
+    "devices": [
+      {
+        "lattice": "square",
+        "n_rings": 3,
+        "spacing": 3.0,
+        "center_yx": [
+          127.25,
+          9.75
+        ],
+        "node_perm": [
+          1,
+          2,
+          11,
+          12,
+          4,
+          10,
+          0,
+          6,
+          5,
+          7,
+          3,
+          9,
+          8
+        ]
+      },
+      {
+        "lattice": "hex",
+        "n_rings": 3,
+        "spacing": 6.0,
+        "center_yx": [
+          127.25,
+          9.75
+        ],
+        "node_perm": [
+          13,
+          17,
+          18,
+          8,
+          4,
+          7,
+          5,
+          16,
+          15,
+          1,
+          0,
+          11,
+          6,
+          9,
+          12,
+          3,
+          10,
+          2,
+          14
+        ]
+      }
+    ],
+    "rule": "generators/physim/eval_preparation.py: center at the activator-0 maximum, node permutations from default_rng(41001)"
+  },
+  "numerics": {
+    "grid": [
+      256,
+      256
+    ],
+    "L": 128.0,
+    "dx": 0.5,
+    "dt": 0.02,
+    "noise": 0.002,
+    "dtype": "float32"
+  },
+  "runs": {
+    "sham": {
+      "actions": [],
+      "feedback": true,
+      "note": "BF suite c001 (no actions)",
+      "truth_seed": 53001,
+      "member": 0,
+      "record_dt": 0.5,
+      "horizon": 50.0,
+      "cache_sha256": "1e6815cadde82bd254f0d09cf67e29404589d11fbf4b0fc0fa53a99e335f5900"
+    },
+    "trail_pulse": {
+      "actions": [
+        {
+          "t": 0,
+          "kind": "inject",
+          "device": 0,
+          "port": 2,
+          "amp": 0.05,
+          "dur": 5
+        }
+      ],
+      "feedback": true,
+      "note": "BF suite c006 (high trail pulse)",
+      "truth_seed": 53001,
+      "member": 0,
+      "record_dt": 0.5,
+      "horizon": 50.0,
+      "cache_sha256": "b2f6175b112e142c20cdec2c0c825ceb7ed864300480e9a1965daa74b225e3a7"
+    },
+    "feedback_removed_sham": {
+      "actions": [],
+      "feedback": false,
+      "note": "causal control without the x2*x1 term",
+      "truth_seed": 53001,
+      "member": 0,
+      "record_dt": 0.5,
+      "horizon": 50.0,
+      "cache_sha256": "dd703bad0ce04f1d7c8e0af6352e9b74da23bc75ab3116b4474d14a8a72310e0"
+    },
+    "feedback_removed_trail_pulse": {
+      "actions": [
+        {
+          "t": 0,
+          "kind": "inject",
+          "device": 0,
+          "port": 2,
+          "amp": 0.05,
+          "dur": 5
+        }
+      ],
+      "feedback": false,
+      "note": "causal control without the x2*x1 term",
+      "truth_seed": 53001,
+      "member": 0,
+      "record_dt": 0.5,
+      "horizon": 50.0,
+      "cache_sha256": "2851e93bd5f87a26b0a4c0577cb869c6d8275ecf3f76b99cbaacf7d410379c23"
+    },
+    "walk": {
+      "actions": [
+        {
+          "t": 0,
+          "kind": "adjust",
+          "device": 0,
+          "u": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 5,
+          "kind": "adjust",
+          "device": 0,
+          "u": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 10,
+          "kind": "adjust",
+          "device": 0,
+          "u": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "t": 15,
+          "kind": "adjust",
+          "device": 0,
+          "u": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "t": 20,
+          "kind": "adjust",
+          "device": 0,
+          "u": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "t": 25,
+          "kind": "adjust",
+          "device": 0,
+          "u": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "t": 30,
+          "kind": "adjust",
+          "device": 0,
+          "u": [
+            0,
+            0,
+            0.4
+          ]
+        }
+      ],
+      "feedback": true,
+      "note": "apparatus demonstration, not a suite case",
+      "truth_seed": 53001,
+      "member": 0,
+      "record_dt": 0.5,
+      "horizon": 50.0,
+      "cache_sha256": "f64a5e17fd716801f31579e62688d4d9ab7c889a4658c01d93ce8e283ae81605"
+    }
+  },
+  "film": {
+    "seed": 926201,
+    "horizon": 300.0,
+    "record_dt": 2.5,
+    "cache_sha256": "e8e307da8e70eead9d032daa7e39156c63051bb940b66cf30713ad86d330b31c",
+    "construction": "scripts/render_world_movies.py capture('bf')"
+  },
+  "p4_film": {
+    "reference_bundle": {
+      "source": "https://huggingface.co/datasets/seanpohorence/physim-worlds/resolve/dcd6abd5eae76a47f326c70518315d2d1e101d86/bundles/p4g2_044/0c133190c1c86450f56651b47e35f0d729f6a84c7c51a4bc7d91850a9a392ff2",
+      "bundle": "bundle:sha256:0c133190c1c86450f56651b47e35f0d729f6a84c7c51a4bc7d91850a9a392ff2",
+      "manifest_sha256": "832d821a3097b9aed4b430b1f96977547c690f62d4be74af00cc772168fd932a",
+      "world": "world:sha256:d6e85267eba7a4acb281f4d77e5dc29f1a981de74add624eaccf3ce7762d37e2",
+      "preparation": "preparation:sha256:2d4e5a56452a1c4c1e31121da5d90ce9b86de42653786f64b27e225421197c8a",
+      "suite": "suite:sha256:c411b8ccfb3db7054e0b6bc326ddd2ba0a2f42e2e4b5fbc56669e5614ccbf6ce"
+    },
+    "field_sha256": "847754b2bff40693e2f830ea083a97d1b23a513fab50ad11ca7f9d44399cc7ea",
+    "seed": 926203,
+    "horizon": 450.0,
+    "record_dt": 2.5,
+    "cache_sha256": "906528211891855031813adb51139ec6a60661808dfcfd7922415df7fe8a26e6",
+    "construction": "scripts/render_world_movies.py capture('p4g2_044')"
+  },
+  "verification": {
+    "causal_check_member0_bitwise": [
+      "feedback_removed_sham",
+      "feedback_removed_trail_pulse",
+      "sham",
+      "trail_pulse"
+    ],
+    "crop_readings_match_oracle_queries": true,
+    "feedback_removed_u0_x0_x1_identical": true,
+    "time50_u0_effect_rms": {
+      "coupled": 0.7538068654377179,
+      "feedback_removed": 0.0
+    }
+  },
+  "display": {
+    "fields": [
+      {
+        "key": "u0",
+        "role": "excitation",
+        "hue": "#2a78d6",
+        "vmin": -0.7,
+        "vmax": 1.1,
+        "ticks": [
+          -0.7,
+          0,
+          1
+        ]
+      },
+      {
+        "key": "x0",
+        "role": "slow inhibitor",
+        "hue": "#1baf7a",
+        "vmin": 0.0,
+        "vmax": 1.05,
+        "ticks": [
+          0,
+          0.5,
+          1
+        ]
+      },
+      {
+        "key": "x1",
+        "role": "fast inhibitor",
+        "hue": "#4a3aa7",
+        "vmin": 0.0,
+        "vmax": 0.55,
+        "ticks": [
+          0,
+          0.25,
+          0.5
+        ]
+      },
+      {
+        "key": "x2",
+        "role": "trail",
+        "hue": "#eb6834",
+        "vmin": 0.0,
+        "vmax": 0.25,
+        "ticks": [
+          0,
+          0.01,
+          0.03,
+          0.1,
+          0.25
+        ],
+        "asinh_linear_width": 0.004
+      }
+    ],
+    "lab_view": {
+      "center": "device center",
+      "half_width": 16.0
+    },
+    "world_view": {
+      "center_offset_from_device_yx": [
+        -6.0,
+        4.0
+      ],
+      "half_width": 28.0
+    },
+    "glyphs": "device 0 circles, device 1 squares, source plus; pulse ring of radius sigma on its field only"
+  },
+  "figures": {
+    "apparatus": {
+      "desktop": {
+        "time": 0,
+        "half_width": 16.0,
+        "file": "bf-apparatus.png"
+      },
+      "mobile": {
+        "time": 0,
+        "half_width": 16.0,
+        "file": "bf-apparatus-mobile.png"
+      }
+    },
+    "fields": {
+      "desktop": {
+        "time": 0,
+        "view_center_from_device": [
+          -6.0,
+          4.0
+        ],
+        "half_width": 28.0,
+        "file": "bf-fields.png"
+      },
+      "mobile": {
+        "time": 0,
+        "view_center_from_device": [
+          -6.0,
+          4.0
+        ],
+        "half_width": 28.0,
+        "file": "bf-fields-mobile.png"
+      }
+    },
+    "grid": {
+      "mobile": {
+        "field": "u0",
+        "time": 0,
+        "grid": [
+          256,
+          256
+        ],
+        "spacing": 0.5,
+        "domain": 128.0,
+        "zoom_half_width": 8.0,
+        "cell_window_yx": [
+          [
+            -1.0,
+            1.5
+          ],
+          [
+            2.0,
+            4.5
+          ]
+        ],
+        "file": "bf-grid-mobile.png"
+      },
+      "desktop": {
+        "field": "u0",
+        "time": 0,
+        "grid": [
+          256,
+          256
+        ],
+        "spacing": 0.5,
+        "domain": 128.0,
+        "zoom_half_width": 8.0,
+        "cell_window_yx": [
+          [
+            -1.0,
+            1.5
+          ],
+          [
+            2.0,
+            4.5
+          ]
+        ],
+        "file": "bf-grid.png"
+      }
+    },
+    "p4-film": {
+      "desktop": {
+        "files": [
+          "p4g2_044-highlights.mp4",
+          "p4g2_044-highlights.jpg"
+        ],
+        "encoding": {
+          "width": 1640,
+          "height": 588,
+          "frames": 193,
+          "checked_frames": [
+            0,
+            192
+          ],
+          "mean_absolute_pixel_errors": [
+            1.2168083900226758,
+            1.1945121951219513
+          ]
+        },
+        "fps": 12,
+        "hold_frames": 12,
+        "poster_time": 300.0,
+        "times": [
+          0.0,
+          450.0
+        ],
+        "view": {
+          "center_yx": [
+            30.0,
+            50.0
+          ],
+          "half_width": 40.0
+        },
+        "fields": [
+          {
+            "key": "u0",
+            "index": 0,
+            "role": "blobs",
+            "hue": "#2a78d6",
+            "vmin": -1.0,
+            "vmax": 1.1,
+            "ticks": [
+              -1,
+              0,
+              1
+            ]
+          },
+          {
+            "key": "u1",
+            "index": 1,
+            "role": "stripes",
+            "hue": "#1baf7a",
+            "vmin": -1.3,
+            "vmax": 1.25,
+            "ticks": [
+              -1,
+              0,
+              1
+            ]
+          },
+          {
+            "key": "u3",
+            "index": 3,
+            "role": "labyrinth",
+            "hue": "#4a3aa7",
+            "vmin": -1.7,
+            "vmax": 1.7,
+            "ticks": [
+              -1.5,
+              0,
+              1.5
+            ],
+            "reverse": true
+          },
+          {
+            "key": "x7",
+            "index": 11,
+            "role": "slow memory",
+            "hue": "#eb6834",
+            "vmin": 0.0,
+            "vmax": 0.03,
+            "ticks": [
+              0,
+              0.01,
+              0.02,
+              0.03
+            ]
+          }
+        ]
+      },
+      "mobile": {
+        "files": [
+          "p4g2_044-highlights-mobile.mp4",
+          "p4g2_044-highlights-mobile.jpg"
+        ],
+        "encoding": {
+          "width": 984,
+          "height": 1316,
+          "frames": 193,
+          "checked_frames": [
+            0,
+            192
+          ],
+          "mean_absolute_pixel_errors": [
+            1.1703182478592846,
+            1.1470990860098715
+          ]
+        },
+        "fps": 12,
+        "hold_frames": 12,
+        "poster_time": 300.0,
+        "times": [
+          0.0,
+          450.0
+        ],
+        "view": {
+          "center_yx": [
+            30.0,
+            50.0
+          ],
+          "half_width": 40.0
+        },
+        "fields": [
+          {
+            "key": "u0",
+            "index": 0,
+            "role": "blobs",
+            "hue": "#2a78d6",
+            "vmin": -1.0,
+            "vmax": 1.1,
+            "ticks": [
+              -1,
+              0,
+              1
+            ]
+          },
+          {
+            "key": "u1",
+            "index": 1,
+            "role": "stripes",
+            "hue": "#1baf7a",
+            "vmin": -1.3,
+            "vmax": 1.25,
+            "ticks": [
+              -1,
+              0,
+              1
+            ]
+          },
+          {
+            "key": "u3",
+            "index": 3,
+            "role": "labyrinth",
+            "hue": "#4a3aa7",
+            "vmin": -1.7,
+            "vmax": 1.7,
+            "ticks": [
+              -1.5,
+              0,
+              1.5
+            ],
+            "reverse": true
+          },
+          {
+            "key": "x7",
+            "index": 11,
+            "role": "slow memory",
+            "hue": "#eb6834",
+            "vmin": 0.0,
+            "vmax": 0.03,
+            "ticks": [
+              0,
+              0.01,
+              0.02,
+              0.03
+            ]
+          }
+        ]
+      }
+    },
+    "pulse": {
+      "desktop": {
+        "files": [
+          "bf-pulse.mp4",
+          "bf-pulse.jpg"
+        ],
+        "encoding": {
+          "width": 1640,
+          "height": 584,
+          "frames": 43,
+          "checked_frames": [
+            0,
+            42
+          ],
+          "mean_absolute_pixel_errors": [
+            0.4323229897538701,
+            0.47273116438356166
+          ]
+        },
+        "fps": 6,
+        "hold_frames": 12,
+        "poster_time": 5.0,
+        "run": "trail_pulse",
+        "field": "x2",
+        "times": [
+          0.0,
+          15.0
+        ]
+      },
+      "mobile": {
+        "files": [
+          "bf-pulse-mobile.mp4",
+          "bf-pulse-mobile.jpg"
+        ],
+        "encoding": {
+          "width": 984,
+          "height": 694,
+          "frames": 43,
+          "checked_frames": [
+            0,
+            42
+          ],
+          "mean_absolute_pixel_errors": [
+            0.6131196791765897,
+            0.6827469429095445
+          ]
+        },
+        "fps": 6,
+        "hold_frames": 12,
+        "poster_time": 5.0,
+        "run": "trail_pulse",
+        "field": "x2",
+        "times": [
+          0.0,
+          15.0
+        ]
+      }
+    },
+    "score-video": {
+      "desktop": {
+        "files": [
+          "bf-score.mp4",
+          "bf-score.jpg"
+        ],
+        "encoding": {
+          "width": 1640,
+          "height": 584,
+          "frames": 125,
+          "checked_frames": [
+            0,
+            124
+          ],
+          "mean_absolute_pixel_errors": [
+            0.6231536780265063,
+            1.1252446681144894
+          ]
+        },
+        "fps": 12,
+        "hold_frames": 24,
+        "run": "trail_pulse",
+        "device": 0,
+        "scored_times": {
+          "u0": [
+            5,
+            10,
+            20,
+            30,
+            40,
+            50
+          ],
+          "x2": [
+            5,
+            10,
+            20,
+            30,
+            50
+          ]
+        },
+        "score_groups_source": "generators/physim/build_evaluation_bundle.py::score_groups"
+      },
+      "mobile": {
+        "files": [
+          "bf-score-mobile.mp4",
+          "bf-score-mobile.jpg"
+        ],
+        "encoding": {
+          "width": 984,
+          "height": 1292,
+          "frames": 125,
+          "checked_frames": [
+            0,
+            124
+          ],
+          "mean_absolute_pixel_errors": [
+            0.6440048259893908,
+            1.0866056753131434
+          ]
+        },
+        "fps": 12,
+        "hold_frames": 24,
+        "run": "trail_pulse",
+        "device": 0,
+        "scored_times": {
+          "u0": [
+            5,
+            10,
+            20,
+            30,
+            40,
+            50
+          ],
+          "x2": [
+            5,
+            10,
+            20,
+            30,
+            50
+          ]
+        },
+        "score_groups_source": "generators/physim/build_evaluation_bundle.py::score_groups"
+      }
+    },
+    "sensor-grid": {
+      "desktop": {
+        "adjust_u": [
+          0.2,
+          -0.4,
+          0.1
+        ],
+        "sensor": "device 0, canonical index 1",
+        "position_from_device_center": [
+          0.20000000000000284,
+          2.9155127542269383
+        ],
+        "weights": {
+          "00": 0.10138469492767303,
+          "01": 0.49861530507232127,
+          "10": 0.06758979661845028,
+          "11": 0.3324102033815554
+        },
+        "u0_values": {
+          "00": 0.46946626901626587,
+          "01": 0.03364306688308716,
+          "10": 0.44877731800079346,
+          "11": 0.013932853937149048
+        },
+        "u0_reading": 0.09933583298210645,
+        "time": 0,
+        "file": "bf-sensor-grid.png"
+      },
+      "mobile": {
+        "adjust_u": [
+          0.2,
+          -0.4,
+          0.1
+        ],
+        "sensor": "device 0, canonical index 1",
+        "position_from_device_center": [
+          0.20000000000000284,
+          2.9155127542269383
+        ],
+        "weights": {
+          "00": 0.10138469492767303,
+          "01": 0.49861530507232127,
+          "10": 0.06758979661845028,
+          "11": 0.3324102033815554
+        },
+        "u0_values": {
+          "00": 0.46946626901626587,
+          "01": 0.03364306688308716,
+          "10": 0.44877731800079346,
+          "11": 0.013932853937149048
+        },
+        "u0_reading": 0.09933583298210645,
+        "time": 0,
+        "file": "bf-sensor-grid-mobile.png"
+      }
+    },
+    "walk": {
+      "desktop": {
+        "files": [
+          "bf-walk.mp4",
+          "bf-walk.jpg"
+        ],
+        "encoding": {
+          "width": 1640,
+          "height": 584,
+          "frames": 99,
+          "checked_frames": [
+            0,
+            98
+          ],
+          "mean_absolute_pixel_errors": [
+            0.36309026617663437,
+            1.0289717674574006
+          ]
+        },
+        "fps": 12,
+        "hold_frames": 18,
+        "poster_time": 40.0,
+        "run": "walk",
+        "field": "x2",
+        "times": [
+          0.0,
+          40.0
+        ]
+      },
+      "mobile": {
+        "files": [
+          "bf-walk-mobile.mp4",
+          "bf-walk-mobile.jpg"
+        ],
+        "encoding": {
+          "width": 984,
+          "height": 694,
+          "frames": 99,
+          "checked_frames": [
+            0,
+            98
+          ],
+          "mean_absolute_pixel_errors": [
+            0.6488051244148805,
+            0.9862553134910859
+          ]
+        },
+        "fps": 12,
+        "hold_frames": 18,
+        "poster_time": 40.0,
+        "run": "walk",
+        "field": "x2",
+        "times": [
+          0.0,
+          40.0
+        ]
+      }
+    },
+    "world": {
+      "desktop": {
+        "files": [
+          "bf-world.mp4",
+          "bf-world.jpg"
+        ],
+        "encoding": {
+          "width": 1640,
+          "height": 588,
+          "frames": 137,
+          "checked_frames": [
+            0,
+            136
+          ],
+          "mean_absolute_pixel_errors": [
+            0.9593381864941098,
+            0.9010314694983684
+          ]
+        },
+        "fps": 16,
+        "hold_frames": 16,
+        "poster_time": 150.0,
+        "times": [
+          0.0,
+          300.0
+        ]
+      },
+      "mobile": {
+        "files": [
+          "bf-world-mobile.mp4",
+          "bf-world-mobile.jpg"
+        ],
+        "encoding": {
+          "width": 984,
+          "height": 1316,
+          "frames": 137,
+          "checked_frames": [
+            0,
+            136
+          ],
+          "mean_absolute_pixel_errors": [
+            0.9246298185415314,
+            0.8827954496275001
+          ]
+        },
+        "fps": 16,
+        "hold_frames": 16,
+        "poster_time": 150.0,
+        "times": [
+          0.0,
+          300.0
+        ]
+      }
+    }
+  }
+}

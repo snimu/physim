@@ -35,13 +35,6 @@ class WorldEquationTests(unittest.TestCase):
                     for i in range(len(fields)):
                         values[f"{symbol}{i}"] = rng.uniform(-2, 2)
                         values[f"lap_{symbol}{i}"] = rng.uniform(-0.8, 0.8)
-                for lhs, expression in displayed["background"]:
-                    values[lhs] = eval(rendered_expression(expression), {"__builtins__": {}}, values)
-                for lhs, expression in displayed["drives"]:
-                    code = rendered_expression(expression)
-                    values[lhs.split("(")[0]] = lambda z, code=code: eval(
-                        code, {"__builtins__": {}}, {"z": z, "max": max, "tanh": math.tanh}
-                    )
                 for i, (lhs, expression) in enumerate(displayed["activators"]):
                     act = genome["acts"][i]
                     u = values[f"u{i}"]
@@ -71,9 +64,15 @@ class WorldEquationTests(unittest.TestCase):
     def test_exact_coefficients_and_zero_diffusion_survive_rendering(self):
         path = ROOT / "docs_source/data/genomes/bf.json"
         laws = equations(json.loads(path.read_text(), parse_float=Decimal))
-        self.assertIn("0.7035399190279497", math_html(laws["background"][0][1]))
-        self.assertIn("0.9529890666304698", math_html(laws["drives"][0][1]))
+        self.assertIn("0.7035399190279497", math_html(laws["channels"][0][1]))
+        # Background 0.7035399190279497 and threshold 0.9529890666304698, combined exactly.
+        self.assertIn("u0 - 0.2494491476025201", laws["channels"][2][1])
+        self.assertNotIn("z", "".join(rhs for _, rhs in laws["activators"] + laws["channels"]))
         self.assertNotIn("lap_x2", laws["channels"][2][1])
+        shown = equations(json.loads(path.read_text(), parse_float=Decimal), digits=4)
+        self.assertIn("u0 - 0.2494", shown["channels"][2][1])
+        self.assertIn("0.7018 * lap_x0", shown["channels"][0][1])
+        self.assertNotIn("0.2494491476025201", shown["channels"][2][1])
         self.assertTrue(laws["channels"][2][1].endswith("/ 200"))
         self.assertIn("- x2 * x1", laws["activators"][0][1])
 

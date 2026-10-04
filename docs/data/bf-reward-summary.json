@@ -13,7 +13,7 @@
       "model": "qwen/qwen3.5-397b-a17b",
       "name": "Qwen3.5 397B A17B",
       "energy": 0.9622214433547235,
-      "reward": 0.008362484480154456
+      "reward": 0.008362484480154454
     },
     {
       "model": "openai/gpt-5.6-luna",
@@ -25,7 +25,7 @@
       "model": "x-ai/grok-4.6",
       "name": "Grok 4.6",
       "energy": 0.15773178069936702,
-      "reward": 0.4010403968618596
+      "reward": 0.40104039686185966
     },
     {
       "model": "openai/gpt-5.6-terra",
