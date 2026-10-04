@@ -17,6 +17,16 @@ the slow preset, `+faststart`, and no metadata. `ds3_014-intro.jpg` is the frame
 at five seconds, used as the video's loading poster. These are static media
 inputs preserved by `scripts/build_docs.py`.
 
+## Earlier media
+
+The rest of this folder comes from earlier versions of the page and is not shown on
+the current one; the BF and p4g2_044 films it uses are in `../bf-thread/`.
+`bf-fields`, `xv-fields` and `p4g2_044-fields` (MP4, poster and provenance JSON)
+are field films from `scripts/render_world_movies.py`. `early-travel` and
+`early-binding` come from `scripts/render_intro_examples.py`. `scripts/check_docs.py`
+verifies all five against their records; `docs_source/README.md` describes both
+generators.
+
 ## BF and XV field snapshots
 
 `bf-sham.png` and `bf-trail-pulse.png` show activator 0 at time 50 from
