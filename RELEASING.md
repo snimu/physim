@@ -2,9 +2,16 @@
 
 Code is Apache-2.0 and world data are CC-BY-4.0. The approved dataset destination
 is `seanpohorence/physim-worlds`, recorded in `configs/physim/release.toml`.
+The file's top-level dataset revision, release ID, and date identify the published
+snapshot. Its `[code_packages]` table, including `source_commit`, instead records
+the current workspace pins that `prepare_world_release.py` copies into the next
+export. Published provenance remains in each release's own immutable `release.json`:
+the [September 28 manifest](https://huggingface.co/datasets/seanpohorence/physim-worlds/blob/bd77a0da2f14eef352bd80c4a38dff426e5c1bed/release.json)
+records residency commit `49ed83a54a453ec9c875d7d4fde1b8bcb5f13e03`.
+
 Runtime code and documentation belong in GitHub; world payloads and their
 generation provenance belong in that separate Hugging Face dataset. Archived
-recipe source artifacts retain the code license. The current [public snapshot](https://huggingface.co/datasets/seanpohorence/physim-worlds/tree/dcd6abd5eae76a47f326c70518315d2d1e101d86)
+recipe source artifacts retain the code license. The original [public snapshot](https://huggingface.co/datasets/seanpohorence/physim-worlds/tree/dcd6abd5eae76a47f326c70518315d2d1e101d86)
 was published on 2026-09-14 at `dcd6abd5eae76a47f326c70518315d2d1e101d86`.
 It contains 24 world records, 19 distinct genomes, three eval-ready preparations,
 and 204 provenance artifacts. All 330 files were downloaded anonymously and

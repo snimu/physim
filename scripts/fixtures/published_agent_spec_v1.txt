@@ -26,10 +26,10 @@ within that experiment.
 The `inject` command accepts these keys:
 
 ```json
-{"t": 1.0, "kind": "inject", "port": 2, "amp": 0.7, "dur": 4.0}
+{"t": 1.0, "kind": "inject", "port": {example_port}, "amp": 0.7, "dur": 4.0}
 ```
 
-`port` is an integer from 0 to 11. `amp` is a finite
+`port` is an integer from 0 to {last_port}. `amp` is a finite
 number in [0,3]; zero is permitted. `dur` is in (0,50] and must be a multiple
 of 0.02. This command occupies the interval [t,t+dur) for scheduling purposes.
 Learn how these inputs affect subsequent measurements through experiments.
@@ -61,7 +61,7 @@ unsupported. Actions execute before measurements requested at the same time.
 ]
 ```
 
-Each measurement interface returns 12 channels. `device0` has 13 output
+Each measurement interface returns {n_ports} channels. `device0` has 13 output
 slots per channel, `device1` has 19, and `global` has 2. Channel and slot indices
 are stable labels. Their behavior and relationships are for you to investigate.
 
@@ -90,7 +90,7 @@ with np.load(observation_path, allow_pickle=False) as data:
                     for i, query in enumerate(request["queries"])]
 ```
 
-An observation array has shape `(1, number_of_requested_times, 12, slots)`.
+An observation array has shape `(1, number_of_requested_times, {n_ports}, slots)`.
 The leading dimension is one measured outcome. `query0` is the first query in
 that file, not a fixed measurement interface. Align query identities and times
 when comparing experiments. There is no separate metadata JSON file. Analyze
@@ -113,7 +113,7 @@ parameters with your code.
 Return one numeric array for each query, in input order, with shape:
 
 ```text
-(n_samples, number_of_requested_times, 12, number_of_output_slots)
+(n_samples, number_of_requested_times, {n_ports}, number_of_output_slots)
 ```
 
 Use the output slot counts defined above and preserve each query's chronological
@@ -148,26 +148,26 @@ are averaged over predeclared groups of outputs and test programs.
 
 Lower average energy S is better. Your reward is
 max(0, min(-log10(S), K)) / K, with reward 1 when S is zero.
-The requested precision is K = 2: full reward is reached when
-S <= 10^(-2), and S >= 1 receives zero. This target describes the
+The requested precision is K = {reward_precision}: full reward is reached when
+S <= {reward_threshold}, and S >= 1 receives zero. This target describes the
 required reduction in normalized prediction error, not a percentage accuracy.
 A missing or invalid predictor receives zero reward. Validation gives no feedback
 about the energy score; use your own experiments to improve your predictions.
 
 ## Limits and runtime
 
-Use the bash and edit tools to run commands and work with files.
+{coding_tools}
 NumPy, SciPy, scikit-learn and Matplotlib are installed. Work in `/workspace`;
 your files persist throughout experimentation. Laboratory tools are your only
 access to the world.
 
-The experiment budget is 1000 experiments and 50000
+The experiment budget is {max_experiments} experiments and {max_total_tu}
 integrated time units. Each admitted request consumes one experiment and its
 largest query timestamp in time units. Empty requests consume one experiment
 and zero time units. Invalid requests consume neither; an admitted execution
 that fails retains its charge. `laboratory_usage()` reports consumption, limits,
-and validation/submission attempt counts. Validation attempts: 128;
-submission attempts: 128. Neither consumes experiments or
+and validation/submission attempt counts. Validation attempts: {max_validation_attempts};
+submission attempts: {max_submission_attempts}. Neither consumes experiments or
 time units.
 
 The default prediction request asks for 64 samples; at most 256 are accepted.
@@ -179,6 +179,6 @@ During validation and grading, your predictor runs in a separate Docker containe
 Inside that container, `/workspace` contains your frozen submitted files and
 `/observations` contains your experimental data; both are read-only. `/tmp` is
 writable for temporary computation. No network access or further laboratory
-calls are available. Each predictor call can use 1 CPUs and
-1 GiB memory, with limits of 20 CPU seconds
-and 30 wall-clock seconds.
+calls are available. Each predictor call can use {predictor_cpus} CPUs and
+{predictor_memory_gib} GiB memory, with limits of {predictor_cpu_seconds} CPU seconds
+and {predictor_wall_seconds} wall-clock seconds.

@@ -31,7 +31,7 @@ dev = [
 
 [tool.ruff]
 line-length = 120
-extend-exclude = ["probes", "handoff", "docs", "docs_source", "packages/blobkit/blobkit", "build", "dist", "outputs"]
+extend-exclude = ["probes", "handoff", "docs", "docs_source", "packages/blobkit/blobkit", "scripts/fixtures", "build", "dist", "outputs"]
 
 [tool.ruff.lint]
 select = ["F", "I"]

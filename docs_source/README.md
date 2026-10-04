@@ -74,9 +74,11 @@ score improvement. Costs refer to that displayed attempt. All attempts and costs
 remain in the snapshot; this display rule does not change the research ledger.
 
 `examples/` is the source for downloadable code, request JSON, and the public
-agent contract. Keep the contract aligned with `physim/data/agent_spec.txt` and check the
-runnable predictor when changing the API. The zero example demonstrates shapes;
-it is not a physical accuracy test.
+agent manuals. Keep `AGENT_SPEC.md` and `AGENT_SPEC_V1.md` aligned with their frozen
+`scripts/fixtures/published_agent_spec.txt` and `published_agent_spec_v1.txt` templates.
+These website downloads do not supply live agent instructions; those belong to the
+residency environment package. Check the runnable predictor when changing the API.
+The zero example demonstrates shapes; it is not a physical accuracy test.
 
 `archive-map.json` records the 29 original pages and their archive destinations.
 Historical HTML lives under `docs/archive/` with an archive banner. Existing media
@@ -103,9 +105,11 @@ are separate release steps, not side effects of building the documentation.
 ## Reward revision and fresh media
 
 The historical BF snapshot and its original rewards are immutable inputs. The build
-loads the standard-library-only runtime helper `physim/rewards.py` and writes
+loads the frozen, hash-checked helper `scripts/fixtures/published_rewards.py` and writes
 `docs/data/bf-reward-summary.json` with newly mapped rewards, K, and the original
-snapshot hash. It does not rerun inference or overwrite the original scores.
+snapshot hash. The fixture provenance is recorded in `scripts/fixtures/README.md`;
+environment dependency updates do not change this published mapping. The build
+does not rerun inference or overwrite the original scores.
 Current prompts disclose K under `interface-only-v3-log-reward`; the historical
 rollouts used `interface-only-v2` and are labeled as retrospectively remapped.
 
