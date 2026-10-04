@@ -1167,7 +1167,6 @@ def film_world(lab, film, L, fps=16, hold=16, poster_t=150.0):
     row_h = title + L.panel + bar
     top = 0.34
     cv = Canvas(L.W, top + L.rows * row_h, dpi=L.dpi)
-    cv.text(L.x0, 0.1, "Unforced continuation · no sources applied", fontsize=8.5, color=MUTED, va="top")
     clock = Clock(cv, L.W - L.x0, 0.1, times.max())
     images = []
     for i, f in enumerate(FIELDS):
