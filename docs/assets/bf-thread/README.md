@@ -55,25 +55,22 @@ p4g2_044 film downloads that world's published reference bundle once (about 3 MB
 | `bf-world.mp4` | PhySim Worlds | Four fields over an unforced 300-unit continuation (seed of the published BF film); poster at t = 150 |
 | `bf-grid.png` | PhySim Worlds | Whole domain of u₀ → 16 × 16 units around one blob → 6 × 6 grid points with their stored values |
 | `bf-apparatus.png` | Running experiments | Both devices and their shared source on every field |
-| `bf-sensor-grid.png` | Sensors | A sensor between grid points, its bilinear weights, and its four readings |
-| `bf-pulse.mp4` | Sources | The high trail pulse (suite c006) with device-0 readings, with and without the pulse |
-| `bf-walk.mp4` | Adjustments | Device 0 shifts down, then right, launches a pulse mid-walk, then dilates |
-| `bf-score.mp4` | Evaluating agents | What suite experiment c006 is scored on: the four score groups, their scales, and where the pulse shows up in each |
+| `bf-sensor-grid.png` | Sensors | One sensor between four grid points of u₀: each point's value, its bilinear weight, and the weighted sum that is the reading |
+| `bf-pulse.mp4` | Sources | The high trail pulse (suite c006) on x₂ alone: the Gaussian bump it builds along a line through the device center, with the sensors on that line |
+| `bf-walk.mp4` | Adjustments | Device 0 shifts down, then right, then dilates over x₂, with its 13 x₂ readings |
+| `bf-score.mp4` | Evaluating agents | Suite experiment c006 at device 0: u₀ and x₂ with their readings, and the scored readings marked as their times pass |
 | `p4g2_044-highlights.mp4` | Discovering new worlds | u₀, u₁, u₃ and x₇ of p4g2_044's twelve fields over an unforced 450-unit continuation of the published preparation, in the published film's 80 × 80 window; poster at t = 300 |
 
-`bf-score.png` is the static version of the scoring film. `bf-walk` is an apparatus
-demonstration, not a suite case; all other BF experiment figures use suite actions.
-Every comparison shares future noise (truth seed 53001, member 0, the recorded
-causal-check seed).
+`bf-walk` is an apparatus demonstration, not a suite case; the other BF experiment
+films use the suite action of c006. Runs share future noise (truth seed 53001,
+member 0, the recorded causal-check seed).
 
-`bf-score` takes its groups from `score_groups()` in
+`bf-score` takes its scored times from `score_groups()` in
 `generators/physim/build_evaluation_bundle.py`, the function that built the BF
-suite, so the figure follows any change to the groups. Every BF experiment is
-scored on the same four groups; x₁ and the global sensor are recorded but not
-scored. "Effect of the pulse" is the RMS difference between the c006 readings and
-the no-pulse readings after scaling. A forecast that ignored the pulse would score
-roughly that energy in each group. At t = 50 the activator-history value (0.754)
-equals the recorded causal-check effect.
+suite, so the film follows any change to the groups. Every BF experiment is scored
+on the same four groups (u₀, x₀ and x₂ at device 0, u₀ at device 1); the film shows
+the two the page discusses, u₀ and x₂ at device 0. Figures carry labels only; the
+page captions explain them.
 
 ## Checks before drawing
 

@@ -1,7 +1,7 @@
 {
   "description": "BF thread figures: native simulations of the recorded BF preparation; no inference.",
   "script": "scripts/render_bf_thread.py",
-  "script_sha256": "a1d33b16f995e1015c0ba2759df309f8d84bf02a05bf99ea5db1d8437512a52e",
+  "script_sha256": "5b22ac92205af7a70b1023917a8981c72c187a4a6e0e8dce148b0393a877d2fa",
   "inputs": {
     "genome": {
       "path": "registry/artifact/d59f7d9d7ffdb0251bceb2f989f91d2e2ac86dce4409f5d36f3f3e65cad3e038.bin",
@@ -196,14 +196,6 @@
           ]
         },
         {
-          "t": 18,
-          "kind": "inject",
-          "device": 0,
-          "port": 2,
-          "amp": 0.05,
-          "dur": 5
-        },
-        {
           "t": 20,
           "kind": "adjust",
           "device": 0,
@@ -240,7 +232,7 @@
       "member": 0,
       "record_dt": 0.5,
       "horizon": 50.0,
-      "cache_sha256": "36e3738b9e6bbd6dd1979c92e6f926e90d7c92adcd136250f69f1348b297edcc"
+      "cache_sha256": "f64a5e17fd716801f31579e62688d4d9ab7c889a4658c01d93ce8e283ae81605"
     }
   },
   "film": {
@@ -614,20 +606,26 @@
         ],
         "encoding": {
           "width": 1640,
-          "height": 952,
-          "frames": 119,
+          "height": 584,
+          "frames": 43,
           "checked_frames": [
             0,
-            118
+            42
           ],
           "mean_absolute_pixel_errors": [
-            0.698328081232493,
-            1.1555343478854956
+            0.4323229897538701,
+            0.47273116438356166
           ]
         },
-        "fps": 12,
-        "poster_time": 40.0,
-        "hold_frames": 18
+        "fps": 6,
+        "hold_frames": 12,
+        "poster_time": 5.0,
+        "run": "trail_pulse",
+        "field": "x2",
+        "times": [
+          0.0,
+          15.0
+        ]
       },
       "mobile": {
         "files": [
@@ -636,788 +634,110 @@
         ],
         "encoding": {
           "width": 984,
-          "height": 2102,
-          "frames": 119,
+          "height": 694,
+          "frames": 43,
           "checked_frames": [
             0,
-            118
+            42
           ],
           "mean_absolute_pixel_errors": [
-            0.7055751200946834,
-            1.1105077368566265
+            0.6131196791765897,
+            0.6827469429095445
           ]
         },
-        "fps": 12,
-        "poster_time": 40.0,
-        "hold_frames": 18
-      }
-    },
-    "score": {
-      "desktop": {
-        "case": "c006",
+        "fps": 6,
+        "hold_frames": 12,
+        "poster_time": 5.0,
         "run": "trail_pulse",
-        "baseline": "sham",
-        "query_times": [
-          0,
-          2,
-          5,
-          8,
-          10,
-          12,
-          15,
-          20,
-          22,
-          25,
-          30,
-          35,
-          40,
-          45,
-          50
-        ],
-        "groups": [
-          {
-            "id": "activator_history",
-            "device": 0,
-            "field": "u0",
-            "port": 1,
-            "times": [
-              5,
-              10,
-              20,
-              30,
-              40,
-              50
-            ],
-            "slots": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10,
-              11,
-              12
-            ],
-            "scale": 1.0,
-            "values": 78,
-            "effect_rms_by_time": [
-              0.058695236533680965,
-              0.13875175876003382,
-              0.12394375887352474,
-              0.5666850692592302,
-              0.5483751934889555,
-              0.7538068654377179
-            ],
-            "effect_rms": 0.45242519596261643
-          },
-          {
-            "id": "local_feedback",
-            "device": 0,
-            "field": "x0",
-            "port": 3,
-            "times": [
-              5,
-              10,
-              20,
-              30,
-              50
-            ],
-            "slots": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10,
-              11,
-              12
-            ],
-            "scale": 0.5,
-            "values": 65,
-            "effect_rms_by_time": [
-              0.022502369765785932,
-              0.0944257618647286,
-              0.09340403482024726,
-              0.32956882706104934,
-              0.5972044208961536
-            ],
-            "effect_rms": 0.31093910239074746
-          },
-          {
-            "id": "slow_memory",
-            "device": 0,
-            "field": "x2",
-            "port": 2,
-            "times": [
-              5,
-              10,
-              20,
-              30,
-              50
-            ],
-            "slots": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10,
-              11,
-              12
-            ],
-            "scale": 0.05,
-            "values": 65,
-            "effect_rms_by_time": [
-              1.6579688633649705,
-              1.6151508951075533,
-              1.5344996793436898,
-              1.455347449898161,
-              1.3050605077956028
-            ],
-            "effect_rms": 1.5187811929763384
-          },
-          {
-            "id": "wide_spatial_response",
-            "device": 1,
-            "field": "u0",
-            "port": 1,
-            "times": [
-              10,
-              30,
-              50
-            ],
-            "slots": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10,
-              11,
-              12,
-              13,
-              14,
-              15,
-              16,
-              17,
-              18
-            ],
-            "scale": 1.0,
-            "values": 57,
-            "effect_rms_by_time": [
-              0.011810868140100857,
-              0.4082144394152014,
-              0.11203651909777654
-            ],
-            "effect_rms": 0.2444931537997444
-          }
-        ],
-        "source": "generators/physim/build_evaluation_bundle.py::score_groups",
-        "file": "bf-score.png"
-      },
-      "mobile": {
-        "case": "c006",
-        "run": "trail_pulse",
-        "baseline": "sham",
-        "query_times": [
-          0,
-          2,
-          5,
-          8,
-          10,
-          12,
-          15,
-          20,
-          22,
-          25,
-          30,
-          35,
-          40,
-          45,
-          50
-        ],
-        "groups": [
-          {
-            "id": "activator_history",
-            "device": 0,
-            "field": "u0",
-            "port": 1,
-            "times": [
-              5,
-              10,
-              20,
-              30,
-              40,
-              50
-            ],
-            "slots": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10,
-              11,
-              12
-            ],
-            "scale": 1.0,
-            "values": 78,
-            "effect_rms_by_time": [
-              0.058695236533680965,
-              0.13875175876003382,
-              0.12394375887352474,
-              0.5666850692592302,
-              0.5483751934889555,
-              0.7538068654377179
-            ],
-            "effect_rms": 0.45242519596261643
-          },
-          {
-            "id": "local_feedback",
-            "device": 0,
-            "field": "x0",
-            "port": 3,
-            "times": [
-              5,
-              10,
-              20,
-              30,
-              50
-            ],
-            "slots": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10,
-              11,
-              12
-            ],
-            "scale": 0.5,
-            "values": 65,
-            "effect_rms_by_time": [
-              0.022502369765785932,
-              0.0944257618647286,
-              0.09340403482024726,
-              0.32956882706104934,
-              0.5972044208961536
-            ],
-            "effect_rms": 0.31093910239074746
-          },
-          {
-            "id": "slow_memory",
-            "device": 0,
-            "field": "x2",
-            "port": 2,
-            "times": [
-              5,
-              10,
-              20,
-              30,
-              50
-            ],
-            "slots": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10,
-              11,
-              12
-            ],
-            "scale": 0.05,
-            "values": 65,
-            "effect_rms_by_time": [
-              1.6579688633649705,
-              1.6151508951075533,
-              1.5344996793436898,
-              1.455347449898161,
-              1.3050605077956028
-            ],
-            "effect_rms": 1.5187811929763384
-          },
-          {
-            "id": "wide_spatial_response",
-            "device": 1,
-            "field": "u0",
-            "port": 1,
-            "times": [
-              10,
-              30,
-              50
-            ],
-            "slots": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10,
-              11,
-              12,
-              13,
-              14,
-              15,
-              16,
-              17,
-              18
-            ],
-            "scale": 1.0,
-            "values": 57,
-            "effect_rms_by_time": [
-              0.011810868140100857,
-              0.4082144394152014,
-              0.11203651909777654
-            ],
-            "effect_rms": 0.2444931537997444
-          }
-        ],
-        "source": "generators/physim/build_evaluation_bundle.py::score_groups",
-        "file": "bf-score-mobile.png"
+        "field": "x2",
+        "times": [
+          0.0,
+          15.0
+        ]
       }
     },
     "score-video": {
       "desktop": {
-        "case": "c006",
-        "run": "trail_pulse",
-        "baseline": "sham",
-        "query_times": [
-          0,
-          2,
-          5,
-          8,
-          10,
-          12,
-          15,
-          20,
-          22,
-          25,
-          30,
-          35,
-          40,
-          45,
-          50
-        ],
-        "groups": [
-          {
-            "id": "activator_history",
-            "device": 0,
-            "field": "u0",
-            "port": 1,
-            "times": [
-              5,
-              10,
-              20,
-              30,
-              40,
-              50
-            ],
-            "slots": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10,
-              11,
-              12
-            ],
-            "scale": 1.0,
-            "values": 78,
-            "effect_rms_by_time": [
-              0.058695236533680965,
-              0.13875175876003382,
-              0.12394375887352474,
-              0.5666850692592302,
-              0.5483751934889555,
-              0.7538068654377179
-            ],
-            "effect_rms": 0.45242519596261643
-          },
-          {
-            "id": "local_feedback",
-            "device": 0,
-            "field": "x0",
-            "port": 3,
-            "times": [
-              5,
-              10,
-              20,
-              30,
-              50
-            ],
-            "slots": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10,
-              11,
-              12
-            ],
-            "scale": 0.5,
-            "values": 65,
-            "effect_rms_by_time": [
-              0.022502369765785932,
-              0.0944257618647286,
-              0.09340403482024726,
-              0.32956882706104934,
-              0.5972044208961536
-            ],
-            "effect_rms": 0.31093910239074746
-          },
-          {
-            "id": "slow_memory",
-            "device": 0,
-            "field": "x2",
-            "port": 2,
-            "times": [
-              5,
-              10,
-              20,
-              30,
-              50
-            ],
-            "slots": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10,
-              11,
-              12
-            ],
-            "scale": 0.05,
-            "values": 65,
-            "effect_rms_by_time": [
-              1.6579688633649705,
-              1.6151508951075533,
-              1.5344996793436898,
-              1.455347449898161,
-              1.3050605077956028
-            ],
-            "effect_rms": 1.5187811929763384
-          },
-          {
-            "id": "wide_spatial_response",
-            "device": 1,
-            "field": "u0",
-            "port": 1,
-            "times": [
-              10,
-              30,
-              50
-            ],
-            "slots": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10,
-              11,
-              12,
-              13,
-              14,
-              15,
-              16,
-              17,
-              18
-            ],
-            "scale": 1.0,
-            "values": 57,
-            "effect_rms_by_time": [
-              0.011810868140100857,
-              0.4082144394152014,
-              0.11203651909777654
-            ],
-            "effect_rms": 0.2444931537997444
-          }
-        ],
-        "source": "generators/physim/build_evaluation_bundle.py::score_groups",
         "files": [
           "bf-score.mp4",
           "bf-score.jpg"
         ],
         "encoding": {
           "width": 1640,
-          "height": 1504,
+          "height": 584,
           "frames": 125,
           "checked_frames": [
             0,
             124
           ],
           "mean_absolute_pixel_errors": [
-            0.5978561235080436,
-            0.8085221252810932
+            0.6231536780265063,
+            1.1252446681144894
           ]
         },
         "fps": 12,
-        "hold_frames": 24
+        "hold_frames": 24,
+        "run": "trail_pulse",
+        "device": 0,
+        "scored_times": {
+          "u0": [
+            5,
+            10,
+            20,
+            30,
+            40,
+            50
+          ],
+          "x2": [
+            5,
+            10,
+            20,
+            30,
+            50
+          ]
+        },
+        "score_groups_source": "generators/physim/build_evaluation_bundle.py::score_groups"
       },
       "mobile": {
-        "case": "c006",
-        "run": "trail_pulse",
-        "baseline": "sham",
-        "query_times": [
-          0,
-          2,
-          5,
-          8,
-          10,
-          12,
-          15,
-          20,
-          22,
-          25,
-          30,
-          35,
-          40,
-          45,
-          50
-        ],
-        "groups": [
-          {
-            "id": "activator_history",
-            "device": 0,
-            "field": "u0",
-            "port": 1,
-            "times": [
-              5,
-              10,
-              20,
-              30,
-              40,
-              50
-            ],
-            "slots": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10,
-              11,
-              12
-            ],
-            "scale": 1.0,
-            "values": 78,
-            "effect_rms_by_time": [
-              0.058695236533680965,
-              0.13875175876003382,
-              0.12394375887352474,
-              0.5666850692592302,
-              0.5483751934889555,
-              0.7538068654377179
-            ],
-            "effect_rms": 0.45242519596261643
-          },
-          {
-            "id": "local_feedback",
-            "device": 0,
-            "field": "x0",
-            "port": 3,
-            "times": [
-              5,
-              10,
-              20,
-              30,
-              50
-            ],
-            "slots": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10,
-              11,
-              12
-            ],
-            "scale": 0.5,
-            "values": 65,
-            "effect_rms_by_time": [
-              0.022502369765785932,
-              0.0944257618647286,
-              0.09340403482024726,
-              0.32956882706104934,
-              0.5972044208961536
-            ],
-            "effect_rms": 0.31093910239074746
-          },
-          {
-            "id": "slow_memory",
-            "device": 0,
-            "field": "x2",
-            "port": 2,
-            "times": [
-              5,
-              10,
-              20,
-              30,
-              50
-            ],
-            "slots": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10,
-              11,
-              12
-            ],
-            "scale": 0.05,
-            "values": 65,
-            "effect_rms_by_time": [
-              1.6579688633649705,
-              1.6151508951075533,
-              1.5344996793436898,
-              1.455347449898161,
-              1.3050605077956028
-            ],
-            "effect_rms": 1.5187811929763384
-          },
-          {
-            "id": "wide_spatial_response",
-            "device": 1,
-            "field": "u0",
-            "port": 1,
-            "times": [
-              10,
-              30,
-              50
-            ],
-            "slots": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10,
-              11,
-              12,
-              13,
-              14,
-              15,
-              16,
-              17,
-              18
-            ],
-            "scale": 1.0,
-            "values": 57,
-            "effect_rms_by_time": [
-              0.011810868140100857,
-              0.4082144394152014,
-              0.11203651909777654
-            ],
-            "effect_rms": 0.2444931537997444
-          }
-        ],
-        "source": "generators/physim/build_evaluation_bundle.py::score_groups",
         "files": [
           "bf-score-mobile.mp4",
           "bf-score-mobile.jpg"
         ],
         "encoding": {
           "width": 984,
-          "height": 3556,
+          "height": 1292,
           "frames": 125,
           "checked_frames": [
             0,
             124
           ],
           "mean_absolute_pixel_errors": [
-            0.5320144814215296,
-            0.724040211436985
+            0.6440048259893908,
+            1.0866056753131434
           ]
         },
         "fps": 12,
-        "hold_frames": 24
+        "hold_frames": 24,
+        "run": "trail_pulse",
+        "device": 0,
+        "scored_times": {
+          "u0": [
+            5,
+            10,
+            20,
+            30,
+            40,
+            50
+          ],
+          "x2": [
+            5,
+            10,
+            20,
+            30,
+            50
+          ]
+        },
+        "score_groups_source": "generators/physim/build_evaluation_bundle.py::score_groups"
       }
     },
     "sensor-grid": {
@@ -1438,12 +758,13 @@
           "10": 0.06758979661845028,
           "11": 0.3324102033815554
         },
-        "readings": [
-          0.09933583298210645,
-          0.45094782066570815,
-          0.3003588655980867,
-          3.8349485920217666e-05
-        ],
+        "u0_values": {
+          "00": 0.46946626901626587,
+          "01": 0.03364306688308716,
+          "10": 0.44877731800079346,
+          "11": 0.013932853937149048
+        },
+        "u0_reading": 0.09933583298210645,
         "time": 0,
         "file": "bf-sensor-grid.png"
       },
@@ -1464,12 +785,13 @@
           "10": 0.06758979661845028,
           "11": 0.3324102033815554
         },
-        "readings": [
-          0.09933583298210645,
-          0.45094782066570815,
-          0.3003588655980867,
-          3.8349485920217666e-05
-        ],
+        "u0_values": {
+          "00": 0.46946626901626587,
+          "01": 0.03364306688308716,
+          "10": 0.44877731800079346,
+          "11": 0.013932853937149048
+        },
+        "u0_reading": 0.09933583298210645,
         "time": 0,
         "file": "bf-sensor-grid-mobile.png"
       }
@@ -1482,20 +804,26 @@
         ],
         "encoding": {
           "width": 1640,
-          "height": 992,
-          "frames": 119,
+          "height": 584,
+          "frames": 99,
           "checked_frames": [
             0,
-            118
+            98
           ],
           "mean_absolute_pixel_errors": [
-            0.7199609067663257,
-            1.0890571728297929
+            0.36309026617663437,
+            1.0289717674574006
           ]
         },
         "fps": 12,
+        "hold_frames": 18,
         "poster_time": 40.0,
-        "hold_frames": 18
+        "run": "walk",
+        "field": "x2",
+        "times": [
+          0.0,
+          40.0
+        ]
       },
       "mobile": {
         "files": [
@@ -1504,20 +832,26 @@
         ],
         "encoding": {
           "width": 984,
-          "height": 2198,
-          "frames": 119,
+          "height": 694,
+          "frames": 99,
           "checked_frames": [
             0,
-            118
+            98
           ],
           "mean_absolute_pixel_errors": [
-            0.7097392061272751,
-            1.0430014906382004
+            0.6488051244148805,
+            0.9862553134910859
           ]
         },
         "fps": 12,
+        "hold_frames": 18,
         "poster_time": 40.0,
-        "hold_frames": 18
+        "run": "walk",
+        "field": "x2",
+        "times": [
+          0.0,
+          40.0
+        ]
       }
     },
     "world": {

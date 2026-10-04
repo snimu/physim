@@ -126,17 +126,16 @@ def generated_content():
     (DOCS / "data/bf-reward-summary.json").write_text(json.dumps(derived, indent=2, allow_nan=False) + "\n")
     calibration_text = "<p>Native-simulator calibration is running; the precision target is provisional.</p>"
     if calibration:
-        energies = ", ".join(
-            f"{world}: {record['mean_energy']['64']:.5f}" for world, record in calibration["worlds"].items()
-        )
+        bf_energy = calibration["worlds"]["bf"]["mean_energy"]["64"]
+        if bf_energy != max(record["mean_energy"]["64"] for record in calibration["worlds"].values()):
+            raise ValueError("The BF-only calibration note assumes BF sets the precision target")
         calibration_text = (
             f"<p>We use <var>K</var> = {PRECISION:g}, giving full reward at <var>S</var> ≤ {10**-PRECISION:g}. "
             "The agent’s prompt states this target; it can be varied independently of the experiment and token budgets.</p>"
             "<details><summary>Precision calibration</summary><p>We generated 64 forecast samples using the actual world equations, with independent realizations of the world’s noise. These "
-            "were scored against two saved simulation realizations for every experiment in all three suites. Mean energies were "
-            + escape(energies)
-            + ". We chose the largest integer K whose full-reward threshold is at least twice "
-            "the largest simulator-based suite score. This margin applies to these preparations and measurement scales; "
+            f"were scored against two saved simulation realizations for every BF experiment. The mean energy was {bf_energy:.5f}. "
+            "We chose the largest integer K whose full-reward threshold is at least twice this simulator-based score. "
+            "This margin applies to this preparation and these measurement scales; "
             'it is not a universal precision limit. <a href="data/reward-calibration.json">Calibration record</a> · '
             '<a href="data/bf-reward-summary.json">Recomputed model rewards</a>.</p></details>'
         )
