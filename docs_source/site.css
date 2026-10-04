@@ -12,8 +12,14 @@
 h2[id],h3[id]{scroll-margin-top:1.5rem}
 @media(max-width:680px){.equation{padding:.8rem;font-size:.95rem}}
 
-/* Native mathematical layout keeps summation limits and indices aligned. */
+/* Native mathematical layout keeps summation limits and indices aligned. A bundled math font
+   (an OpenType MATH table) lets radicals, sums and accents stretch on systems without one. */
+@font-face{font-family:"STIX Two Math";src:local("STIX Two Math"),local("STIXTwoMath-Regular"),url("assets/fonts/stix-two-math.woff2") format("woff2");font-display:swap}
+math{font-family:"STIX Two Math",math}
 .scoring-math math{font-size:1.1em;width:max-content;margin:.35rem auto}
+/* A formula too wide for a phone has a second copy broken after its first term. */
+.math-narrow{display:none}.math-narrow mtd{padding:0;text-align:left}.math-narrow mtd:first-child{text-align:right}.math-narrow mtr+mtr mtd{padding-top:.6em}
+@media(max-width:560px){.math-wide{display:none}.math-narrow{display:block}}
 
 /* Recorded field snapshots and optional exact world equations. */
 .world-panels{display:grid;gap:1rem}.world-panels.two{grid-template-columns:repeat(2,minmax(0,1fr))}.world-panels.three{grid-template-columns:repeat(3,minmax(0,1fr))}

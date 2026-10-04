@@ -34,6 +34,11 @@ constants combined exactly; the page rounds coefficients to four significant fig
 downloadable JSON keeps every stored digit. The numerical equation test checks the unrounded
 expressions against the genomes.
 
+The scoring formulas in `partials/scoring.html` are MathML. `site.css` sets them in a
+bundled STIX Two Math subset (`docs/assets/fonts/`, with its license and subsetting recipe)
+so radicals, sums and accents stretch on systems without a math font. The energy formula
+has a second copy broken across two lines for phone widths; edit both copies together.
+
 The BF figures and films that carry the narrative, and the p4g2_044 highlights film,
 live in `docs/assets/bf-thread/`. `scripts/render_bf_thread.py` renders them from
 hash-verified registry artifacts and native simulations, after reproducing the recorded
