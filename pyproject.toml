@@ -6,16 +6,21 @@ readme = "README.md"
 requires-python = "~=3.12.0"
 dependencies = []
 
+[tool.uv]
+# Research development uses our editable Blobkit; the environment distribution
+# itself continues to pin its public, checksummed Blobkit wheel.
+override-dependencies = ["blobkit==0.3.5"]
+
 [tool.uv.workspace]
-members = ["environments/physim", "packages/blobkit"]
+members = ["packages/blobkit"]
 
 [tool.uv.sources]
-physim = { workspace = true }
+physim = { git = "https://github.com/swpo/residency-environments.git", rev = "a124e9bdd9bc3dde9866153207658a64e98f82e8", subdirectory = "environments/physim" }
 blobkit = { workspace = true }
 
 [dependency-groups]
 dev = [
-    "physim[hub,reference]",
+    "physim",
     "build>=1.2",
     "pre-commit>=4.2.0",
     "pytest>=8.4.1",
@@ -26,7 +31,7 @@ dev = [
 
 [tool.ruff]
 line-length = 120
-extend-exclude = ["probes", "handoff", "docs", "docs_source", "packages/blobkit/blobkit", "build", "dist", "outputs"]
+extend-exclude = ["probes", "handoff", "docs", "docs_source", "packages/blobkit/blobkit", "scripts/fixtures", "build", "dist", "outputs"]
 
 [tool.ruff.lint]
 select = ["F", "I"]

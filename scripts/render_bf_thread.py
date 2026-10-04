@@ -15,7 +15,7 @@ docs_source/data/bf-evaluation.npz must be reproduced bit for bit.
 
 From the repository root, with the development environment:
 
-    PYTHONPATH=environments/physim:packages/blobkit python scripts/render_bf_thread.py
+    uv run --with matplotlib python scripts/render_bf_thread.py
 
 Runs are cached under outputs/bf-thread-20261002; figures, videos and provenance are
 written to docs/assets/bf-thread/. Requires NumPy, SciPy, Matplotlib and FFmpeg.

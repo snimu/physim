@@ -7,4 +7,4 @@ repos:
       - id: ruff-format
 
 # Preserve the byte identities of research and scientific reference sources.
-exclude: ^(?:probes/|handoff/|docs/|docs_source/|packages/blobkit/blobkit/|environments/physim/physim/legacy_v1/|environments/physim/physim/(?:blobround6(?:_eval|_explore)?|devices)\.py$)
+exclude: ^(?:probes/|handoff/|docs/|docs_source/|packages/blobkit/blobkit/|scripts/fixtures/)

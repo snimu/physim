@@ -1,6 +1,6 @@
 """Render apparatus schematics from native sensor geometry; no world simulation.
 
-Run with the development environment and PYTHONPATH=environments/physim:packages/blobkit.
+Run with: uv run --with matplotlib python scripts/render_apparatus_figure.py
 The coordinates illustrate the contract, not a published laboratory preparation.
 """
 

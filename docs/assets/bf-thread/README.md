@@ -8,7 +8,7 @@ model inference. `provenance.json` records inputs, runs, checks, display scales 
 video encodings.
 
 ```sh
-PYTHONPATH=environments/physim:packages/blobkit python scripts/render_bf_thread.py
+uv run --with matplotlib python scripts/render_bf_thread.py
 ```
 
 Runs are cached under `outputs/bf-thread-20261002` (about 40 MB each). `--only`

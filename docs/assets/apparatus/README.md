@@ -11,8 +11,8 @@ The current page no longer shows them; its experiment section uses the BF lab vi
 From the repository root:
 
 ```sh
-PYTHONPATH=environments/physim:packages/blobkit python scripts/render_apparatus_figure.py
+uv run --with matplotlib python scripts/render_apparatus_figure.py
 ```
 
-Requires the development Python environment with NumPy, SciPy and Matplotlib.
+Uses the locked environment plus Matplotlib.
 No world simulation or model call is performed.

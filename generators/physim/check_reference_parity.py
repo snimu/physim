@@ -4,6 +4,7 @@ import argparse
 import ast
 import importlib.util
 import json
+from importlib.resources import files
 from pathlib import Path
 
 import numpy as np
@@ -22,7 +23,7 @@ def main():
     args = p.parse_args()
     backup = ROOT / "handoff/repo_cleanup/original_source"
     old_path = backup / "probes/blobs/agentenv/device.py"
-    old, new = ast.parse(old_path.read_text()), ast.parse((ROOT / "environments/physim/physim/devices.py").read_text())
+    old, new = ast.parse(old_path.read_text()), ast.parse(files("physim").joinpath("devices.py").read_text())
     checks = []
 
     def check(name, passed):
@@ -47,7 +48,12 @@ def main():
             if rel.endswith(("blobround6.py", "blobround6_eval.py"))
             else rel
         )
-        check(rel + " bytes unchanged", digest(ROOT / target) == baseline[rel])
+        source = (
+            files("physim").joinpath(target.removeprefix("environments/physim/physim/"))
+            if target.startswith("environments/physim/physim/")
+            else ROOT / target
+        )
+        check(rel + " bytes unchanged", digest(source) == baseline[rel])
     for name in ("soup/sim_cpu.py", "soup/sim_v1.py", "genome.py"):
         check(
             "installed blobkit/" + name + " bytes unchanged",

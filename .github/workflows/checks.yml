@@ -1,4 +1,4 @@
-name: Residency package and reference checks
+name: Research workspace and reference checks
 on: [push, pull_request]
 jobs:
   checks:
@@ -8,6 +8,10 @@ jobs:
       - uses: astral-sh/setup-uv@v6
         with:
           python-version: '3.12'
+      - name: Build and check static documentation without installed packages
+        run: |
+          python3 -S scripts/build_docs.py
+          python3 -S scripts/check_docs.py
       - name: Install the development workspace
         run: uv sync --locked
       - name: Lint and format
@@ -16,7 +20,7 @@ jobs:
           uv run ruff format --check .
           uv run ruff check --no-force-exclude packages/blobkit/blobkit/generation.py packages/blobkit/blobkit/registry.py packages/blobkit/blobkit/cli.py
           uv run ruff format --check --no-force-exclude packages/blobkit/blobkit/generation.py packages/blobkit/blobkit/registry.py packages/blobkit/blobkit/cli.py
-      - name: Generic environment package contracts
+      - name: Installed environment and research integration
         env:
           PHYSIM_TEST_BUNDLE: dist/residency-reference-bundle
         run: |
@@ -39,11 +43,6 @@ jobs:
           uv run python scripts/physim/validation/test_blob_round6_explore.py
           uv run python -m unittest discover -s scripts/physim/validation -p test_bundles.py
           uv run python -m unittest discover -s scripts/physim/validation -p test_r6_verifiers.py
-      - name: Build and check static documentation
-        run: |
-          uv run python scripts/build_docs.py
-          uv run python scripts/check_docs.py
       - name: Build distributions
         run: |
           uv build --package blobkit
-          uv build --package physim

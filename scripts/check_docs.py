@@ -192,6 +192,8 @@ def check():
             errors.append("Control evidence source changed; review snapshot")
         if json.loads(control_source.read_text())["aggregate"] != evidence["controls"]["aggregate"]:
             errors.append("Control aggregates differ from source")
+    # Both downloadable manuals are frozen documentation snapshots. Their source
+    # and hash provenance are recorded in scripts/fixtures/README.md.
     substitutions = (
         ("n_ports", "12"),
         ("last_port", "11"),
@@ -208,12 +210,27 @@ def check():
         ("reward_precision", f"{PRECISION:g}"),
         ("reward_threshold", f"10^(-{PRECISION:g})"),
     )
-    for spec, example in (("agent_spec.txt", "AGENT_SPEC.md"), ("agent_spec_v1.txt", "AGENT_SPEC_V1.md")):
-        contract = (ROOT / "environments/physim/physim/data" / spec).read_text()
+    contracts = (
+        (
+            "published_agent_spec.txt",
+            "AGENT_SPEC.md",
+            "27e431c3aecabb8efc6fb29d907635eca9040ae24b453f16f088c3c8959a494a",
+        ),
+        (
+            "published_agent_spec_v1.txt",
+            "AGENT_SPEC_V1.md",
+            "04b8480edf8b73038d9f26a92a06141edc06f139b46a73ff67aa7f4421cbae90",
+        ),
+    )
+    for fixture, example, expected_hash in contracts:
+        template = (ROOT / "scripts/fixtures" / fixture).read_bytes()
+        if hashlib.sha256(template).hexdigest() != expected_hash:
+            errors.append(f"Published agent contract template {fixture} changed; review its provenance")
+        contract = template.decode()
         for key, value in substitutions:
             contract = contract.replace("{" + key + "}", value)
         if contract != (SOURCE / "examples" / example).read_text():
-            errors.append(f"Downloadable agent contract {example} differs from the current runtime")
+            errors.append(f"Downloadable agent contract {example} differs from the published contract snapshot")
     summary = {
         "html_pages": len(pages),
         "current_pages": len(PAGES),

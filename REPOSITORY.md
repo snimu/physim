@@ -5,7 +5,7 @@ reviewed at commit `01d9f5f80572b7ec82575b10d45a800ed844e496`.
 
 | Directory | Responsibility |
 |---|---|
-| `environments/physim/` | Installable Verifiers v1 taskset and runtime |
+| `environments/physim/` | Documentation links to the externally maintained environment |
 | `generators/physim/` | Executable recipes, historical registry import, reference export and validation |
 | `scripts/physim/` | Images, examples, release helpers, existing local validation |
 | `configs/physim/` | Portable evaluation settings and release metadata |
@@ -33,7 +33,7 @@ environment does not import generation APIs or depend on the generator checkout.
 Harvested genomes acquire physical world/preparation/suite identities when
 prepared and validated for evaluation.
 
-The accepted ownership plan is recorded in
+The original ownership plan is recorded in
 `handoff/architecture/PLAN.md`. Blobkit source and releases remain in this
 personal repository. The intended upstream contribution includes the Physim
 environment and its portable evaluation-specific generation, preparation and
@@ -50,17 +50,18 @@ remain archived in the registry; the portable recipes start at saved endpoints.
 The contribution is open as [draft PR #22](https://github.com/PrimeIntellect-ai/residency-environments/pull/22).
 See [the verification report](handoff/pr_preparation_20260915/REPORT.md) for checks and reproduction evidence.
 
-This repository retains Blobkit, exploratory research, and the website. Keep the
-local environment copy until Prime accepts the contribution and the research
-workspace has been adapted to consume it as an installed dependency; subsequent
-shared-environment changes will be maintained in Prime.
+This repository retains Blobkit, exploratory research, and the website. The research
+workspace now installs the environment from a full commit in the residency fork.
+Environment source is maintained only there, including before upstream acceptance;
+`environments/physim/` here contains documentation links only. See [DEVELOPMENT.md](DEVELOPMENT.md)
+for dependency updates and testing with a local environment checkout.
 
 Prime asks for actual eval smoke runs and maintains generic package checks. Our
 existing scientific regression checks are retained under `scripts/physim/validation/`
 for local reproducibility; they are not proposed as new upstream per-env tests.
-The generic `tests/test_envs.py` is copied unchanged from the pinned upstream
-commit under Apache-2.0. The upstream root workspace, tests, and CI should not be
-replaced by this repository's files when making the PR.
+`tests/test_envs.py` checks the installed dependency, release pins, and editable
+Blobkit source. Environment package builds and generic package checks belong to
+the residency repository. Its root workspace, tests, and CI are maintained there.
 
 ## Development and validation
 
@@ -78,7 +79,6 @@ uv run python -m unittest discover -s scripts/physim/validation -p test_bundles.
 uv run python scripts/build_docs.py
 uv run python scripts/check_docs.py
 uv build --package blobkit
-uv build --package physim
 ```
 
 Set `PHYSIM_TEST_BUNDLE` to the verified 15-case p4g2_044 reference bundle (CI fetches
@@ -87,14 +87,14 @@ Without it, those checks explicitly skip; the release-staging test also looks fo
 bundle in `dist/residency-reference-bundle`. Native
 migration checks also need the original research fixtures. CI runs the
 independent checks; [RELEASING.md](RELEASING.md) covers native and clean-install
-validation. The environment README contains the eval CLI smoke command.
+validation. The linked environment README contains the eval CLI smoke command.
 
 The root uses Python 3.12, uv, and Prime's Ruff F/I rules at line length 120.
-Four Physim reference files (`blobround6.py`, `blobround6_eval.py`,
-`blobround6_explore.py`, `devices.py`), the fixed-source modules in `physim/legacy_v1/`,
-and the historical blobkit implementation are excluded from formatting: scientific
-manifests bind their exact source bytes. CI still checks Blobkit's `generation.py`,
-`registry.py` and `cli.py` explicitly.
+The installed environment's four Physim reference files (`blobround6.py`, `blobround6_eval.py`,
+`blobround6_explore.py`, `devices.py`) and the historical blobkit implementation
+must retain their bytes: scientific manifests bind their exact source bytes. Here, the
+blobkit implementation and the frozen `scripts/fixtures/` are excluded from formatting;
+CI still checks Blobkit's `generation.py`, `registry.py` and `cli.py` explicitly.
 Changing their formatting would invalidate those identities. This is an explicit
 local exception disclosed in the PR, not a recertification of the law.
 
@@ -104,15 +104,13 @@ The active installable blobkit source is `packages/blobkit/`. The original
 `probes/blobs/blobkit/` tree remains as provenance and for old research scripts.
 New changes belong in the active package. The old engine, servers, and tasksets
 have moved out of the installable environment into `probes/legacy/physim/`.
-Only migration helpers explicitly activate those legacy modules. A copy of the old
-`blobdata/` source fixture is retained at `probes/legacy/physim/physim/blobdata/`; it is
-not part of the environment package. The historical import and characterization
-scripts in `generators/physim/` read the p4g2_044 record from there.
+Only migration helpers explicitly activate those legacy modules. The historical source fixture remains in `probes/legacy/physim/physim/blobdata/`
+for research imports; it is not part of the installed environment.
 
-The original fixed-source R6 scheduler and scorer are preserved byte for byte in
-`physim/legacy_v1/`, matching the published 0.12.x bundles; the active `blobround6*.py`
-modules implement `centered-pulse-v2`. `devices.py` and Blobkit's CPU kernels keep
-their original bytes. Five device definitions were extracted with identical syntax trees.
+In the installed environment, the original fixed-source R6 scheduler and scorer are
+preserved byte for byte in `physim/legacy_v1/`, matching the published 0.12.x bundles;
+its active `blobround6*.py` modules implement `centered-pulse-v2`. `devices.py` and
+Blobkit's CPU kernels keep their original bytes. Five device definitions were extracted with identical syntax trees.
 `handoff/repo_cleanup/` preserves the earlier cleanup evidence;
 `handoff/residency_alignment/` records this reorganization and the pre-move source.
 `handoff/blobkit_polish/` records standalone library packaging and CPU/CUDA checks.

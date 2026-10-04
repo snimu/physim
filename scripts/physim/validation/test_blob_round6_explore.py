@@ -1,6 +1,5 @@
 """Local exploration contract and budget tests; toy physics only."""
 
-import sys
 import unittest
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import replace
@@ -9,7 +8,6 @@ from pathlib import Path
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[3]
-sys.path.insert(0, str(ROOT / "environments/physim"))
 from physim.blobround6_eval import DEFAULT_LIMITS, EvaluationError, PublicRoster
 from physim.blobround6_explore import ExperimentService
 from test_blob_round6 import _toy

@@ -30,24 +30,26 @@ Physim release remains 0.12.2; its pinned preparations differ from the new BF
 case-study condition described in the [reproduction guide](REPRODUCING.md).
 
 ```sh
-uv venv --python 3.12
-uv pip install -e ./packages/blobkit -e './environments/physim[reference,hub]'
+uv sync --locked
 uv run physim inspect --bundle /path/to/reference-bundle
 uv run physim demo --bundle /path/to/reference-bundle --output outputs/reference-demo
 ```
 
 For repository development, `uv sync --locked` installs the workspace, native
 Verifiers integration, and development tools.
-The reference extra pins NumPy 2.5.2 and SciPy 1.18.0 for native reproduction.
+The pinned environment requires NumPy 2.5.2 and SciPy 1.18.0 for native reproduction.
+The environment is installed from the residency repository; Blobkit is editable
+here. See [the development guide](DEVELOPMENT.md) for ownership and dependency updates.
 
 The [published world dataset](https://huggingface.co/datasets/seanpohorence/physim-worlds/tree/dcd6abd5eae76a47f326c70518315d2d1e101d86) at revision
-`dcd6abd5eae76a47f326c70518315d2d1e101d86`, which the 0.12.2 configs pin, contains all
+`dcd6abd5eae76a47f326c70518315d2d1e101d86`, which the three named world configs pin, contains all
 24 world records and three verified evaluation preparations, with archived provenance;
 downloads, offline reuse, and native reference checks passed without credentials. Code
 is Apache-2.0 and world data are CC-BY-4.0. The dataset was republished on 2026-09-28 at
 `bd77a0da2f14eef352bd80c4a38dff426e5c1bed` with three `centered-pulse-v2` preparations
 from Physim 0.13.0.dev0, including the BF case-study bundle (BF and XV with 15 programs,
-`p4g2_044` with 19); no release or shipped config selects them yet. Both [Physim](https://github.com/swpo/physim/releases/tag/physim-v0.12.2) and
+`p4g2_044` with 19); `configs/physim/eval.toml` evaluates them through the installed
+environment's pinned catalog. Both [Physim](https://github.com/swpo/physim/releases/tag/physim-v0.12.2) and
 [Blobkit](https://github.com/swpo/physim/releases/tag/blobkit-v0.3.5) now have public,
 checksummed release distributions. The Physim release includes a portable setup
 archive and explicit configs for the three preparations. See the [release instructions](RELEASING.md).
@@ -69,26 +71,23 @@ noise. The example charges 0.06 of the 50-unit maximum horizon.
 
 ## Validate and evaluate a predictor
 
-Submitted Python executes in Docker, with only its artifact and observations
-mounted. The world bundle stays on the trusted host.
+Submitted Python executes in a disposable Docker or Prime runtime, with only its
+artifact and observations available. The world bundle stays on the trusted host.
+The installed environment provisions its scientific runtime dependencies.
 
 ```sh
-docker build -f scripts/physim/docker/predictor.Dockerfile \
-  -t physim-predictor:0.12.0 scripts/physim/docker
 mkdir -p outputs/observations
-uv run physim validate --artifact scripts/physim/examples/predictor --observations outputs/observations
-uv run physim grade --bundle /path/to/reference-bundle --artifact scripts/physim/examples/predictor \
+uv run physim validate --runtime docker --artifact scripts/physim/examples/predictor --observations outputs/observations
+uv run physim grade --runtime docker --bundle /path/to/reference-bundle --artifact scripts/physim/examples/predictor \
   --observations outputs/observations --output outputs/zero-grade
 ```
 
 The example is an intentionally inaccurate zero predictor. For a model-driven
-investigation, build `scripts/physim/docker/agent.Dockerfile` as
-`physim-agent:0.12.2`, and configure [configs/physim/eval.toml](configs/physim/eval.toml).
+investigation, configure [configs/physim/eval.toml](configs/physim/eval.toml).
 The standard taskset ID is `physim`; `physim_r6` remains a compatibility alias.
+The base config evaluates all preparations in the package's immutable catalog.
 Select a local bundle or one of `configs/physim/p4g2_044.toml`,
-`bf_trail_lab.toml`, and `xv_rotor_lab.toml`. Each pins one published preparation;
-there is no automatic selection of all eval-ready worlds. Missing selection is
-an error before model execution.
+`bf_trail_lab.toml`, and `xv_rotor_lab.toml` to evaluate one preparation.
 Its experiment budget is the single source for the prompt and service limits.
 Model runs require separately configured provider credentials and incur API costs.
 
@@ -134,7 +133,7 @@ See [the generation API](packages/blobkit/GENERATION.md) and [the registry](regi
 
 | Area | Purpose |
 |---|---|
-| `environments/physim/` | Installable Verifiers v1 taskset and prepared-world runtime |
+| `environments/physim/` | Links to the environment maintained in the residency repository |
 | `generators/physim/` | Python recipes, registry import/export, and reference validation |
 | `scripts/physim/` | Dockerfiles, examples, release helpers, and existing scientific checks |
 | `configs/physim/` | Evaluation settings and approved release metadata |
@@ -151,8 +150,8 @@ The first four directories follow Prime Intellect's residency conventions.
 Blobkit is a separate dependency; `packages/` is specific to this workspace.
 The environment and portable preparation workflows are proposed in
 [Prime draft PR #22](https://github.com/PrimeIntellect-ai/residency-environments/pull/22).
-Blobkit, exploratory research, and this website remain here. The local environment
-copy stays until the upstream contribution is accepted and the research workspace
-has been adapted to consume it as an installed dependency.
+Blobkit, exploratory research, and this website remain here. The research workspace
+installs the environment from a pinned residency commit; it has no local copy of
+the environment source.
 Older engines are archived under `probes/legacy/physim/`. See
 [REPOSITORY.md](REPOSITORY.md) for validation commands and the upstream boundary.

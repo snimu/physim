@@ -31,8 +31,14 @@ SECTIONS = {
     "get-involved": "Get Involved",
     "credit": "Credit",
 }
-# Use the exact runtime mapping without importing simulator dependencies.
-REWARDS = runpy.run_path(str(ROOT / "environments/physim/physim/rewards.py"))
+# Freeze the article's reward mapping independently of installed environment pins.
+# Source and hash provenance are recorded in scripts/fixtures/README.md.
+REWARD_SOURCE = ROOT / "scripts/fixtures/published_rewards.py"
+if hashlib.sha256(REWARD_SOURCE.read_bytes()).hexdigest() != (
+    "bf12a3e87792f5df33cd64bac87c78f52d9d12580e36be0a3e596b9027453b0c"
+):
+    raise ValueError("Published reward helper changed; review its provenance")
+REWARDS = runpy.run_path(str(REWARD_SOURCE))
 PRECISION = REWARDS["DEFAULT_PRECISION"]
 LEGACY_FRAGMENTS = json.loads((SOURCE / "legacy-fragments.json").read_text())
 REDIRECTS = {
@@ -92,7 +98,7 @@ def generated_content():
     calibration_path = SOURCE / "data/reward-calibration.json"
     calibration = json.loads(calibration_path.read_text()) if calibration_path.exists() else None
     if calibration and calibration["recommended_k"] != PRECISION:
-        raise ValueError("Runtime precision does not match the reviewed calibration")
+        raise ValueError("Published reward precision does not match the reviewed calibration")
     reward_rows = []
     case_rows = []
     for row in case_study["models"]:

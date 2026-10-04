@@ -42,6 +42,8 @@ def test_resolved_campaign_has_unlimited_investigation_and_large_predictor(runne
         tools[key] is None
         for key in ("max_experiments", "max_total_tu", "max_validation_attempts", "max_submission_attempts")
     )
+    assert tools["predictor_runtime"]["type"] == agent["runtime"]["type"] == "docker"
+    assert tools["predictor_runtime"]["allow"] == []
     assert tools["predictor_limits"]["cpu_seconds"] == 3600
     assert agent["sampling"]["reasoning_effort"] == "max"
     assert config["env"]["taskset"]["task"]["spend"]["limit_usd"] is None
@@ -66,9 +68,11 @@ def test_prime_agent_condition_preserves_science_and_uses_native_routes(runner, 
     config = runner.configuration(tmp_path, tmp_path, model, tmp_path / "bundle")
     agent = config["env"]["agent"]
     task = config["env"]["taskset"]["task"]
-    assert agent["harness"]["id"] == "physim_prime_agent"
-    assert agent["harness"]["transport"] == transport
-    assert agent["harness"]["thinking"] == "max"
+    assert agent["harness"]["id"] == "prime-agent"
+    assert agent["harness"]["autonomous"]
+    assert agent["harness"]["context_window"] == 262144
+    assert agent["harness"]["compaction"]["reserve_tokens"] > agent["sampling"]["max_tokens"]
+    assert agent["sampling"]["reasoning_effort"] == "max"
     assert task["coding_interface"] == "ipython"
     assert task["spend"]["limit_usd"] is None
     assert task["tools"]["max_experiments"] is None
@@ -407,4 +411,54 @@ def test_invalidated_campaign_cannot_launch_even_with_execute(runner, tmp_path):
 
     (tmp_path / "HOLD.json").write_text('{"reason":"prompt review"}')
     with pytest.raises(RuntimeError, match="Campaign is held"):
+        runner.execute(SimpleNamespace(output=tmp_path, execute=True))
+
+
+def test_freeze_archives_installed_environment_and_records_git_pin(tmp_path, monkeypatch):
+    import hashlib
+    import importlib.metadata
+    import json
+    import zipfile
+
+    path = Path(__file__).resolve().parents[1] / "scripts/physim/freeze_campaign.py"
+    spec = importlib.util.spec_from_file_location("freeze_campaign_test", path)
+    freeze = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(freeze)
+    source = tmp_path / "research"
+    source.mkdir()
+    for name in ("pyproject.toml", "uv.lock"):
+        (source / name).write_text("offline fixture")
+    monkeypatch.setattr(freeze, "ROOT", source)
+
+    def command(args, **kwargs):
+        if args[0] == "docker":
+            return json.dumps([{"Id": "sha256:offline-image"}]).encode()
+        assert args[:2] == ["git", "rev-parse"]
+        return "a" * 40
+
+    monkeypatch.setattr(freeze.subprocess, "check_output", command)
+    output = tmp_path / "snapshot"
+    freeze.freeze(output)
+    record = json.loads((output / "provenance.json").read_text())
+    distribution = importlib.metadata.distribution("physim")
+    code = distribution.locate_file("physim/taskset.py").read_bytes()
+    assert record["environment_sources"]["physim/taskset.py"] == hashlib.sha256(code).hexdigest()
+    assert record["environment_install"]["vcs_info"]["commit_id"]
+    with zipfile.ZipFile(output / record["archive"]) as archive:
+        assert archive.read("installed/physim/taskset.py") == code
+    assert not any(name.startswith("environments/") for name in record["sources"])
+
+
+def test_changed_installed_environment_rejects_a_frozen_campaign(runner, tmp_path):
+    from types import SimpleNamespace
+
+    runner.dump(tmp_path / "catalog.json", {"data": []})
+    runner.dump(
+        tmp_path / "provenance.json",
+        {
+            "sources": {},
+            "environment_sources": {"physim/taskset.py": "0" * 64},
+        },
+    )
+    with pytest.raises(RuntimeError, match="Installed environment changed"):
         runner.execute(SimpleNamespace(output=tmp_path, execute=True))

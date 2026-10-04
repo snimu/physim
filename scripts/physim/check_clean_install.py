@@ -1,4 +1,4 @@
-"""Build/install the environment wheel and reproduce the reference outside the checkout.
+"""Install the pinned environment and reproduce the reference outside the checkout.
 
 Requires uv and an available Python >=3.12. Uses PyPI for declared dependencies,
 never a model API. Leaves an inspectable clean install and reports in --workdir.
@@ -10,6 +10,7 @@ import os
 import shutil
 import subprocess
 import sys
+import tomllib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -46,14 +47,13 @@ def main():
     uv = shutil.which("uv")
     if not uv:
         raise RuntimeError("uv is required")
-    wheels = directory / "wheels"
-    run([uv, "build", "--package", "physim", "--wheel", "--out-dir", wheels], ROOT, env)
-    run([uv, "venv", "--python", sys.executable, directory / "venv"], directory, env)
+    release = tomllib.loads((ROOT / "configs/physim/release.toml").read_text())
+    package = "physim @ " + release["code_packages"]["physim"]
+    run([uv, "--no-config", "venv", "--python", sys.executable, directory / "venv"], directory, env)
     python = directory / "venv" / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
     # Resolve the package's declared public Blobkit dependency, just as a fresh
     # user install does; do not override its URL with a second local wheel.
-    packages = list(wheels.glob("physim-*.whl"))
-    run([uv, "pip", "install", "--python", python, *packages, "numpy==2.5.2", "scipy==1.18.0"], directory, env)
+    run([uv, "--no-config", "pip", "install", "--python", python, package], directory, env)
     shutil.copytree(args.bundle.resolve(), directory / "bundle")
     installed = json.loads(
         run(

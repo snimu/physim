@@ -15,6 +15,10 @@ a result.
   `bf_trail_lab.toml`, `xv_rotor_lab.toml`) pin Hugging Face revision
   `dcd6abd5eae76a47f326c70518315d2d1e101d86` and the earlier laboratory preparations.
   See [release instructions](RELEASING.md) for portable installation.
+- [configs/physim/eval.toml](configs/physim/eval.toml) evaluates every preparation in the
+  installed environment's pinned catalog at `bd77a0da2f14eef352bd80c4a38dff426e5c1bed`:
+  the three `centered-pulse-v2` preparations, under the environment's current prompt
+  and runtime.
 - The seven-model BF case study uses `centered-pulse-v2`, the `interface-only-v2`
   prompt, Prime Agent, and a 15-program suite. Its
   [evidence snapshot](docs_source/data/bf-case-study.json) records source and bundle
@@ -23,8 +27,8 @@ a result.
   describes the runtime and run selection. Full local observations, fitted model
   assets, and traces are not included in the documentation downloads. Its bundle is
   published at dataset revision `bd77a0da2f14eef352bd80c4a38dff426e5c1bed` as
-  `bundles/bf_trail_lab_centered_v2/38d159a8052bb0fc24d0d8feefe3985ac645fb19954f2c84aa54954a948b561e`;
-  no shipped config selects it.
+  `bundles/bf_trail_lab_centered_v2/38d159a8052bb0fc24d0d8feefe3985ac645fb19954f2c84aa54954a948b561e`,
+  one of the preparations `eval.toml` evaluates.
 
 The current website recomputes reward from those saved energy scores using
 `R = max(0, min(-log10(S), K)) / K` with `K=2`; zero energy maps to one and invalid
@@ -32,11 +36,13 @@ predictions map to zero. This is retrospective scoring, not a new rollout. The
 original snapshot retains its original rewards. Derived values and source hashes
 are in [the reward summary](docs/data/bf-reward-summary.json).
 
-New runs expose the requested `reward_precision` in the `interface-only-v3-log-reward`
-prompt. Set `env.taskset.task.tools.reward_precision` independently of inference and
-experiment budgets. The prompt condition and reward mapping are otherwise fixed in the
-code, so reproducing an older run, such as the case study's `interface-only-v2` prompt
-with reward `1/(1+S)`, needs the source from before commit `66e28be`.
+New runs use the installed environment's `interface-only-v4-portable-tools` prompt,
+which states the requested `reward_precision`. Set
+`env.taskset.task.tools.reward_precision` independently of inference and experiment
+budgets. The prompt condition and reward mapping are otherwise fixed by the installed
+environment, so reproducing an older run, such as the case study's `interface-only-v2`
+prompt with reward `1/(1+S)`, needs that run's environment source (this repository's
+history before commit `66e28be`).
 
 Every result should identify four objects:
 
@@ -144,12 +150,12 @@ not. For a new suite, use the
 
 Most figures and films on the page come from `scripts/render_bf_thread.py`. It runs
 native simulations from hash-verified registry artifacts, with no model inference, and
-downloads the published p4g2_044 bundle once. It needs the development environment
-(NumPy, SciPy, Matplotlib) and FFmpeg; its
-[README](docs/assets/bf-thread/README.md) describes the checks and options:
+downloads the published p4g2_044 bundle once. It needs the locked environment plus
+Matplotlib, and FFmpeg; its [README](docs/assets/bf-thread/README.md) describes the
+checks and options:
 
 ```sh
-PYTHONPATH=environments/physim:packages/blobkit python scripts/render_bf_thread.py
+uv run --with matplotlib python scripts/render_bf_thread.py
 ```
 
 The results heatmap comes from the case-study snapshot, which includes the exact
