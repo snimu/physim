@@ -100,7 +100,10 @@ class PublicPredictorBox:
 def test_all_public_gate_cases_use_the_world_roster(ports):
     with patch.object(evaluation, "Sandbox", PublicPredictorBox):
         result = evaluation.validate_predictor(
-            Path("artifact"), Path("observations"), roster=scoring.PublicRoster(n_ports=ports)
+            Path("artifact"),
+            Path("observations"),
+            roster=scoring.PublicRoster(n_ports=ports),
+            sandbox_factory=PublicPredictorBox,
         )
     assert result["ok"] and result["checks_passed"] == 7
     assert result["checks"][0]["actual_shapes"][0] == [2, 2, ports, 13]
@@ -109,14 +112,17 @@ def test_all_public_gate_cases_use_the_world_roster(ports):
 def test_twelve_port_predictor_is_rejected_for_four_port_world():
     with patch.object(evaluation, "Sandbox", PublicPredictorBox), patch.object(PublicPredictorBox, "forced_ports", 12):
         result = evaluation.validate_predictor(
-            Path("artifact"), Path("observations"), roster=scoring.PublicRoster(n_ports=4)
+            Path("artifact"),
+            Path("observations"),
+            roster=scoring.PublicRoster(n_ports=4),
+            sandbox_factory=PublicPredictorBox,
         )
     assert not result["ok"]
 
 
 def test_prompt_advertises_only_the_public_roster():
     b = SimpleNamespace(roster=scoring.PublicRoster(n_ports=4))
-    with patch.object(taskset, "Bundle", return_value=b):
+    with patch.object(taskset, "required_bundle", return_value=b):
         text = taskset.public_prompt(taskset.R6ToolsConfig(bundle=Path("private-bf-bundle")))
     assert "4 channels" in text and "0 to 3" in text and "times, 4," in text
     assert "all12" not in text and "0..11" not in text and "times, 12," not in text

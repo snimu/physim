@@ -2,9 +2,16 @@
 
 Code is Apache-2.0 and world data are CC-BY-4.0. The approved dataset destination
 is `seanpohorence/physim-worlds`, recorded in `configs/physim/release.toml`.
+The file's top-level dataset revision, release ID, and date identify the published
+snapshot. Its `[code_packages]` table, including `source_commit`, instead records
+the current workspace pins that `prepare_world_release.py` copies into the next
+export. Published provenance remains in each release's own immutable `release.json`:
+the [September 28 manifest](https://huggingface.co/datasets/seanpohorence/physim-worlds/blob/bd77a0da2f14eef352bd80c4a38dff426e5c1bed/release.json)
+records residency commit `49ed83a54a453ec9c875d7d4fde1b8bcb5f13e03`.
+
 Runtime code and documentation belong in GitHub; world payloads and their
 generation provenance belong in that separate Hugging Face dataset. Archived
-recipe source artifacts retain the code license. The current [public snapshot](https://huggingface.co/datasets/seanpohorence/physim-worlds/tree/dcd6abd5eae76a47f326c70518315d2d1e101d86)
+recipe source artifacts retain the code license. The original [public snapshot](https://huggingface.co/datasets/seanpohorence/physim-worlds/tree/dcd6abd5eae76a47f326c70518315d2d1e101d86)
 was published on 2026-09-14 at `dcd6abd5eae76a47f326c70518315d2d1e101d86`.
 It contains 24 world records, 19 distinct genomes, three eval-ready preparations,
 and 204 provenance artifacts. All 330 files were downloaded anonymously and
@@ -77,15 +84,16 @@ available evidence. The original evolutionary recipe for a sourced world may be
 partial; its registry record must retain those gaps. New `blobkit generate` runs
 archive recipe code, settings, seeds, candidates, checkpoints, and harvested worlds.
 
-Build both wheels and source distributions with `uv build --package blobkit` and
-`uv build --package physim`. Inspect their payloads: the Physim distributions
+Build Blobkit here with `uv build --package blobkit`. Build Physim from its
+residency checkout with `uv build environments/physim`. Inspect their payloads: the Physim distributions
 exclude archived engines, private arrays, and model outputs. Blobkit's CPU source
 must retain its bundle-bound hashes. The 0.3.5 integrity table covers the installed
 package; the historical 0.3.4 table is preserved separately. Blobkit's own test
 suite covers CPU reference assays and CUDA parity, batching, and record handling.
 See `packages/blobkit/README.md` and `handoff/blobkit_polish/` for scope and receipts.
 
-Build images from `scripts/physim/docker/` using the environment README commands.
+The Docker recipes in `scripts/physim/docker/` preserve the published 0.12.x setup.
+For the current environment, use the linked environment README and `DEVELOPMENT.md`.
 Validate `scripts/physim/examples/predictor`, then grade it on the reference bundle.
 The zero predictor should pass the interface gate while scoring poorly.
 
@@ -104,9 +112,10 @@ The zero predictor should pass the interface gate while scoring poorly.
    SHA-256, configs, a fresh work directory, and a report path. This installs from
    public URLs, fetches all three selected worlds, checks offline reuse and native
    task loading, reproduces reference scores, and runs fresh short simulations.
-5. Build both Docker images and run the stock Verifiers smoke using one of
+5. Use the installed environment's runtime setup and run a stock Verifiers smoke using one of
    `p4g2_044.toml`, `bf_trail_lab.toml`, or `xv_rotor_lab.toml`. The base `eval.toml`
-   still requires a local bundle. Never infer a world from the registry contents.
+   now selects the installed package's immutable catalog. A supplied local bundle
+   overrides that selection.
 6. Prepare the focused residency contribution described in `REPOSITORY.md`.
    Maintainers still need to choose the external runner's config and model panel.
 

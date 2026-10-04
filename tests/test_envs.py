@@ -1,44 +1,45 @@
-"""Cheap package-contract checks for residency environments."""
+"""The research workspace consumes one pinned environment and editable Blobkit."""
 
-import os
-import subprocess
+import importlib.metadata
+import json
+import tomllib
 from pathlib import Path
 
-import pytest
+import blobkit
+import physim
 
-BUILD_TIMEOUT = 600
-ENVIRONMENTS = Path(__file__).parent.parent / "environments"
-
-
-def environments() -> list[Path]:
-    if not ENVIRONMENTS.is_dir():
-        return []
-    return sorted(path for path in ENVIRONMENTS.iterdir() if path.is_dir())
+ROOT = Path(__file__).resolve().parents[1]
 
 
-def changed_environments() -> list[Path]:
-    all_environments = environments()
-    changed = os.getenv("CHANGED_ENVS")
-    if changed == "none":
-        return []
-    if not changed:
-        return all_environments
-    names = {name.strip() for name in changed.split(",") if name.strip()}
-    return [path for path in all_environments if path.name in names]
+def test_environment_install_matches_workspace_and_release_pins():
+    project = tomllib.loads((ROOT / "pyproject.toml").read_text())
+    source = project["tool"]["uv"]["sources"]["physim"]
+    release = tomllib.loads((ROOT / "configs/physim/release.toml").read_text())["code_packages"]
+    installed = json.loads(importlib.metadata.distribution("physim").read_text("direct_url.json"))
+    assert installed["url"] == source["git"]
+    assert installed["vcs_info"]["commit_id"] == source["rev"] == release["source_commit"]
+    assert installed["subdirectory"] == source["subdirectory"]
+    assert release["physim"] == f"git+{source['git']}@{source['rev']}#subdirectory={source['subdirectory']}"
+    assert "environments/physim" not in project["tool"]["uv"]["workspace"]["members"]
+    assert not (ROOT / "environments/physim/pyproject.toml").exists()
+    assert not (ROOT / "environments/physim/physim").exists()
+    assert not Path(physim.__file__).is_relative_to(ROOT / "environments")
 
 
-def test_environment_packages_have_required_files():
-    for env_dir in environments():
-        assert (env_dir / "pyproject.toml").is_file(), f"{env_dir.name} has no pyproject.toml"
-        assert (env_dir / "README.md").is_file(), f"{env_dir.name} has no README.md"
+def test_blobkit_is_the_editable_local_library():
+    assert Path(blobkit.__file__).resolve().is_relative_to(ROOT / "packages/blobkit")
+    installed = json.loads(importlib.metadata.distribution("blobkit").read_text("direct_url.json"))
+    assert installed["dir_info"]["editable"]
+    assert "physim" not in (importlib.metadata.requires("blobkit") or [])
 
 
-@pytest.mark.parametrize("env_dir", changed_environments(), ids=lambda path: path.name)
-def test_environment_builds(env_dir: Path, tmp_path: Path):
-    proc = subprocess.run(
-        ["uv", "build", str(env_dir), "--out-dir", str(tmp_path / "dist")],
-        capture_output=True,
-        text=True,
-        timeout=BUILD_TIMEOUT,
-    )
-    assert proc.returncode == 0, f"Failed to build {env_dir.name}: {(proc.stderr or proc.stdout)[-4000:]}"
+def test_active_evaluation_presets_load_with_the_pinned_framework():
+    from verifiers.v1.configs.cli.eval import EvalConfig
+
+    for name in ("eval", "p4g2_044", "bf_trail_lab", "xv_rotor_lab"):
+        config = EvalConfig.model_validate(tomllib.loads((ROOT / f"configs/physim/{name}.toml").read_text()))
+        assert config.env.taskset.id == "physim"
+        assert config.push is False
+        if name != "eval":
+            assert config.select.limit == 1
+            assert config.env.taskset.task.tools.bundle_source.revision == "dcd6abd5eae76a47f326c70518315d2d1e101d86"

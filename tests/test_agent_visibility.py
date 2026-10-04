@@ -4,7 +4,7 @@ import inspect
 import json
 import re
 from types import SimpleNamespace
-from unittest.mock import patch
+from unittest.mock import AsyncMock, patch
 
 import numpy as np
 import pytest
@@ -123,7 +123,9 @@ def test_validation_response_has_no_private_protocol_or_truth(protocol):
         return {"samples": [np.zeros((members, len(q["t"]), 6, roster.slots(q["sensor"]))) for q in queries]}, {}
 
     with patch.object(evaluation, "Sandbox"), patch.object(evaluation, "read_prediction", side_effect=predictions):
-        report = evaluation.validate_predictor("/artifact", "/observations", roster=roster)
+        report = evaluation.validate_predictor(
+            "/artifact", "/observations", roster=roster, sandbox_factory=evaluation.Sandbox
+        )
     assert report["ok"]
     assert report["public_roster"] == dict(n_ports=6, device_slots=[13, 19])
     assert_neutral(json.dumps(report))
@@ -136,7 +138,7 @@ def test_container_transport_error_is_not_validation_feedback():
         patch.object(evaluation, "read_prediction", side_effect=SandboxInfrastructureError("/private/source/path")),
         pytest.raises(SandboxInfrastructureError),
     ):
-        evaluation.validate_predictor("/artifact", "/observations")
+        evaluation.validate_predictor("/artifact", "/observations", sandbox_factory=evaluation.Sandbox)
 
 
 def test_checkpoint_without_current_condition_cannot_restore_leaky_manual(tmp_path):
@@ -168,5 +170,10 @@ async def test_internal_error_is_pushed_then_terminates_as_framework_failure(tmp
     assert saved.infrastructure_error == "RuntimeError: private field grid"
     with pytest.raises(T.vf.TaskError, match="Laboratory service failed"):
         await T.R6Task.infrastructure_failed(None, SimpleNamespace(state=saved))
+    access = SimpleNamespace(close=AsyncMock())
+    task = SimpleNamespace(_runtime_access={"trace": access})
+    task._finalize = lambda trace, runtime: T.R6Task._finalize(task, trace, runtime)
     with pytest.raises(T.vf.TaskError, match="Laboratory service failed"):
-        await T.R6Task.finalize(None, SimpleNamespace(state=saved), None)
+        await T.R6Task.finalize(task, SimpleNamespace(id="trace", state=saved), None)
+    access.close.assert_awaited_once()
+    assert task._runtime_access == {} and saved.runtime_access == {}

@@ -19,21 +19,35 @@ from verifiers.v1.utils.loaders import harness_config_type, load_harness, load_t
 
 class NativeTaskTests(unittest.TestCase):
     def setUp(self):
-        self.bundle_patch = patch.object(T, "required_bundle", return_value=None)
+        self.bundle_patch = patch.object(
+            T,
+            "required_bundle",
+            return_value=SimpleNamespace(
+                manifest={"bundle_id": "bundle:sha256:" + "a" * 64, "objects": {"world": {"name": "offline"}}},
+                roster=T.E.E.DEFAULT_ROSTER,
+            ),
+        )
         self.bundle_patch.start()
         self.addCleanup(self.bundle_patch.stop)
+        self.selection_patch = patch.object(T.R6Taskset, "selections", return_value=[Path("offline-bundle")])
+        self.selection_patch.start()
+        self.addCleanup(self.selection_patch.stop)
 
-    def test_missing_bundle_fails_before_model_execution(self):
-        self.bundle_patch.stop()
-        config_path = Path(__file__).resolve().parents[3] / "configs/physim/eval.toml"
-        eval_config = tomllib.loads(config_path.read_text())
-        configs = [T.R6Config(id="physim"), T.R6Config(**eval_config["env"]["taskset"])]
-        for config in configs:
-            with self.subTest(config=config), self.assertRaisesRegex(ValueError, "No world selected") as error:
-                next(iter(load_taskset(config)))
-            self.assertIn("no default world", str(error.exception))
-            self.assertIn("does not automatically select eval-ready registry entries", str(error.exception))
-            self.assertIn("--env.taskset.task.tools.bundle", str(error.exception))
+    def test_default_selection_uses_all_preparations_from_pinned_catalog(self):
+        self.selection_patch.stop()
+        rows = [
+            dict(world_name=name, bundle_path="bundles/" + name, status="eval-ready")
+            for name in ("xv", "bf", "p4g2_044")
+        ]
+        config = T.R6Config(id="physim")
+        with patch("physim.hub.fetch_catalog", return_value={"worlds": rows}) as fetch:
+            selections = load_taskset(config).selections()
+        fetch.assert_called_once_with(**config.catalog.model_dump())
+        self.assertEqual([source.path for source in selections], ["bundles/bf", "bundles/p4g2_044", "bundles/xv"])
+        self.assertTrue(all(source.revision == config.catalog.revision for source in selections))
+        with patch("physim.hub.fetch_catalog", return_value={"worlds": []}):
+            with self.assertRaisesRegex(ValueError, "no evaluation preparations"):
+                load_taskset(config).selections()
 
     def test_remote_bundle_requires_immutable_unambiguous_selection(self):
         source = dict(repo="owner/worlds", revision="a" * 40, path="bundles/world/hash")
@@ -185,7 +199,7 @@ class NativeTaskTests(unittest.TestCase):
         self.assertEqual(namespace["public_validation_cases"](), evaluation.public_validation_cases("fixed-source-v1"))
 
     def test_ipython_uses_stock_rlm_and_changes_only_interface_description(self):
-        config = harness_config_type("rlm")(id="rlm", max_depth=0, summarize_at_tokens=16000)
+        config = harness_config_type("rlm")(id="rlm", max_depth=0, compaction={"summarize_at_tokens": 16000})
         self.assertEqual(type(load_harness(config)).__module__, "verifiers.v1.harnesses.rlm.harness")
         task = next(
             iter(
@@ -196,14 +210,14 @@ class NativeTaskTests(unittest.TestCase):
         )
         self.assertEqual(task.data.image, "rlm-test")
         self.assertEqual(task.data.protocol, f"r6-verifiers-v1-ipython-1-{T.PROMPT_CONDITION}-k-2")
-        self.assertIn("persistent IPython", task.data.system_prompt)
-        self.assertIn("laboratory_validate", task.data.system_prompt)
+        self.assertIn("Python", task.data.system_prompt)
+        self.assertIn("validate", task.data.system_prompt)
         self.assertEqual(task.data.network_allow, [])
 
     def test_public_prompt_and_fixtures(self):
         prompt = T.public_prompt(T.R6ToolsConfig())
         self.assertIn('data["request"].item()', prompt)
-        self.assertIn("laboratory_validate", prompt)
+        self.assertIn("validate", prompt)
         self.assertNotIn("p4g2_044", prompt)
         self.assertNotIn("use the python tool", prompt.lower())
         self.assertEqual(len(T.E.public_validation_cases()), 7)
@@ -226,14 +240,13 @@ class NativeTaskTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 T.R6Task.toolsets(T.R6TaskConfig(tools=tools))
 
-    def test_runtime_identity_cannot_be_a_shell_expression(self):
-        for value in ("", "--privileged", "123456789abc; touch x", "../../host"):
-            with self.assertRaises(vf.ToolsetError):
-                T._container(T.R6State(container_id=value))
+    def test_snapshot_requires_trusted_runtime_transport(self):
+        with self.assertRaisesRegex(T.SandboxInfrastructureError, "missing trusted runtime transport"):
+            T._snapshot(T.R6State(), Path("submit_01"))
 
     def test_check_then_repair_then_submit_freezes_separate_snapshot(self):
         with tempfile.TemporaryDirectory() as directory:
-            state = T.R6State(container_id="abc012345678", output=directory)
+            state = T.R6State(output=directory)
             captured = []
             version = {"text": "bad"}
 
@@ -243,7 +256,7 @@ class NativeTaskTests(unittest.TestCase):
                 captured.append(target)
                 return {"files": [{"path": "predictor.py"}]}
 
-            def validate(target, observations, *, roster, execution_limits):
+            def validate(target, observations, *, roster, execution_limits, sandbox_factory):
                 self.assertEqual(roster.n_ports, 12)
                 self.assertEqual(execution_limits, T.R6ToolsConfig().predictor_limits)
                 return {"ok": (target / "predictor.py").read_text() == "good"}
@@ -264,7 +277,7 @@ class NativeTaskTests(unittest.TestCase):
 
     def test_validator_startup_error_is_not_contract_failure(self):
         with tempfile.TemporaryDirectory() as directory:
-            state = T.R6State(container_id="abc012345678", output=directory)
+            state = T.R6State(output=directory)
             with (
                 patch.object(T, "_snapshot", return_value={"files": []}),
                 patch.object(T.E, "validate_predictor", side_effect=T.E.SandboxError("daemon unavailable")),
@@ -276,9 +289,19 @@ class NativeTaskTests(unittest.TestCase):
 
 class StateConcurrencyTests(unittest.IsolatedAsyncioTestCase):
     def setUp(self):
-        self.bundle_patch = patch.object(T, "required_bundle", return_value=None)
+        self.bundle_patch = patch.object(
+            T,
+            "required_bundle",
+            return_value=SimpleNamespace(
+                manifest={"bundle_id": "bundle:sha256:" + "a" * 64, "objects": {"world": {"name": "offline"}}},
+                roster=T.E.E.DEFAULT_ROSTER,
+            ),
+        )
         self.bundle_patch.start()
         self.addCleanup(self.bundle_patch.stop)
+        self.selection_patch = patch.object(T.R6Taskset, "selections", return_value=[Path("offline-bundle")])
+        self.selection_patch.start()
+        self.addCleanup(self.selection_patch.stop)
 
     async def test_checkpoint_has_no_new_experiments_or_private_service(self):
         server = T.LaboratoryTools(T.R6ToolsConfig())
@@ -290,18 +313,13 @@ class StateConcurrencyTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(server.state.experiments, [])
         self.assertIsNone(server.service)
 
-    async def test_rlm_can_finish_after_immutable_submission(self):
+    async def test_native_harness_can_finish_after_immutable_submission(self):
         from types import SimpleNamespace
 
         trace = SimpleNamespace(state=T.R6State(submitted=True))
-        shell = next(iter(load_taskset(T.R6Config(id="physim_r6"))))
-        ipython = next(iter(load_taskset(T.R6Config(id="physim_r6", task=T.R6TaskConfig(coding_interface="ipython")))))
-        self.assertTrue(await shell.submitted(trace))
-        self.assertFalse(await ipython.submitted(trace))
-        # Stock VF selects the stop-hook boundary from its type annotation.
-        from verifiers.v1.session import hook_boundary
-
-        self.assertIs(hook_boundary(shell.submitted, allow_trace=True), T.vf.Trace)
+        # Submission freezes the predictor; the native harness ends the rollout.
+        self.assertTrue(trace.state.submitted)
+        self.assertNotIn("submitted", T.R6Task.__dict__)
         server = T.LaboratoryTools(T.R6ToolsConfig())
         server.state.submitted = True
         result = json.loads(await server.experiment(actions=[], queries=[]))

@@ -52,7 +52,7 @@ reproducing either preparation.
 ## Commands
 
 Use Python 3.12. From the repository root, install the environment with
-`uv pip install -e './environments/physim[reference,hub]'`. This installs the pinned
+`uv sync --locked`. This installs the pinned
 public Blobkit wheel and reference numerical dependencies. Each output directory
 must be new. No plotting package or personal research checkout is required.
 

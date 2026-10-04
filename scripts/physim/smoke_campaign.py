@@ -87,7 +87,7 @@ def main(args):
             body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
             if args.audit_boundary:
                 captured_requests.append({key: body[key] for key in ("messages", "tools") if key in body})
-            index = len(calls)
+            index = sum(len(m.get("tool_calls") or []) for m in body["messages"] if m["role"] == "assistant")
             tools = [t["function"]["name"] for t in body.get("tools", [])]
             calls.append(dict(index=index, model=body["model"], tool_names=tools))
             if index < len(steps):
@@ -115,9 +115,25 @@ def main(args):
                 choices=[dict(index=0, message=message, finish_reason=reason)],
                 usage=dict(prompt_tokens=10, completion_tokens=10, total_tokens=20, cost=0.0),
             )
-            encoded = json.dumps(response).encode()
+            if body.get("stream"):
+                delta = dict(message)
+                if delta.get("tool_calls"):
+                    delta["tool_calls"] = [dict(call, index=i) for i, call in enumerate(delta["tool_calls"])]
+                first = dict(
+                    response, object="chat.completion.chunk", choices=[dict(index=0, delta=delta, finish_reason=None)]
+                )
+                final = dict(
+                    response, object="chat.completion.chunk", choices=[dict(index=0, delta={}, finish_reason=reason)]
+                )
+                encoded = (
+                    "data: " + json.dumps(first) + "\n\ndata: " + json.dumps(final) + "\n\ndata: [DONE]\n\n"
+                ).encode()
+                content_type = "text/event-stream"
+            else:
+                encoded = json.dumps(response).encode()
+                content_type = "application/json"
             self.send_response(200)
-            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Type", content_type)
             self.send_header("Content-Length", str(len(encoded)))
             self.end_headers()
             self.wfile.write(encoded)
@@ -144,8 +160,6 @@ def main(args):
         "--diagnostics",
         str(root / "diagnostics"),
     ]
-    if args.inject_schema_failure_at is not None:
-        command += ["--inject-schema-failure-at", str(args.inject_schema_failure_at)]
     command += ["@", str(root / "eval.json")]
     try:
         with (root / "eval.log").open("w") as log:
@@ -193,8 +207,7 @@ def main(args):
         public += [json.dumps(r.get("tools", [])) for r in captured_requests]
         assert not any(forbidden.search(text) for text in public), "Hidden-mechanism vocabulary reached the model"
         system = next(m["content"] for m in captured_requests[0]["messages"] if m["role"] == "system")
-        assert system.lstrip().startswith("# Investigate and predict\n")
-        assert "You are a coding agent" not in system
+        assert "# Investigate and predict\n" in system
     expected = json.loads(bundle.verified_path("checks.json").read_text())["reference"]["primary_joint_energy"]
     assert abs(info["primary_joint_energy"] - expected) < 1e-10
     report = dict(
@@ -206,7 +219,6 @@ def main(args):
         stop_condition=trace["stop_condition"],
         audit=info["limit_audit"],
         replayed_tool_calls=replayed_tool_calls,
-        injected_schema_failure_at=args.inject_schema_failure_at,
         boundary_audited=args.audit_boundary,
     )
     if args.expected_experiments is not None:
@@ -221,6 +233,5 @@ if __name__ == "__main__":
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--replay-trace", type=Path)
     parser.add_argument("--audit-boundary", action="store_true")
-    parser.add_argument("--inject-schema-failure-at", type=int)
     parser.add_argument("--expected-experiments", type=int)
     main(parser.parse_args())

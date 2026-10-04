@@ -45,7 +45,7 @@ def import_registry(destination):
             artifacts={**evidence, "original-genome.json": (packaged / (name + ".json")).read_bytes()},
         )
         rows.append(dict(name=name, world=world_id, source_status="partial"))
-    reference_path = ROOT / "environments/physim/physim/blobdata/p4g2_044.json"
+    reference_path = ROOT / "probes/legacy/physim/physim/blobdata/p4g2_044.json"
     reference = json.loads(reference_path.read_text())
     catalog = json.loads((ROOT / "docs_source/worlds.json").read_text())
     metadata = catalog["worlds"][0]
