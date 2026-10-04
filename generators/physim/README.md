@@ -19,12 +19,10 @@ for callback contracts and recipe replay.
 
 The historical importer preserves the packaged genomes and available source
 evidence, and links the prepared reference world to its existing evaluation
-identities. Missing historical recipes/checkpoints are marked partial. It can no
-longer run from this checkout: it reads the p4g2_044 source record from
-`environments/physim/physim/blobdata/`, removed in 0.12.1 (a copy is in
-`probes/legacy/physim/physim/blobdata/`), and four untracked research files under
-`probes/blobs/agentenv/round6/worked_example/p4g2_044/`. The committed `registry/`
-already contains its output.
+identities. Missing historical recipes/checkpoints are marked partial. It reads the
+p4g2_044 source record from `probes/legacy/physim/physim/blobdata/`, but it also needs
+four untracked research files under `probes/blobs/agentenv/round6/worked_example/p4g2_044/`,
+so it cannot run from this checkout. The committed `registry/` already contains its output.
 
 ## Fresh phenomenology
 
@@ -40,10 +38,6 @@ uv run python generators/physim/rotor_check.py --output outputs/rotor-check
 uv run --package blobkit --extra plot python generators/physim/plot_characterization.py \
   outputs/phenomenology/bf_s11001 --output outputs/figures
 ```
-
-The default `--worlds` list includes `p4g2_044`, whose genome `characterize.py` also
-reads from the removed `blobdata/` path; pass `--worlds m4 xv bf mv3 ds6_000 m0` to run
-the others.
 
 The probe recipe uses current native source and sensor operations, three future
 noise seeds, and paired interventions. The rotor recipe compares a prepared XV

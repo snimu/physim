@@ -106,7 +106,8 @@ New changes belong in the active package. The old engine, servers, and tasksets
 have moved out of the installable environment into `probes/legacy/physim/`.
 Only migration helpers explicitly activate those legacy modules. A copy of the old
 `blobdata/` source fixture is retained at `probes/legacy/physim/physim/blobdata/`; it is
-not part of the environment package.
+not part of the environment package. The historical import and characterization
+scripts in `generators/physim/` read the p4g2_044 record from there.
 
 The original fixed-source R6 scheduler and scorer are preserved byte for byte in
 `physim/legacy_v1/`, matching the published 0.12.x bundles; the active `blobround6*.py`

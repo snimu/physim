@@ -73,7 +73,7 @@ legacy L3S CRPS is not a universal physical error scale.
 The final R6 direction is an executable predictor tested through world-specific
 private coverage, not these six normalizations. See
 [the R6 overview](../../../round6/README.md) and
-[the migration guide](../../../../../../SESSION_MIGRATION.md).
+[the migration guide](../../../../../../handoff/SESSION_MIGRATION.md).
 
 ## Files and provenance
 

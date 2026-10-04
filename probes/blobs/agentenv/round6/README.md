@@ -71,4 +71,4 @@ implementation; use the current worked-example checks. The separate R5
 [absolute-scoring exploration](../round5/resource_revision/absolute_scoring/README.md)
 is preserved unchanged and is not the adopted R6 score.
 
-For historical migration context, see [SESSION_MIGRATION.md](../../../../SESSION_MIGRATION.md).
+For historical migration context, see [SESSION_MIGRATION.md](../../../../handoff/SESSION_MIGRATION.md).

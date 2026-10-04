@@ -63,7 +63,7 @@ def current_v3():
 
 def load_genome(name):
     if name == "p4g2_044":
-        source = ROOT / "environments/physim/physim/blobdata/p4g2_044.json"
+        source = ROOT / "probes/legacy/physim/physim/blobdata/p4g2_044.json"
         return json.loads(source.read_text())["genome"]
     return worlds.load(name)
 

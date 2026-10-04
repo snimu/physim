@@ -92,7 +92,7 @@ uv pip install -e environments/physim
 # baselines
 .venv/bin/python -c "from physim.baselines import run_baseline; print(run_baseline('D0', 0, 'reference')['reward_accuracy'])"
 # eval grid (needs PRIME_API_KEY)
-./run_grid.sh google/gemini-3.5-flash D0 3
+probes/legacy/physim/run_grid.sh google/gemini-3.5-flash D0 3
 # collect
 .venv/bin/python -c "from physim.report import collect_traces, summarize; [print(s) for s in summarize(collect_traces())]"
 ```
