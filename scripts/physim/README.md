@@ -9,7 +9,8 @@ Run from the repository root through `uv run python scripts/physim/<script>.py`.
   dependency outside the checkout, and
   reproduce the persistence score plus a short native experiment without a model.
 - `check_published_install.py`: install the public wheel and its public dependency,
-  copy the three world configs from `--configs`, fetch the bundles they pin, and verify
+  copy the three world configs from `--configs` (for example, a published release's setup
+  archive), fetch the bundles they pin, and verify
   native/offline operation from a fresh directory. Requires an HTTPS wheel URL with a
   SHA-256 fragment.
 - `prepare_world_release.py`: stage approved data/license metadata for HF; never uploads.

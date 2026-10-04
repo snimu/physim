@@ -7,28 +7,21 @@ scientific setting, experimental interface, scoring, and results.
 
 ## Select the recorded condition
 
-The released preparations and the BF Prime Agent case study are different
-experimental conditions. Do not substitute one for the other when reproducing
-a result.
+Current evaluations and the BF Prime Agent case study are different experimental
+conditions. Do not substitute one for the other when reproducing a result.
 
-- The three released world configs in [configs/physim](configs/physim) (`p4g2_044.toml`,
-  `bf_trail_lab.toml`, `xv_rotor_lab.toml`) pin Hugging Face revision
-  `dcd6abd5eae76a47f326c70518315d2d1e101d86` and the earlier laboratory preparations.
-  See [release instructions](RELEASING.md) for portable installation.
 - [configs/physim/eval.toml](configs/physim/eval.toml) evaluates every preparation in the
   installed environment's pinned catalog at `bd77a0da2f14eef352bd80c4a38dff426e5c1bed`:
   the three `centered-pulse-v2` preparations, under the environment's current prompt
   and runtime.
-- The seven-model BF case study uses `centered-pulse-v2`, the `interface-only-v2`
-  prompt, Prime Agent, and a 15-program suite. Its
+- The seven-model BF case study used the same BF preparation
+  (`bundles/bf_trail_lab_centered_v2/38d159a8052bb0fc24d0d8feefe3985ac645fb19954f2c84aa54954a948b561e`)
+  with the `interface-only-v2` prompt, Prime Agent, and its 15-program suite. Its
   [evidence snapshot](docs_source/data/bf-case-study.json) records source and bundle
   identities, selected rollout IDs, scores, usage, and plotted arrays. The
-  [case-study record](BF_CASE_STUDY.md)
-  describes the runtime and run selection. Full local observations, fitted model
-  assets, and traces are not included in the documentation downloads. Its bundle is
-  published at dataset revision `bd77a0da2f14eef352bd80c4a38dff426e5c1bed` as
-  `bundles/bf_trail_lab_centered_v2/38d159a8052bb0fc24d0d8feefe3985ac645fb19954f2c84aa54954a948b561e`,
-  one of the preparations `eval.toml` evaluates.
+  [case-study record](BF_CASE_STUDY.md) describes the runtime and run selection. Full
+  local observations, fitted model assets, and traces are not included in the
+  documentation downloads.
 
 The current website recomputes reward from those saved energy scores using
 `R = max(0, min(-log10(S), K)) / K` with `K=2`; zero energy maps to one and invalid
@@ -111,32 +104,31 @@ than hard-coding the twelve-channel example. Prediction functions must preserve
 query order and output shapes and return finite values. The seed may be unused
 by a deterministic predictor.
 
-## Reproduce the released reference score
+## Reproduce a reference score
 
 With Python 3.12 and the workspace installed:
 
 ```sh
 uv sync --locked
 uv run physim fetch --repo seanpohorence/physim-worlds \
-  --revision dcd6abd5eae76a47f326c70518315d2d1e101d86 \
-  --path bundles/p4g2_044/0c133190c1c86450f56651b47e35f0d729f6a84c7c51a4bc7d91850a9a392ff2 \
-  --profile evaluation
+  --revision bd77a0da2f14eef352bd80c4a38dff426e5c1bed \
+  --path bundles/bf_trail_lab_centered_v2/38d159a8052bb0fc24d0d8feefe3985ac645fb19954f2c84aa54954a948b561e
 # Use the directory printed by fetch:
 uv run physim inspect --bundle /path/printed/by/fetch
 uv run physim demo --bundle /path/printed/by/fetch --output outputs/reference-demo
 ```
 
-This checks seven interface requests and reproduces the released persistence
-predictor's 15-case energy of **0.8271209896216252**, using four forecast members
-and two retained truths per case. It makes no model calls and advances no new
+This checks seven interface requests and reproduces the packaged persistence
+predictor's 15-program BF energy of **0.4970086688520715**, using four forecast members
+and two retained truths per program. It makes no model calls and advances no new
 simulation. It is separate from the BF case study, which uses 64 forecast members.
 
 ## Model evaluations and new experiments
 
 Follow the [environment README](environments/physim/README.md) and
 [configuration guide](configs/physim/README.md) for model-provider setup and
-evaluation commands. Select a preparation explicitly: there is no automatic
-scan of every eval-ready world, and missing selection is an error. The
+evaluation commands. `eval.toml` evaluates every preparation in the installed
+environment's pinned catalog; pass a single bundle to evaluate one. The
 [project README](README.md#validate-and-evaluate-a-predictor) covers Docker
 validation and grading of submitted Python.
 

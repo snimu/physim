@@ -24,45 +24,38 @@ BF case study's separate experimental condition.
 
 ## Install and run locally
 
-Use Python 3.12 for repository development. The workspace contains Physim
-0.13.0.dev0 and its simulator dependency, blobkit 0.3.5. The latest published
-Physim release remains 0.12.2; its pinned preparations differ from the new BF
-case-study condition described in the [reproduction guide](REPRODUCING.md).
+Use Python 3.12 and uv. `uv sync --locked` installs the Physim environment
+(0.13.0.dev0, pinned from the residency repository), an editable Blobkit 0.3.5, the
+native Verifiers integration, and development tools. The environment requires NumPy
+2.5.2 and SciPy 1.18.0 for native reproduction. See [the development guide](DEVELOPMENT.md)
+for ownership and dependency updates.
+
+World data are published on Hugging Face as
+[`seanpohorence/physim-worlds`](https://huggingface.co/datasets/seanpohorence/physim-worlds/tree/bd77a0da2f14eef352bd80c4a38dff426e5c1bed).
+The environment pins revision `bd77a0da2f14eef352bd80c4a38dff426e5c1bed`, whose catalog
+lists three evaluation preparations, BF, XV and `p4g2_044`, among 24 world records with
+archived provenance. Code is Apache-2.0 and world data are CC-BY-4.0. List the
+preparations, fetch one, and run its packaged reference checks:
 
 ```sh
 uv sync --locked
-uv run physim inspect --bundle /path/to/reference-bundle
-uv run physim demo --bundle /path/to/reference-bundle --output outputs/reference-demo
+uv run physim catalog --repo seanpohorence/physim-worlds --revision bd77a0da2f14eef352bd80c4a38dff426e5c1bed
+uv run physim fetch --repo seanpohorence/physim-worlds --revision bd77a0da2f14eef352bd80c4a38dff426e5c1bed \
+  --path bundles/bf_trail_lab_centered_v2/38d159a8052bb0fc24d0d8feefe3985ac645fb19954f2c84aa54954a948b561e
+uv run physim inspect --bundle /path/to/bundle
+uv run physim demo --bundle /path/to/bundle --output outputs/bf-demo
 ```
 
-For repository development, `uv sync --locked` installs the workspace, native
-Verifiers integration, and development tools.
-The pinned environment requires NumPy 2.5.2 and SciPy 1.18.0 for native reproduction.
-The environment is installed from the residency repository; Blobkit is editable
-here. See [the development guide](DEVELOPMENT.md) for ownership and dependency updates.
-
-The [published world dataset](https://huggingface.co/datasets/seanpohorence/physim-worlds/tree/dcd6abd5eae76a47f326c70518315d2d1e101d86) at revision
-`dcd6abd5eae76a47f326c70518315d2d1e101d86`, which the three named world configs pin, contains all
-24 world records and three verified evaluation preparations, with archived provenance;
-downloads, offline reuse, and native reference checks passed without credentials. Code
-is Apache-2.0 and world data are CC-BY-4.0. The dataset was republished on 2026-09-28 at
-`bd77a0da2f14eef352bd80c4a38dff426e5c1bed` with three `centered-pulse-v2` preparations
-from Physim 0.13.0.dev0, including the BF case-study bundle (BF and XV with 15 programs,
-`p4g2_044` with 19); `configs/physim/eval.toml` evaluates them through the installed
-environment's pinned catalog. Both [Physim](https://github.com/swpo/physim/releases/tag/physim-v0.12.2) and
-[Blobkit](https://github.com/swpo/physim/releases/tag/blobkit-v0.3.5) now have public,
-checksummed release distributions. The Physim release includes a portable setup
-archive and explicit configs for the three preparations. See the [release instructions](RELEASING.md).
-Once downloaded or exported, the runtime does not need the research checkout.
-
-`demo` runs the packaged persistence predictor through seven interface checks and
-all 15 cases. It reproduces **0.8271209896216252** with four forecast members and
-two retained truths per case. It makes no model calls or new simulation advances.
+`fetch` verifies every file against the pinned revision and prints the bundle
+directory. `demo` runs the packaged persistence predictor through seven interface
+checks and every program. For BF it reproduces **0.4970086688520715** over 15 programs,
+with four forecast members and two retained truths per program. It makes no model
+calls or new simulation advances.
 
 Run a short native experiment explicitly:
 
 ```sh
-uv run physim experiment --bundle /path/to/reference-bundle \
+uv run physim experiment --bundle /path/to/bundle \
   --request scripts/physim/examples/short-experiment.json --output outputs/short-experiment
 ```
 
@@ -83,37 +76,37 @@ uv run physim grade --runtime docker --bundle /path/to/reference-bundle --artifa
 ```
 
 The example is an intentionally inaccurate zero predictor. For a model-driven
-investigation, configure [configs/physim/eval.toml](configs/physim/eval.toml).
+investigation, configure [configs/physim/eval.toml](configs/physim/eval.toml). It evaluates
+every preparation in the installed environment's pinned catalog, one task each; pass
+`--env.taskset.task.tools.bundle /path/to/bundle` to evaluate a single preparation.
 The standard taskset ID is `physim`; `physim_r6` remains a compatibility alias.
-The base config evaluates all preparations in the package's immutable catalog.
-Select a local bundle or one of `configs/physim/p4g2_044.toml`,
-`bf_trail_lab.toml`, and `xv_rotor_lab.toml` to evaluate one preparation.
 Its experiment budget is the single source for the prompt and service limits.
 Model runs require separately configured provider credentials and incur API costs.
 
-The development package also supports the full
-[Prime Agent harness](environments/physim/PRIME_AGENT.md), including native provider
-interfaces, caching, subagents, and an offline integration test. The campaign
+The environment also supports Verifiers' native
+[Prime Agent harness](environments/physim/PRIME_AGENT.md);
+`scripts/physim/smoke_prime_agent.py` is a no-charge integration test. The campaign
 runner reports spend without automatically stopping an authorized run on dollars.
 
 ## Data identity and current scope
 
-The reference covers one prepared `p4g2_044` world: four activators, eight channels,
-a 256 × 256 periodic grid, and movable probes with 13 and 19 slots. The bundle is
-3,732,420 bytes of listed payloads plus its manifest. It includes the exact fields,
-apparatus, 15 programs, score groups, and 30 retained truth realizations.
-World, preparation, suite, and run have separate content identities.
+Each evaluation preparation is a content-addressed bundle with the exact prepared
+fields, apparatus, programs, score groups, and two retained truth realizations per
+program. World, preparation, suite, and run have separate content identities. All
+three current preparations use the `centered-pulse-v2` apparatus on a 256 × 256 periodic
+grid, with two movable probes of 13 and 19 slots:
 
-Two additional laboratories, `bf_trail_lab` and `xv_rotor_lab`, are prepared with
-11 programs each, fresh scientific evidence and completed native model pilots.
-Their four- and six-port bundles, recipes and observations are preserved in the
-[registry](registry/README.md). See the [scientific report](handoff/eval_preparation/REPORT.md)
-and [repeatable preparation workflow](generators/physim/EVALUATION_WORKFLOW.md).
+| Preparation | Ports | Programs | Payload bytes |
+|---|---|---|---|
+| `bf_trail_lab_centered_v2` | 4 | 15 | 1,916,173 |
+| `xv_rotor_lab_centered_v2` | 6 | 15 | 2,502,577 |
+| `p4g2_044_centered_v2` | 12 | 19 | 4,173,278 |
 
-Reference/development results on this disclosed preparation do not demonstrate
-unfamiliar-world generalization. The primary groups in c006/c007 miss some fine
-switch/recovery timing; the suite preserves that limitation and the existing data.
-Model results use 64 forecast members, unlike the four-member persistence control.
+See the [preparation evidence](handoff/evaluation_campaign_20260916/SCIENCE.md) and the
+[preparation workflow](generators/physim/EVALUATION_WORKFLOW.md). These suites are
+disclosed development material: results on them do not demonstrate unfamiliar-world
+generalization. Model results use 64 forecast members, unlike the four-member
+persistence control.
 
 HF downloads require a full immutable commit and verify byte sizes and hashes.
 Local loading and verified-cache reuse work offline. See [the bundle format](schemas/README.md).

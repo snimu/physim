@@ -12,8 +12,7 @@ records residency commit `49ed83a54a453ec9c875d7d4fde1b8bcb5f13e03`.
 Runtime code and documentation belong in GitHub; world payloads and their
 generation provenance belong in that separate Hugging Face dataset. Archived
 recipe source artifacts retain the code license. The original [public snapshot](https://huggingface.co/datasets/seanpohorence/physim-worlds/tree/dcd6abd5eae76a47f326c70518315d2d1e101d86)
-was published on 2026-09-14 at `dcd6abd5eae76a47f326c70518315d2d1e101d86`; the
-three named world configs still pin it.
+was published on 2026-09-14 at `dcd6abd5eae76a47f326c70518315d2d1e101d86`.
 It contains 24 world records, 19 distinct genomes, three eval-ready preparations,
 and 204 provenance artifacts. All 330 files were downloaded anonymously and
 verified; both bundle profiles support offline reuse, and all three reference
@@ -44,8 +43,8 @@ Its catalog lists three `centered-pulse-v2` preparations from Physim 0.13.0.dev0
 `bf_trail_lab_centered_v2` (the BF case-study bundle, 15 programs),
 `xv_rotor_lab_centered_v2` (15 programs) and `p4g2_044_centered_v2` (19 programs).
 `eval.toml` evaluates them through the installed environment's pinned catalog. The
-original three preparations remain only at `dcd6abd5…`, which the named world configs
-pin. This repository's `registry/` still matches `dcd6abd5…`.
+original three preparations remain only at `dcd6abd5…`. This repository's `registry/`
+still matches `dcd6abd5…`.
 
 The first live 0.12.1 smoke exposed a stock bash-harness setup timeout while
 fetching dependencies inside a fresh container. Version 0.12.2 ships an agent-image
@@ -121,14 +120,13 @@ The zero predictor should pass the interface gate while scoring poorly.
    SHA-256, configs, a fresh work directory, and a report path. This installs from
    public URLs, fetches all three selected worlds, checks offline reuse and native
    task loading, reproduces reference scores, and runs fresh short simulations.
-5. Use the installed environment's runtime setup and run a stock Verifiers smoke using one of
-   `p4g2_044.toml`, `bf_trail_lab.toml`, or `xv_rotor_lab.toml`. The base `eval.toml`
-   now selects the installed package's immutable catalog. A supplied local bundle
-   overrides that selection.
+5. Use the installed environment's runtime setup and run a stock Verifiers smoke with
+   `eval.toml`, which selects the installed package's immutable catalog. A supplied
+   local bundle overrides that selection.
 6. Prepare the focused residency contribution described in `REPOSITORY.md`.
    Maintainers still need to choose the external runner's config and model panel.
 
-Download the snapshot that the 0.12.x configs pin:
+Download the original snapshot used by these release checks:
 
 ```sh
 uv run physim catalog --repo seanpohorence/physim-worlds --revision dcd6abd5eae76a47f326c70518315d2d1e101d86
@@ -143,6 +141,10 @@ disclosed development material. Future held-out
 suites need distinct identities and an explicit access policy.
 
 ## Residency evaluation review
+
+This review was recorded on 2026-09-14 for the 0.12.x release. The current
+environment's selection and defaults are documented with it in the residency
+repository: by default it now evaluates every preparation in its pinned catalog.
 
 Checked upstream main at `01d9f5f80572b7ec82575b10d45a800ed844e496` on 2026-09-14.
 The repository's [maintainer notes](https://github.com/PrimeIntellect-ai/residency-environments/blob/01d9f5f80572b7ec82575b10d45a800ed844e496/.github/MAINTAINERS.md)

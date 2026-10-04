@@ -25,12 +25,15 @@ jobs:
           PHYSIM_TEST_BUNDLE: dist/residency-reference-bundle
         run: |
           uv run python - <<'PY'
-          import shutil, tomllib
-          from pathlib import Path
+          import shutil
           from physim.hub import fetch_bundle
-          config = tomllib.loads(Path("configs/physim/p4g2_044.toml").read_text())
-          source = config["env"]["taskset"]["task"]["tools"]["bundle_source"]
-          bundle = fetch_bundle(**source, profile="evaluation")
+          # The original 15-case p4g2_044 reference bundle used by the historical bundle checks.
+          bundle = fetch_bundle(
+              repo="seanpohorence/physim-worlds",
+              revision="dcd6abd5eae76a47f326c70518315d2d1e101d86",
+              path="bundles/p4g2_044/0c133190c1c86450f56651b47e35f0d729f6a84c7c51a4bc7d91850a9a392ff2",
+              profile="evaluation",
+          )
           shutil.copytree(bundle, "dist/residency-reference-bundle")
           PY
           uv run pytest -n auto tests -v

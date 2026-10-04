@@ -1,7 +1,8 @@
 """Install a checksummed public wheel and verify published worlds outside the checkout.
 
 Requires uv and Python 3.12. Does not call a model. The supplied config directory
-must contain p4g2_044.toml, bf_trail_lab.toml, and xv_rotor_lab.toml.
+must contain p4g2_044.toml, bf_trail_lab.toml, and xv_rotor_lab.toml, such as the
+configs/physim/ directory of a published release's physim-setup archive.
 """
 
 import argparse

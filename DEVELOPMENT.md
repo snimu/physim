@@ -31,7 +31,7 @@ Set `PHYSIM_TEST_BUNDLE` to the original verified `p4g2_044` bundle for the opti
 
 For an environment update, commit and push in the residency checkout, then update the full `physim.rev` in this repository's `[tool.uv.sources]` and the matching `physim` URL and `source_commit` in `configs/physim/release.toml`. Update the commit in the documentation links in `environments/physim/README.md` and `environments/physim/PRIME_AGENT.md` as well. Run `uv lock`, `uv sync --locked`, and the integration checks. The dependency test rejects inconsistent pins. There is no environment source to copy back.
 
-The three named world configs and `eval.toml` are explicit research presets for the pinned environment. The named presets preserve the original published reference preparations; `eval.toml` selects all evaluation-ready preparations in the package's immutable catalog. Historical `*-pilot.toml` files retain their original settings. Upstream harness examples, including Qwen context settings, live in the residency repository's `configs/physim/` directory.
+`configs/physim/eval.toml` is the research preset for the pinned environment: it selects all evaluation-ready preparations in the package's immutable catalog. Per-world presets and harness examples, including Qwen context settings, live in the residency repository's `configs/physim/` directory.
 
 ## Test changes in both checkouts
 
