@@ -69,6 +69,10 @@ class WorldEquationTests(unittest.TestCase):
         self.assertIn("u0 - 0.2494491476025201", laws["channels"][2][1])
         self.assertNotIn("z", "".join(rhs for _, rhs in laws["activators"] + laws["channels"]))
         self.assertNotIn("lap_x2", laws["channels"][2][1])
+        shown = equations(json.loads(path.read_text(), parse_float=Decimal), digits=4)
+        self.assertIn("u0 - 0.2494", shown["channels"][2][1])
+        self.assertIn("0.7018 * lap_x0", shown["channels"][0][1])
+        self.assertNotIn("0.2494491476025201", shown["channels"][2][1])
         self.assertTrue(laws["channels"][2][1].endswith("/ 200"))
         self.assertIn("- x2 * x1", laws["activators"][0][1])
 

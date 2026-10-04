@@ -1,8 +1,8 @@
-<p>A <em>group</em> selects readings to score jointly, such as one field at several sensors and times. Every BF experiment is scored on the same four groups, listed below. For a fixed experiment and group, divide forecast readings <var>f</var><sub>ik</sub> and observed readings <var>o</var><sub>jk</sub> by predeclared positive scales <var>s</var><sub>k</sub> in their native units:</p>
-<div class="equation scoring-math"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block" aria-label="Scaled forecast x i k equals f i k divided by s k; scaled observation y j k equals o j k divided by s k.">
-  <msub><mi>x</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>f</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><msub><mi>s</mi><mi>k</mi></msub></mfrac>
+<p>A <em>group</em> selects readings to score jointly, such as one field at several sensors and times. Every BF experiment is scored on the same four groups, listed below. For a fixed experiment and group, let <var>f</var><sub>ik</sub> be reading <var>k</var> of forecast sample <var>i</var> and <var>o</var><sub>jk</sub> the same reading in simulated realization <var>j</var>. Divide both by predeclared positive scales <var>s</var><sub>k</sub> in their native units:</p>
+<div class="equation scoring-math"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block" aria-label="Scaled forecast f hat i k equals f i k divided by s k; scaled observation o hat j k equals o j k divided by s k.">
+  <msub><mover accent="true"><mi>f</mi><mo>^</mo></mover><mrow><mi>i</mi><mi>k</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>f</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><msub><mi>s</mi><mi>k</mi></msub></mfrac>
   <mo>,</mo><mspace width="2em"/>
-  <msub><mi>y</mi><mrow><mi>j</mi><mi>k</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>o</mi><mrow><mi>j</mi><mi>k</mi></mrow></msub><msub><mi>s</mi><mi>k</mi></msub></mfrac>
+  <msub><mover accent="true"><mi>o</mi><mo>^</mo></mover><mrow><mi>j</mi><mi>k</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>o</mi><mrow><mi>j</mi><mi>k</mi></mrow></msub><msub><mi>s</mi><mi>k</mi></msub></mfrac>
 </math></div>
 <p>The scales <var>s</var><sub>k</sub> set the relative weight of the readings. A smaller scale makes the same absolute prediction error count more. Scales can account for expected differences in field magnitudes, or emphasize a field whose response an experiment is designed to detect. They are chosen before evaluating predictors and remain fixed for that experiment. In BF, an error of 0.05 in the trail field x₂ counts as much as an error of 1 in u₀, matching the trail’s much smaller values.</p>
 <div class="table-scroll"><table><caption>The four score groups of every BF experiment</caption><thead><tr><th scope="col">Readings</th><th scope="col">Times</th><th scope="col">Scale</th></tr></thead><tbody>
@@ -23,11 +23,11 @@
   <mfrac><mn>1</mn><mrow><mi>M</mi><mi>N</mi></mrow></mfrac>
   <munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>M</mi></munderover>
   <munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover>
-  <mi>D</mi><mo stretchy="false">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>,</mo><msub><mi>y</mi><mi>j</mi></msub><mo stretchy="false">)</mo><mo>−</mo>
+  <mi>D</mi><mo stretchy="false">(</mo><msub><mover accent="true"><mi>f</mi><mo>^</mo></mover><mi>i</mi></msub><mo>,</mo><msub><mover accent="true"><mi>o</mi><mo>^</mo></mover><mi>j</mi></msub><mo stretchy="false">)</mo><mo>−</mo>
   <mfrac><mn>1</mn><mrow><mn>2</mn><msup><mi>M</mi><mn>2</mn></msup></mrow></mfrac>
   <munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>M</mi></munderover>
   <munderover><mo>∑</mo><mrow><mi>ℓ</mi><mo>=</mo><mn>1</mn></mrow><mi>M</mi></munderover>
-  <mi>D</mi><mo stretchy="false">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>,</mo><msub><mi>x</mi><mi>ℓ</mi></msub><mo stretchy="false">)</mo>
+  <mi>D</mi><mo stretchy="false">(</mo><msub><mover accent="true"><mi>f</mi><mo>^</mo></mover><mi>i</mi></msub><mo>,</mo><msub><mover accent="true"><mi>f</mi><mo>^</mo></mover><mi>ℓ</mi></msub><mo stretchy="false">)</mo>
 </math></div>
 <p>Average equally over the <var>G</var><sub>c</sub> groups in each experiment, then over the <var>C</var> experiments. For BF, <var>G</var><sub>c</sub> = 4 for every experiment and <var>C</var> = 15:</p>
 <div class="equation scoring-math"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block" aria-label="Experiment score S c equals the mean of E c g over G c groups. Primary score S equals the mean of S c over C experiments.">
