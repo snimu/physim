@@ -5,13 +5,15 @@ the genome, exact prepared fields, apparatus, case programs, score groups, and
 retained native realizations. License choices are recorded in
 `configs/physim/release.toml` and in each data-bundle manifest.
 
-The [published dataset](https://huggingface.co/datasets/seanpohorence/physim-worlds/tree/dcd6abd5eae76a47f326c70518315d2d1e101d86) is `seanpohorence/physim-worlds`, verified at
-`dcd6abd5eae76a47f326c70518315d2d1e101d86`. It includes 24 registry records
-(19 distinct genomes), all available provenance, and three evaluation bundles.
-Anonymous downloads, all file hashes, offline reuse, reference scores, and short
-native simulations were verified. Fetch the selected bundle at this revision and
-supply its local directory through `env.taskset.task.tools.bundle`; publication
-does not introduce an implicit world selection.
+The [published dataset](https://huggingface.co/datasets/seanpohorence/physim-worlds/tree/dcd6abd5eae76a47f326c70518315d2d1e101d86) is `seanpohorence/physim-worlds`. The shipped
+configs pin revision `dcd6abd5eae76a47f326c70518315d2d1e101d86` (2026-09-14), which
+includes 24 world records (19 distinct genomes), all available provenance, and three
+`fixed-source-v1` evaluation bundles. Anonymous downloads, all file hashes, offline
+reuse, reference scores, and short native simulations were verified at that revision.
+The latest revision, `bd77a0da…` (recorded in `configs/physim/release.toml`), replaces
+those bundles with three `centered-pulse-v2` preparations. Fetch the selected bundle at
+a pinned revision and supply its local directory through `env.taskset.task.tools.bundle`;
+publication does not introduce an implicit world selection.
 
 To discover the runnable evaluation preparations from the installed package:
 

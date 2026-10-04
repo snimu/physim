@@ -23,6 +23,10 @@ uv run blobkit registry verify registry
 uv run python generators/physim/export_registry_catalog.py --registry registry
 ```
 
+Re-running the historical import (the first command) needs research fixtures that
+are not in the code repository (see `generators/physim/README.md`); the registry
+already contains its output.
+
 Reading or verifying the registry does not execute its source artifacts.
 `blobkit registry export-recipe` materializes a recipe for inspection and explicit
 execution. Runtime evaluation loads only the separate verified data bundle and

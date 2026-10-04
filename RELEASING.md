@@ -4,8 +4,9 @@ Code is Apache-2.0 and world data are CC-BY-4.0. The approved dataset destinatio
 is `seanpohorence/physim-worlds`, recorded in `configs/physim/release.toml`.
 Runtime code and documentation belong in GitHub; world payloads and their
 generation provenance belong in that separate Hugging Face dataset. Archived
-recipe source artifacts retain the code license. The current [public snapshot](https://huggingface.co/datasets/seanpohorence/physim-worlds/tree/dcd6abd5eae76a47f326c70518315d2d1e101d86)
-was published on 2026-09-14 at `dcd6abd5eae76a47f326c70518315d2d1e101d86`.
+recipe source artifacts retain the code license. The original [public snapshot](https://huggingface.co/datasets/seanpohorence/physim-worlds/tree/dcd6abd5eae76a47f326c70518315d2d1e101d86)
+was published on 2026-09-14 at `dcd6abd5eae76a47f326c70518315d2d1e101d86`; the 0.12.x
+world configs still pin it.
 It contains 24 world records, 19 distinct genomes, three eval-ready preparations,
 and 204 provenance artifacts. All 330 files were downloaded anonymously and
 verified; both bundle profiles support offline reuse, and all three reference
@@ -18,10 +19,10 @@ portable world configs and Dockerfiles. Current portability receipts are in
 
 The dataset-card update at `0813ee4d0a4e97a12bbf598d5d43a45eddf5492f` links Physim 0.12.2
 and documents Hugging Face's verified Parquet conversion. Across the two card
-updates, only `README.md`, `registry/README.md`, and `release.json` changed. The
-portable configs deliberately retain the original data revision above because
-all scientific payloads and catalog rows are identical. The viewer contains
-24 world rows and three evaluation rows; both converted tables match their
+updates, only `README.md`, `registry/README.md`, and `release.json` changed. Through
+these updates the portable configs deliberately retained the original data revision
+above, because all scientific payloads and catalog rows were identical. The viewer
+contained 24 world rows and three evaluation rows; both converted tables matched their
 source JSONL exactly.
 
 The contribution-guide update at `1d8b73624669aea004befd54ec050bb7280f1678`
@@ -30,6 +31,15 @@ release manifest to inventory the guide; all scientific files and catalog rows
 remain unchanged. The editable guide is `registry/CONTRIBUTING.md`, which release
 staging copies to the dataset root. Publication and example-validation receipts
 are in `handoff/registry_contribution_20260915/`.
+
+The dataset was republished on 2026-09-28 at `bd77a0da2f14eef352bd80c4a38dff426e5c1bed`,
+recorded in `configs/physim/release.toml`. That export came from
+`swpo/residency-environments@9c44e77` with Physim 0.13.0.dev0. Its catalog lists three
+`centered-pulse-v2` preparations: `bf_trail_lab_centered_v2` (the BF case-study bundle,
+15 programs), `xv_rotor_lab_centered_v2` (15 programs) and `p4g2_044_centered_v2`
+(19 programs). The original three preparations remain only at `dcd6abd5…`. This
+repository's `registry/` still matches `dcd6abd5…`, and no Physim release or shipped
+config selects the centered preparations yet.
 
 The first live 0.12.1 smoke exposed a stock bash-harness setup timeout while
 fetching dependencies inside a fresh container. Version 0.12.2 ships an agent-image
@@ -110,7 +120,7 @@ The zero predictor should pass the interface gate while scoring poorly.
 6. Prepare the focused residency contribution described in `REPOSITORY.md`.
    Maintainers still need to choose the external runner's config and model panel.
 
-Download the verified current snapshot:
+Download the snapshot that the 0.12.x configs pin:
 
 ```sh
 uv run physim catalog --repo seanpohorence/physim-worlds --revision dcd6abd5eae76a47f326c70518315d2d1e101d86

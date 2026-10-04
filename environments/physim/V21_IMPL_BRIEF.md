@@ -1,4 +1,9 @@
 # V2.1 IMPLEMENTATION BRIEF (BLOB2v2 — category-anchored, closed-book reveal)
+
+> **Historical brief (2026-09-05)** for the retired round-5 BLOB2v2 task. Its modules
+> now live under `probes/legacy/physim/` and its results under
+> `probes/blobs/agentenv/results/`; the current environment is described in
+> [README.md](README.md).
 SPEC (authoritative): probes/blobs/l0/deepsearch/TRACKA_R5_ANCHORS.md (v2.1, 627
 lines). Read it fully first. This brief adds engineering constraints only.
 

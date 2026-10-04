@@ -1,3 +1,7 @@
+> **Historical report (February 2026)** on the M0 environment, now archived in
+> `probes/legacy/physim/`. Its commands and module paths do not apply to the installed
+> `physim` package. For the current system, see [README.md](README.md).
+
 # physim M0 report — does difficulty track model performance?
 
 *2026-02-11. Environment: `environments/physim` (verifiers v1 taskset, chat tier /

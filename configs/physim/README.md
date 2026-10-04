@@ -16,5 +16,7 @@ model call, but does not load or verify physical data. A wiring smoke uses
 `-n 1 -r 2 --env.agent.max-turns 4`; use the full config for scientific rollouts.
 The `bf-pilot.toml` and `xv-pilot.toml` files preserve historical local run settings.
 
-`release.toml` records the published dataset revision and its licenses. It is
-release metadata, not an implicit runtime world-selection default.
+`release.toml` records the latest dataset publication (`bd77a0da…`, 2026-09-28, with
+three `centered-pulse-v2` preparations), its release ID, the code sources used for that
+export, and the licenses. It is release metadata, not an implicit runtime
+world-selection default; the world configs above still pin `dcd6abd5…`.

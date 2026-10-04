@@ -40,11 +40,14 @@ For repository development, `uv sync --locked` installs the workspace, native
 Verifiers integration, and development tools.
 The reference extra pins NumPy 2.5.2 and SciPy 1.18.0 for native reproduction.
 
-The [published world dataset](https://huggingface.co/datasets/seanpohorence/physim-worlds/tree/dcd6abd5eae76a47f326c70518315d2d1e101d86) contains all 24 registry records and three
-verified evaluation preparations, with archived provenance. Code is Apache-2.0
-and world data are CC-BY-4.0. The dataset revision is
-`dcd6abd5eae76a47f326c70518315d2d1e101d86`; downloads, offline reuse, and native
-reference checks passed without credentials. Both [Physim](https://github.com/swpo/physim/releases/tag/physim-v0.12.2) and
+The [published world dataset](https://huggingface.co/datasets/seanpohorence/physim-worlds/tree/dcd6abd5eae76a47f326c70518315d2d1e101d86) at revision
+`dcd6abd5eae76a47f326c70518315d2d1e101d86`, which the 0.12.2 configs pin, contains all
+24 world records and three verified evaluation preparations, with archived provenance;
+downloads, offline reuse, and native reference checks passed without credentials. Code
+is Apache-2.0 and world data are CC-BY-4.0. The dataset was republished on 2026-09-28 at
+`bd77a0da2f14eef352bd80c4a38dff426e5c1bed` with three `centered-pulse-v2` preparations
+from Physim 0.13.0.dev0, including the BF case-study bundle (BF and XV with 15 programs,
+`p4g2_044` with 19); no release or shipped config selects them yet. Both [Physim](https://github.com/swpo/physim/releases/tag/physim-v0.12.2) and
 [Blobkit](https://github.com/swpo/physim/releases/tag/blobkit-v0.3.5) now have public,
 checksummed release distributions. The Physim release includes a portable setup
 archive and explicit configs for the three preparations. See the [release instructions](RELEASING.md).

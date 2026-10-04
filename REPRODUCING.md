@@ -11,7 +11,8 @@ The released preparations and the BF Prime Agent case study are different
 experimental conditions. Do not substitute one for the other when reproducing
 a result.
 
-- The released configs in [configs/physim](configs/physim) pin Hugging Face revision
+- The three released world configs in [configs/physim](configs/physim) (`p4g2_044.toml`,
+  `bf_trail_lab.toml`, `xv_rotor_lab.toml`) pin Hugging Face revision
   `dcd6abd5eae76a47f326c70518315d2d1e101d86` and the earlier laboratory preparations.
   See [release instructions](RELEASING.md) for portable installation.
 - The seven-model BF case study uses `centered-pulse-v2`, the `interface-only-v2`
@@ -20,7 +21,10 @@ a result.
   identities, selected rollout IDs, scores, usage, and plotted arrays. The
   [case-study record](BF_CASE_STUDY.md)
   describes the runtime and run selection. Full local observations, fitted model
-  assets, and traces are not included in the documentation downloads.
+  assets, and traces are not included in the documentation downloads. Its bundle is
+  published at dataset revision `bd77a0da2f14eef352bd80c4a38dff426e5c1bed` as
+  `bundles/bf_trail_lab_centered_v2/38d159a8052bb0fc24d0d8feefe3985ac645fb19954f2c84aa54954a948b561e`;
+  no shipped config selects it.
 
 The current website recomputes reward from those saved energy scores using
 `R = max(0, min(-log10(S), K)) / K` with `K=2`; zero energy maps to one and invalid
@@ -30,8 +34,9 @@ are in [the reward summary](docs/data/bf-reward-summary.json).
 
 New runs expose the requested `reward_precision` in the `interface-only-v3-log-reward`
 prompt. Set `env.taskset.task.tools.reward_precision` independently of inference and
-experiment budgets. Use the recorded prompt and reward condition when reproducing
-older runs.
+experiment budgets. The prompt condition and reward mapping are otherwise fixed in the
+code, so reproducing an older run, such as the case study's `interface-only-v2` prompt
+with reward `1/(1+S)`, needs the source from before commit `66e28be`.
 
 Every result should identify four objects:
 
@@ -57,7 +62,7 @@ define metrics in Python, search, and harvest worlds.
 Laboratory bundles contain data, not executable Python:
 
 ```text
-bundles/<preparation-name>/<revision>/
+bundles/<preparation-name>/<bundle-sha256>/
   manifest.json       # identities, numerical profile, source versions and hashes
   world.json          # field genome
   preparation.npz     # initial fields
@@ -137,8 +142,19 @@ not. For a new suite, use the
 
 ## Rebuild the reported figures
 
-The case-study snapshot includes the exact scores and small slices of the saved
-grading arrays. With NumPy and Matplotlib installed:
+Most figures and films on the page come from `scripts/render_bf_thread.py`. It runs
+native simulations from hash-verified registry artifacts, with no model inference, and
+downloads the published p4g2_044 bundle once. It needs the development environment
+(NumPy, SciPy, Matplotlib) and FFmpeg; its
+[README](docs/assets/bf-thread/README.md) describes the checks and options:
+
+```sh
+PYTHONPATH=environments/physim:packages/blobkit python scripts/render_bf_thread.py
+```
+
+The results heatmap comes from the case-study snapshot, which includes the exact
+scores and small slices of the saved grading arrays. With NumPy and Matplotlib
+installed:
 
 ```sh
 python scripts/render_bf_case_study.py
@@ -146,6 +162,6 @@ python scripts/build_docs.py
 python scripts/check_docs.py
 ```
 
-These commands neither run agents nor execute submitted predictors. The renderer's
-optional `--capture` deliberately refreshes the snapshot from the original local
-campaign directories; those large artifacts are not required for ordinary builds.
+These commands neither run agents nor execute submitted predictors. The case-study
+renderer's optional `--capture` deliberately refreshes the snapshot from the original
+local campaign directories; those large artifacts are not required for ordinary builds.

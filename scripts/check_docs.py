@@ -192,8 +192,7 @@ def check():
             errors.append("Control evidence source changed; review snapshot")
         if json.loads(control_source.read_text())["aggregate"] != evidence["controls"]["aggregate"]:
             errors.append("Control aggregates differ from source")
-    contract = (ROOT / "environments/physim/physim/data/agent_spec.txt").read_text()
-    for key, value in (
+    substitutions = (
         ("n_ports", "12"),
         ("last_port", "11"),
         ("example_port", "2"),
@@ -208,10 +207,13 @@ def check():
         ("coding_tools", "Use the bash and edit tools to run commands and work with files."),
         ("reward_precision", f"{PRECISION:g}"),
         ("reward_threshold", f"10^(-{PRECISION:g})"),
-    ):
-        contract = contract.replace("{" + key + "}", value)
-    if contract != (SOURCE / "examples/AGENT_SPEC.md").read_text():
-        errors.append("Downloadable agent contract differs from the current runtime")
+    )
+    for spec, example in (("agent_spec.txt", "AGENT_SPEC.md"), ("agent_spec_v1.txt", "AGENT_SPEC_V1.md")):
+        contract = (ROOT / "environments/physim/physim/data" / spec).read_text()
+        for key, value in substitutions:
+            contract = contract.replace("{" + key + "}", value)
+        if contract != (SOURCE / "examples" / example).read_text():
+            errors.append(f"Downloadable agent contract {example} differs from the current runtime")
     summary = {
         "html_pages": len(pages),
         "current_pages": len(PAGES),

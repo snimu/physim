@@ -14,13 +14,14 @@ have independent movement/injection lanes. Equal-time actions execute in list
 order, so move-then-inject and inject-then-move select different launch positions.
 Sensor dilation leaves the source centered and does not change its width.
 
-Published configs and HF bundles still use `fixed-source-v1`. Loading one selects
-its frozen simulator, scoring implementation, agent instructions, and interface
-checks. Existing truth is never relabeled as the new apparatus. The updated
-apparatus has protocol tests and fresh local preparations and rollouts, including
-the [BF case study](../../BF_CASE_STUDY.md). Publishing those new bundles and a new
-package release are separate steps; the existing release pins retain their
-original scientific condition.
+The shipped configs and the 0.12.2 release pin HF revision `dcd6abd5…`, whose bundles
+use `fixed-source-v1`. Loading one selects its frozen simulator, scoring implementation,
+agent instructions, and interface checks. Existing truth is never relabeled as the new
+apparatus. The updated apparatus has protocol tests and fresh preparations and rollouts,
+including the [BF case study](../../BF_CASE_STUDY.md). The three resulting `*_centered_v2`
+bundles were published at dataset revision `bd77a0da…` (2026-09-28), which replaces the
+fixed-source bundles on the dataset's main branch. No Physim release or shipped config
+selects them yet; the existing release pins retain their original scientific condition.
 
 The development package also includes the
 [Prime Agent harness adapter](PRIME_AGENT.md), interface-only prompts, and

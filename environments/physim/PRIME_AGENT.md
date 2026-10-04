@@ -101,9 +101,10 @@ reported usage remain separate from this request.
 Each rollout gets a new home and workspace. No personal credentials, history,
 skills, simulator source, registry, or truths enter the agent container. Model
 requests, including subagent calls, use Verifiers interception; general network
-access remains blocked. The environment's `interface-only-v2` instructions and
-agent-visible errors describe the experimental interface without disclosing
-the hidden simulator. Checkpoints from another prompt condition are rejected.
+access remains blocked. The environment's `interface-only-v3-log-reward` instructions,
+which also state the reward precision K, and agent-visible errors describe the
+experimental interface without disclosing the hidden simulator. Checkpoints from
+another prompt condition, including the BF case study's `interface-only-v2`, are rejected.
 
 ## Campaigns, diagnostics, and artifacts
 

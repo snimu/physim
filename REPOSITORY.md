@@ -69,6 +69,7 @@ uv sync --locked
 uv run ruff check .
 uv run ruff format --check .
 uv run pytest -n auto tests -v
+uv run pytest packages/blobkit/tests -m 'not accelerator and not slow' -v
 uv run python scripts/physim/validation/test_blob_round6.py --gates toy native
 uv run python scripts/physim/validation/test_blob_round6_eval.py
 uv run python scripts/physim/validation/test_blob_round6_explore.py
@@ -76,18 +77,24 @@ uv run python -m unittest discover -s scripts/physim/validation -p test_r6_verif
 uv run python -m unittest discover -s scripts/physim/validation -p test_bundles.py
 uv run python scripts/build_docs.py
 uv run python scripts/check_docs.py
+uv build --package blobkit
+uv build --package physim
 ```
 
-Set `PHYSIM_TEST_BUNDLE` to a verified evaluation bundle to enable the additional
-bundle/cache/reference tests. Without it, those checks explicitly skip. Native
+Set `PHYSIM_TEST_BUNDLE` to the verified 15-case p4g2_044 reference bundle (CI fetches
+it at the pinned revision) to enable the additional bundle/cache/reference tests.
+Without it, those checks explicitly skip; the release-staging test also looks for the
+bundle in `dist/residency-reference-bundle`. Native
 migration checks also need the original research fixtures. CI runs the
 independent checks; [RELEASING.md](RELEASING.md) covers native and clean-install
 validation. The environment README contains the eval CLI smoke command.
 
 The root uses Python 3.12, uv, and Prime's Ruff F/I rules at line length 120.
 Four Physim reference files (`blobround6.py`, `blobround6_eval.py`,
-`blobround6_explore.py`, `devices.py`) and the historical blobkit implementation
-are excluded from formatting: scientific manifests bind their exact source bytes.
+`blobround6_explore.py`, `devices.py`), the fixed-source modules in `physim/legacy_v1/`,
+and the historical blobkit implementation are excluded from formatting: scientific
+manifests bind their exact source bytes. CI still checks Blobkit's `generation.py`,
+`registry.py` and `cli.py` explicitly.
 Changing their formatting would invalidate those identities. This is an explicit
 local exception disclosed in the PR, not a recertification of the law.
 
@@ -97,12 +104,14 @@ The active installable blobkit source is `packages/blobkit/`. The original
 `probes/blobs/blobkit/` tree remains as provenance and for old research scripts.
 New changes belong in the active package. The old engine, servers, and tasksets
 have moved out of the installable environment into `probes/legacy/physim/`.
-Only migration helpers explicitly activate those legacy modules. The tiny
-`physim/blobdata/` source fixture is retained for old manifest paths and is excluded
-from both source and wheel distributions.
+Only migration helpers explicitly activate those legacy modules. A copy of the old
+`blobdata/` source fixture is retained at `probes/legacy/physim/physim/blobdata/`; it is
+not part of the environment package.
 
-The R6 scheduler, scorer, experiment service, and CPU kernels keep their original
-bytes. Five device definitions were extracted with identical syntax trees.
+The original fixed-source R6 scheduler and scorer are preserved byte for byte in
+`physim/legacy_v1/`, matching the published 0.12.x bundles; the active `blobround6*.py`
+modules implement `centered-pulse-v2`. `devices.py` and Blobkit's CPU kernels keep
+their original bytes. Five device definitions were extracted with identical syntax trees.
 `handoff/repo_cleanup/` preserves the earlier cleanup evidence;
 `handoff/residency_alignment/` records this reorganization and the pre-move source.
 `handoff/blobkit_polish/` records standalone library packaging and CPU/CUDA checks.

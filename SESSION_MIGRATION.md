@@ -1,3 +1,12 @@
+> **Historical session notes (2026-09-07 to 2026-09-09).** This guide describes the
+> project as it stood then. Its links into `worked_example/` point to local files that were
+> never committed, and its "optional short checks" no longer pass. Two of those checks
+> also overwrite preserved evidence (`handoff/VALIDATION.json` and
+> `probes/blobs/agentenv/round6/first_pass_validation.json`), so don't run them. For the
+> current project, start with [README.md](README.md), [REPRODUCING.md](REPRODUCING.md) and
+> [REPOSITORY.md](REPOSITORY.md), whose "Development and validation" section lists the
+> current checks.
+
 # Session migration — start here
 
 ## Latest completion: native Verifiers rerun (2026-09-09)

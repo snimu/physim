@@ -1,5 +1,11 @@
 # Centered apparatus update — September 16, 2026
 
+> **Historical plan.** Since it was written, the centered-source preparations were
+> completed, the [BF case study](../BF_CASE_STUDY.md) was recorded, and the
+> `*_centered_v2` preparations were published at dataset revision `bd77a0da…`. The
+> `docs_source/pages/scoring.html` page it mentions is now part of the single-page site
+> (`docs_source/partials/scoring.html`).
+
 Agreed behavior:
 - Each of the two instruments has a source at its own sensor-array center.
 - `inject` selects `device` and `port`; launch instantly captures the current center.

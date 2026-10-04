@@ -1,3 +1,8 @@
+> **Historical handoff notes (2026-09-07).** This file records agent-session state from
+> early September; it is not the current project state. For the current project, start
+> with [README.md](README.md), [REPRODUCING.md](REPRODUCING.md) and
+> [REPOSITORY.md](REPOSITORY.md).
+
 # CURRENT STATE — MIGRATION READY (2026-09-07T13:15:24.259320+00:00)
 
 **Start a fresh session with [SESSION_MIGRATION.md](SESSION_MIGRATION.md).**
