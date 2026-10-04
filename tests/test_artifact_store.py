@@ -4,6 +4,7 @@ import io
 import json
 import os
 import tarfile
+from functools import partial
 from pathlib import Path
 
 import pytest
@@ -17,7 +18,9 @@ from physim.artifact_store import (
     read_artifact_files,
     snapshot_artifact,
 )
-from physim.sandbox import ExecutionLimits, Sandbox, docker
+from physim.runtime_sandbox import PUBLIC_IMAGE, RuntimeSandbox
+from physim.sandbox import ExecutionLimits
+from verifiers.v1 import DockerConfig
 
 
 def tar_stream(entries):
@@ -129,14 +132,6 @@ def test_docker_export_validation_and_grading_keep_case_distinct_and_readonly(tm
     observations.mkdir()
     # This runs in the Linux investigation container and then checks that both
     # names still exist after export, grading freeze, and predictor staging.
-    code = """import pathlib
-pathlib.Path('/workspace/y15.npy').write_text('2')
-pathlib.Path('/workspace/Y15.npy').write_text('5')
-pathlib.Path('/workspace/Data').mkdir()
-pathlib.Path('/workspace/data').mkdir()
-pathlib.Path('/workspace/Data/x').write_text('11')
-pathlib.Path('/workspace/data/x').write_text('13')
-"""
     predictor = """import pathlib, numpy as np
 def predict(actions, queries, n_samples=64, seed=0):
     root = pathlib.Path(__file__).parent
@@ -153,25 +148,33 @@ def predict(actions, queries, n_samples=64, seed=0):
     slots = {'device0':13, 'device1':19, 'global':2}
     return {'samples':[np.full((n_samples,len(q['t']),12,slots[q['sensor']]),7.0) for q in queries]}
 """
-    box = Sandbox(observations)
-    try:
-        result = box.python(code + f"\npathlib.Path('/workspace/predictor.py').write_text({predictor!r})")
-        assert result["exit_code"] == 0, result
-        artifact = tmp_path / "submit_01"
-        box.export_workspace(artifact)
-    finally:
-        box.close()
-    assert evaluation.validate_predictor(artifact, observations)["ok"]
+    artifact = tmp_path / "submit_01"
+    archive_workspace(
+        tar_stream(
+            [
+                ("predictor.py", predictor.encode()),
+                ("y15.npy", b"2"),
+                ("Y15.npy", b"5"),
+                ("Data/x", b"11"),
+                ("data/x", b"13"),
+            ]
+        ),
+        artifact,
+        ExecutionLimits(),
+    )
+    factory = partial(RuntimeSandbox, runtime_config=DockerConfig(image=PUBLIC_IMAGE, allow=[]))
+    assert evaluation.validate_predictor(artifact, observations, sandbox_factory=factory)["ok"]
     # Use the real grading path and a two-case prepared data-only fixture;
     # numerical truth and scoring execute unchanged, with no model API call.
     from physim.bundles import Bundle
 
-    root = Path(__file__).resolve().parents[1]
-    bundle = Bundle(root / "outputs/eval-preparation-20260916/p4g2_044/bundle")
+    bundle_path = os.environ.get("PHYSIM_TEST_BUNDLE")
+    if not bundle_path:
+        pytest.skip("grading requires PHYSIM_TEST_BUNDLE; Docker validation passed")
+    bundle = Bundle(Path(bundle_path))
     bundle.suite = dict(bundle.suite, cases=bundle.suite["cases"][:2])
-    grade = evaluation.grade(artifact, observations, tmp_path / "grade", bundle=bundle, members=2)
+    grade = evaluation.grade(
+        artifact, observations, tmp_path / "grade", bundle=bundle, members=2, sandbox_factory=factory
+    )
     assert grade["status"] == "COMPLETE" and grade["valid_cases"] == 2
     assert {f["path"] for f in grade["predictor"]["files"]} == {f["path"] for f in archive_info(artifact)["files"]}
-    # No helper/predictor volumes may outlive their sandbox lifecycle.
-    remaining = docker(["volume", "ls", "--format", "{{.Name}}", "--filter", f"name={box.name}"])
-    assert not remaining.strip()

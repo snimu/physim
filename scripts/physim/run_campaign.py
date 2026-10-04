@@ -2,7 +2,7 @@
 
 Without --execute this only resolves configurations. Credentials stay in the
 native Verifiers client; no token is read, written, or passed on a command line.
-The native Bash loop uses a recorded MCP transport repair and diagnostic overlay.
+The native harnesses come from the pinned Verifiers dependency.
 """
 
 from __future__ import annotations
@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import fcntl
 import hashlib
+import importlib.metadata
 import json
 import math
 import subprocess
@@ -21,6 +22,7 @@ from threading import Lock
 from types import SimpleNamespace
 
 from physim.bundles import Bundle
+from physim.runtime_sandbox import PUBLIC_IMAGE
 from physim_r6.scaling import SpendConfig, spend_accounting
 from verifiers.v1.configs.cli.eval import EvalConfig
 from verifiers.v1.types import Usage
@@ -155,12 +157,11 @@ def configuration(root, attempt_dir, model, bundle):
     # for the conversation and is audited for truncation.
     data = dict(
         model=model["id"],
-        num_tasks=1,
+        select={"limit": 1},
         num_rollouts=1,
         max_concurrent=1,
         push=False,
         rich=None,
-        serve=None,
         output_dir=str(attempt_dir / "runs"),
         run={"name": "rollout"},
         sampling=sampling,
@@ -169,9 +170,10 @@ def configuration(root, attempt_dir, model, bundle):
                 "id": "physim_r6_scaling",
                 "task": {
                     "output_root": str(attempt_dir / "artifacts"),
-                    "agent_image": "physim-agent:0.12.2",
+                    "agent_image": PUBLIC_IMAGE,
                     "tools": {
                         "bundle": str(bundle),
+                        "predictor_runtime": {"type": "docker", "image": PUBLIC_IMAGE, "allow": []},
                         "max_experiments": None,
                         "max_total_tu": None,
                         "max_validation_attempts": None,
@@ -183,7 +185,6 @@ def configuration(root, attempt_dir, model, bundle):
                             "memory_gib": 8,
                             "artifact_mib": 512,
                             "file_mib": 256,
-                            "temporary_mib": 1024,
                         },
                     },
                     "spend": {
@@ -203,11 +204,11 @@ def configuration(root, attempt_dir, model, bundle):
                 "max_output_tokens": None,
                 "max_total_tokens": None,
                 "sampling": sampling,
-                "timeout": {"setup": 180, "rollout": 604800, "finalize": 28800, "scoring": 86400},
+                "timeout": {"setup": 900, "rollout": 604800, "finalize": 28800, "scoring": 86400},
                 "harness": {"id": "bash", "edit": True, "search": False, "tool_timeout": 28800},
                 "runtime": {
                     "type": "docker",
-                    "image": "physim-agent:0.12.2",
+                    "image": PUBLIC_IMAGE,
                     "workdir": "/workspace",
                     "cpu": 4,
                     "memory": 8,
@@ -232,14 +233,12 @@ def configuration(root, attempt_dir, model, bundle):
             else "chat_completions"
         )
         agent["harness"] = {
-            "id": "physim_prime_agent",
-            "transport": transport,
+            "id": "prime-agent",
             "context_window": specs["context_window"],
-            "max_response_tokens": maximum,
-            "thinking": sampling.get("reasoning_effort", "high"),
-            "thinking_format": "reasoning_effort" if efforts else "qwen" if model["id"].startswith("qwen/") else "zai",
+            "autonomous": True,
+            "compaction": {"reserve_tokens": maximum + 4096, "keep_recent_tokens": 12000},
         }
-        agent["runtime"]["image"] = task["agent_image"] = options["image"]
+        agent["runtime"]["image"] = task["agent_image"] = options.get("image", PUBLIC_IMAGE)
         task["coding_interface"] = "ipython"
         # Native Anthropic reports token buckets without a dollar charge.
         # Cache creation can cost twice the base input rate with the one-hour
@@ -295,6 +294,12 @@ def execute(args):
         for relative, expected in provenance["sources"].items():
             if hashlib.sha256((ROOT / relative).read_bytes()).hexdigest() != expected:
                 raise RuntimeError(f"Source changed after the campaign snapshot: {relative}; freeze a new snapshot")
+        distribution = importlib.metadata.distribution("physim")
+        for relative, expected in provenance.get("environment_sources", {}).items():
+            if hashlib.sha256(distribution.locate_file(relative).read_bytes()).hexdigest() != expected:
+                raise RuntimeError(
+                    f"Installed environment changed after the campaign snapshot: {relative}; freeze a new snapshot"
+                )
     bundles = {w: (args.preparations / w / "bundle").resolve() for w in args.worlds.split(",")}
     for world, path in bundles.items():
         bundle = Bundle(path)

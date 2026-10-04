@@ -12,6 +12,7 @@ import runpy
 import shutil
 from decimal import Decimal
 from html import escape
+from importlib.metadata import distribution
 from pathlib import Path
 from urllib.parse import urlsplit
 
@@ -32,7 +33,7 @@ SECTIONS = {
     "credit": "Credit",
 }
 # Use the exact runtime mapping without importing simulator dependencies.
-REWARDS = runpy.run_path(str(ROOT / "environments/physim/physim/rewards.py"))
+REWARDS = runpy.run_path(str(distribution("physim").locate_file("physim/rewards.py")))
 PRECISION = REWARDS["DEFAULT_PRECISION"]
 LEGACY_FRAGMENTS = json.loads((SOURCE / "legacy-fragments.json").read_text())
 REDIRECTS = {

@@ -12,6 +12,7 @@ import json
 import shutil
 import tempfile
 import tomllib
+from importlib.resources import files as package_files
 from pathlib import Path
 
 import numpy as np
@@ -171,7 +172,7 @@ def _export(output):
         dict(
             preparation_id=objects["preparation"]["id"],
             file_sha256=digest(output / "suite.json"),
-            scoring_source_sha256=digest(ROOT / "environments/physim/physim/legacy_v1/blobround6_eval.py"),
+            scoring_source_sha256=digest(package_files("physim").joinpath("legacy_v1/blobround6_eval.py")),
             truth_sha256={c["truth"]: digest(output / c["truth"]) for c in cases},
         ),
     )

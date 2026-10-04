@@ -1,63 +1,48 @@
-"""Interception, state isolation, and native transport configuration."""
+"""The installed environment uses the framework's native Prime Agent harness."""
 
 import asyncio
 import json
 from types import SimpleNamespace
+from unittest.mock import AsyncMock
 
-import pytest
-from physim_prime_agent import PrimeAgentConfig, PrimeAgentHarness
+from verifiers.v1.harnesses.prime_agent.harness import PrimeAgentHarness, PrimeAgentHarnessConfig
+from verifiers.v1.task import TaskData
+from verifiers.v1.utils.loaders import load_harness
 
 
-@pytest.mark.parametrize(
-    "transport,api,base",
-    [
-        ("chat_completions", "openai-completions", "http://proxy:123/v1"),
-        ("responses", "openai-responses", "http://proxy:123/v1"),
-        ("anthropic_messages", "anthropic-messages", "http://proxy:123"),
-    ],
-)
-def test_native_program_only_has_interception_credentials_and_fresh_home(transport, api, base):
+def test_native_harness_keeps_interception_and_context_settings():
     writes = {}
 
     async def write(path, data):
         writes[path] = data
 
-    async def run(argv, env):
-        return argv, env
-
-    harness = PrimeAgentHarness(
-        PrimeAgentConfig(
-            id="physim_prime_agent",
-            transport=transport,
-            context_window=262144,
-            max_response_tokens=65536,
-            thinking="max",
-        )
+    config = PrimeAgentHarnessConfig(
+        id="prime-agent",
+        context_window=65536,
+        compaction={"reserve_tokens": 36864, "keep_recent_tokens": 12000},
     )
+    harness = load_harness(config)
+    assert isinstance(harness, PrimeAgentHarness)
+    harness.install_skills = AsyncMock()
     trace = SimpleNamespace(id="fresh-rollout", info={})
-    argv, env = asyncio.run(
-        harness.launch(
-            SimpleNamespace(model="test/model"),
+    result = asyncio.run(
+        harness.prepare_acp(
+            SimpleNamespace(model="test/model", sampling=SimpleNamespace(max_tokens=32768, reasoning_effort="high")),
             trace,
-            SimpleNamespace(write=write, run_program=run),
+            SimpleNamespace(write=write, run=AsyncMock(return_value=SimpleNamespace(exit_code=0, stderr=""))),
             "http://proxy:123/v1",
             "interception-only",
-            {"laboratory": "http://proxy:456/mcp"},
-            SimpleNamespace(system_prompt="Public task", prompt="Begin"),
+            {},
+            TaskData(system_prompt="Public task", prompt="Begin"),
         )
     )
-    home = env["PRIME_AGENT_CODING_AGENT_DIR"]
-    assert home.startswith("/workspace/.vf-")
-    provider = json.loads(writes[home + "/models.json"])["providers"]["physim"]
-    assert provider["baseUrl"] == base and provider["api"] == api
-    assert provider["apiKey"] == "PHYSIM_INTERCEPT_KEY"
-    assert env["PHYSIM_INTERCEPT_KEY"] == "interception-only"
-    assert not any(k in env for k in ("PRIME_API_KEY", "ANTHROPIC_API_KEY", "OPENAI_API_KEY"))
-    settings = json.loads(writes[home + "/settings.json"])
-    assert settings["mcpServers"]["laboratory"]["url"] == "http://proxy:456/mcp"
-    assert all(v == "unlimited" for v in settings["autonomous"].values())
-    assert settings["telemetry"]["enabled"] is False
-    assert settings["bundledSkills"]["websearch"] is False
-    assert argv[0] == "prime-agent" and "--offline" in argv
-    assert "--continue" not in argv and "--resume" not in argv
-    assert trace.info["prime_agent"]["transport"] == transport
+    home = result.env["PRIME_AGENT_CODING_AGENT_DIR"]
+    provider = json.loads(writes[home + "/models.json"])["providers"]["intercept"]
+    assert provider["baseUrl"] == "http://proxy:123/v1"
+    assert provider["models"][0]["contextWindow"] == 65536
+    assert provider["models"][0]["maxTokens"] == 32768
+    assert result.env["PRIME_AGENT_INTERCEPT_KEY"] == "interception-only"
+    assert not any(k in result.env for k in ("PRIME_API_KEY", "ANTHROPIC_API_KEY", "OPENAI_API_KEY"))
+    assert json.loads(writes[home + "/settings.json"])["compaction"]["reserveTokens"] == 36864
+    assert "--offline" in result.command
+    assert "--continue" not in result.command and "--resume" not in result.command

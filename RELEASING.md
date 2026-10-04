@@ -77,15 +77,16 @@ available evidence. The original evolutionary recipe for a sourced world may be
 partial; its registry record must retain those gaps. New `blobkit generate` runs
 archive recipe code, settings, seeds, candidates, checkpoints, and harvested worlds.
 
-Build both wheels and source distributions with `uv build --package blobkit` and
-`uv build --package physim`. Inspect their payloads: the Physim distributions
+Build Blobkit here with `uv build --package blobkit`. Build Physim from its
+residency checkout with `uv build environments/physim`. Inspect their payloads: the Physim distributions
 exclude archived engines, private arrays, and model outputs. Blobkit's CPU source
 must retain its bundle-bound hashes. The 0.3.5 integrity table covers the installed
 package; the historical 0.3.4 table is preserved separately. Blobkit's own test
 suite covers CPU reference assays and CUDA parity, batching, and record handling.
 See `packages/blobkit/README.md` and `handoff/blobkit_polish/` for scope and receipts.
 
-Build images from `scripts/physim/docker/` using the environment README commands.
+The Docker recipes in `scripts/physim/docker/` preserve the published 0.12.x setup.
+For the current environment, use the linked environment README and `DEVELOPMENT.md`.
 Validate `scripts/physim/examples/predictor`, then grade it on the reference bundle.
 The zero predictor should pass the interface gate while scoring poorly.
 
@@ -104,9 +105,10 @@ The zero predictor should pass the interface gate while scoring poorly.
    SHA-256, configs, a fresh work directory, and a report path. This installs from
    public URLs, fetches all three selected worlds, checks offline reuse and native
    task loading, reproduces reference scores, and runs fresh short simulations.
-5. Build both Docker images and run the stock Verifiers smoke using one of
+5. Use the installed environment's runtime setup and run a stock Verifiers smoke using one of
    `p4g2_044.toml`, `bf_trail_lab.toml`, or `xv_rotor_lab.toml`. The base `eval.toml`
-   still requires a local bundle. Never infer a world from the registry contents.
+   now selects the installed package's immutable catalog. A supplied local bundle
+   overrides that selection.
 6. Prepare the focused residency contribution described in `REPOSITORY.md`.
    Maintainers still need to choose the external runner's config and model panel.
 

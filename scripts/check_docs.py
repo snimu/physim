@@ -192,7 +192,12 @@ def check():
             errors.append("Control evidence source changed; review snapshot")
         if json.loads(control_source.read_text())["aggregate"] != evidence["controls"]["aggregate"]:
             errors.append("Control aggregates differ from source")
-    contract = (ROOT / "environments/physim/physim/data/agent_spec.txt").read_text()
+    # The published article keeps the contract from physim repo commit 26d9f41.
+    # New environment releases must not silently rewrite that historical snapshot.
+    template = (ROOT / "scripts/fixtures/published_agent_spec.txt").read_bytes()
+    if hashlib.sha256(template).hexdigest() != "27e431c3aecabb8efc6fb29d907635eca9040ae24b453f16f088c3c8959a494a":
+        errors.append("Published agent contract template changed; review its provenance")
+    contract = template.decode()
     for key, value in (
         ("n_ports", "12"),
         ("last_port", "11"),
@@ -211,7 +216,7 @@ def check():
     ):
         contract = contract.replace("{" + key + "}", value)
     if contract != (SOURCE / "examples/AGENT_SPEC.md").read_text():
-        errors.append("Downloadable agent contract differs from the current runtime")
+        errors.append("Downloadable agent contract differs from the published contract snapshot")
     summary = {
         "html_pages": len(pages),
         "current_pages": len(PAGES),

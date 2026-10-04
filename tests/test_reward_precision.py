@@ -2,6 +2,7 @@
 
 import json
 import math
+from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 
@@ -29,7 +30,8 @@ def test_bad_scientific_score_is_not_silently_rewarded(energy):
         precision_reward(energy)
 
 
-def test_precision_changes_prompt_without_changing_budgets():
+def test_precision_changes_prompt_without_changing_budgets(monkeypatch):
+    monkeypatch.setattr(T, "public_roster", lambda config: T.E.E.DEFAULT_ROSTER)
     low = T.R6ToolsConfig(reward_precision=1)
     high = low.model_copy(update={"reward_precision": 3.5})
     assert "K = 1" in T.public_prompt(low)
@@ -45,7 +47,14 @@ def test_precision_changes_prompt_without_changing_budgets():
 def test_precision_is_part_of_run_identity():
     from verifiers.v1.utils.loaders import load_taskset
 
-    with patch.object(T, "required_bundle", return_value=None):
+    bundle = SimpleNamespace(
+        manifest={"bundle_id": "bundle:sha256:" + "a" * 64, "objects": {"world": {"name": "offline"}}},
+        roster=T.E.E.DEFAULT_ROSTER,
+    )
+    with (
+        patch.object(T, "required_bundle", return_value=bundle),
+        patch.object(T.R6Taskset, "selections", return_value=[Path("offline-bundle")]),
+    ):
         tasks = [
             next(
                 iter(

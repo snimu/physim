@@ -1,4 +1,4 @@
-name: Residency package and reference checks
+name: Research workspace and reference checks
 on: [push, pull_request]
 jobs:
   checks:
@@ -16,7 +16,7 @@ jobs:
           uv run ruff format --check .
           uv run ruff check --no-force-exclude packages/blobkit/blobkit/generation.py packages/blobkit/blobkit/registry.py packages/blobkit/blobkit/cli.py
           uv run ruff format --check --no-force-exclude packages/blobkit/blobkit/generation.py packages/blobkit/blobkit/registry.py packages/blobkit/blobkit/cli.py
-      - name: Generic environment package contracts
+      - name: Installed environment and research integration
         env:
           PHYSIM_TEST_BUNDLE: dist/residency-reference-bundle
         run: |
@@ -46,4 +46,3 @@ jobs:
       - name: Build distributions
         run: |
           uv build --package blobkit
-          uv build --package physim
