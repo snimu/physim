@@ -1,0 +1,7696 @@
+{
+  "temporal_c001": [
+    {
+      "id": "early_excitation",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 5,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 8,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 4,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "feedback_memory",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 0,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "stripe_evolution",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 10,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 5,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "late_spatial",
+      "selectors": [
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 18
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    }
+  ],
+  "temporal_c002": [
+    {
+      "id": "early_excitation",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 5,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 8,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 4,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "feedback_memory",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 0,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "stripe_evolution",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 10,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 5,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "late_spatial",
+      "selectors": [
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 18
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    }
+  ],
+  "temporal_c003": [
+    {
+      "id": "early_excitation",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 5,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 8,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 4,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "feedback_memory",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 0,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "stripe_evolution",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 10,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 5,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "late_spatial",
+      "selectors": [
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 18
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    }
+  ],
+  "temporal_c004": [
+    {
+      "id": "early_excitation",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 5,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 8,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 4,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "feedback_memory",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 0,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "stripe_evolution",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 10,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 5,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "late_spatial",
+      "selectors": [
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 18
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    }
+  ],
+  "temporal_c005": [
+    {
+      "id": "early_excitation",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 5,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 8,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 4,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "feedback_memory",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 0,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "stripe_evolution",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 10,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 5,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "late_spatial",
+      "selectors": [
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 18
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    }
+  ],
+  "shared_feedback_defect_c006": [
+    {
+      "id": "defect_center_history",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 1,
+          "port": 7,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 7,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 5,
+          "port": 7,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 6,
+          "port": 7,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0
+      ],
+      "unit": "native observable units; fixed scale=3 per coordinate"
+    },
+    {
+      "id": "defect_late_spatial",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 0
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 1
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 2
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 3
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 4
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 6
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 7
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 8
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 9
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 10
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 11
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 12
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 0
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 1
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 2
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 3
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 4
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 6
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 7
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 8
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 9
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 10
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 11
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 12
+        }
+      ],
+      "scales": [
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0
+      ],
+      "unit": "native observable units; fixed scale=3 per coordinate"
+    },
+    {
+      "id": "asymmetric_partner",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 1,
+          "port": 11,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 11,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 5,
+          "port": 11,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 6,
+          "port": 11,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 11,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4
+      ],
+      "unit": "native observable units; fixed scale=0.4 per coordinate"
+    },
+    {
+      "id": "shared_feedback_history",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 1,
+          "port": 9,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 9,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 5,
+          "port": 9,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 6,
+          "port": 9,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.5,
+        1.5,
+        1.5,
+        1.5
+      ],
+      "unit": "native observable units; fixed scale=1.5 per coordinate"
+    },
+    {
+      "id": "filtered_response_a",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 2,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 6,
+          "port": 2,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 2,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 2,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        0.03,
+        0.03,
+        0.03,
+        0.03
+      ],
+      "unit": "native observable units; fixed scale=0.03 per coordinate"
+    },
+    {
+      "id": "filtered_response_b",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 3,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 6,
+          "port": 3,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 3,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 3,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        0.3,
+        0.3,
+        0.3,
+        0.3
+      ],
+      "unit": "native observable units; fixed scale=0.3 per coordinate"
+    },
+    {
+      "id": "selective_quiet_port",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 1,
+          "port": 6,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 6,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 6,
+          "port": 6,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 6,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        0.03,
+        0.03,
+        0.03,
+        0.03
+      ],
+      "unit": "native observable units; fixed scale=0.03 per coordinate"
+    }
+  ],
+  "shared_feedback_defect_c007": [
+    {
+      "id": "defect_center_history",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 1,
+          "port": 7,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 7,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 5,
+          "port": 7,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 6,
+          "port": 7,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0
+      ],
+      "unit": "native observable units; fixed scale=3 per coordinate"
+    },
+    {
+      "id": "defect_late_spatial",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 0
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 1
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 2
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 3
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 4
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 6
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 7
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 8
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 9
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 10
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 11
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 7,
+          "slot": 12
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 0
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 1
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 2
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 3
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 4
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 6
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 7
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 8
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 9
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 10
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 11
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 7,
+          "slot": 12
+        }
+      ],
+      "scales": [
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0,
+        3.0
+      ],
+      "unit": "native observable units; fixed scale=3 per coordinate"
+    },
+    {
+      "id": "asymmetric_partner",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 1,
+          "port": 11,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 11,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 5,
+          "port": 11,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 6,
+          "port": 11,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 11,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4
+      ],
+      "unit": "native observable units; fixed scale=0.4 per coordinate"
+    },
+    {
+      "id": "shared_feedback_history",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 1,
+          "port": 9,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 9,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 5,
+          "port": 9,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 6,
+          "port": 9,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.5,
+        1.5,
+        1.5,
+        1.5
+      ],
+      "unit": "native observable units; fixed scale=1.5 per coordinate"
+    },
+    {
+      "id": "filtered_response_a",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 2,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 6,
+          "port": 2,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 2,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 2,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        0.03,
+        0.03,
+        0.03,
+        0.03
+      ],
+      "unit": "native observable units; fixed scale=0.03 per coordinate"
+    },
+    {
+      "id": "filtered_response_b",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 3,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 6,
+          "port": 3,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 3,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 3,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        0.3,
+        0.3,
+        0.3,
+        0.3
+      ],
+      "unit": "native observable units; fixed scale=0.3 per coordinate"
+    },
+    {
+      "id": "selective_quiet_port",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 1,
+          "port": 6,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 6,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 6,
+          "port": 6,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 6,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        0.03,
+        0.03,
+        0.03,
+        0.03
+      ],
+      "unit": "native observable units; fixed scale=0.03 per coordinate"
+    }
+  ],
+  "timed_stripe_intervention_c008": [
+    {
+      "id": "early_excitation",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 5,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 8,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 4,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "feedback_memory",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 0,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "stripe_evolution",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 10,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 5,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "late_spatial",
+      "selectors": [
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 18
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "central_excursion",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "local_spatial_response",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 12
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    }
+  ],
+  "timed_stripe_intervention_c009": [
+    {
+      "id": "early_excitation",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 5,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 8,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 4,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "feedback_memory",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 0,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "stripe_evolution",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 10,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 5,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "late_spatial",
+      "selectors": [
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 18
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "central_excursion",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "local_spatial_response",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 0,
+          "time_index": 15,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 0,
+          "time_index": 16,
+          "port": 4,
+          "slot": 12
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    }
+  ],
+  "placement_c113": [
+    {
+      "id": "placed_spatial",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 12
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    }
+  ],
+  "placement_c129": [
+    {
+      "id": "placed_spatial",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 12
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    }
+  ],
+  "placement_c146": [
+    {
+      "id": "placed_spatial",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 12
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    }
+  ],
+  "placement_c166": [
+    {
+      "id": "placed_spatial",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 12
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    }
+  ],
+  "placement_c169": [
+    {
+      "id": "placed_spatial",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 12
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    }
+  ],
+  "placement_c173": [
+    {
+      "id": "placed_spatial",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 0,
+          "time_index": 0,
+          "port": 4,
+          "slot": 12
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    }
+  ],
+  "pulse_then_move": [
+    {
+      "id": "early_excitation",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 5,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 8,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 4,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "feedback_memory",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 0,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "stripe_evolution",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 10,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 5,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "late_spatial",
+      "selectors": [
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 18
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    }
+  ],
+  "move_then_pulse": [
+    {
+      "id": "early_excitation",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 5,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 8,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 4,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "feedback_memory",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 0,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "stripe_evolution",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 10,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 5,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "late_spatial",
+      "selectors": [
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 18
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    }
+  ],
+  "two_sources": [
+    {
+      "id": "early_excitation",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 5,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 8,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 4,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "feedback_memory",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 0,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "stripe_evolution",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 10,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 5,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "late_spatial",
+      "selectors": [
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 18
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    }
+  ],
+  "move_during_pulse": [
+    {
+      "id": "early_excitation",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 5,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 8,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 4,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "feedback_memory",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 2,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 3,
+          "port": 0,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 0,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "stripe_evolution",
+      "selectors": [
+        {
+          "query": 0,
+          "time_index": 9,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 10,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 11,
+          "port": 5,
+          "slot": 5
+        },
+        {
+          "query": 0,
+          "time_index": 14,
+          "port": 5,
+          "slot": 5
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    },
+    {
+      "id": "late_spatial",
+      "selectors": [
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 11,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 15,
+          "port": 4,
+          "slot": 18
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 0
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 1
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 2
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 3
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 4
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 5
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 6
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 7
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 8
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 9
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 10
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 11
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 12
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 13
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 14
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 15
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 16
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 17
+        },
+        {
+          "query": 1,
+          "time_index": 16,
+          "port": 4,
+          "slot": 18
+        }
+      ],
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit": "native observable units; fixed scale=1 per coordinate"
+    }
+  ]
+}

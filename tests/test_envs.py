@@ -33,13 +33,13 @@ def test_blobkit_is_the_editable_local_library():
     assert "physim" not in (importlib.metadata.requires("blobkit") or [])
 
 
-def test_active_evaluation_presets_load_with_the_pinned_framework():
+def test_evaluation_preset_loads_with_the_pinned_framework():
     from verifiers.v1.configs.cli.eval import EvalConfig
 
-    for name in ("eval", "p4g2_044", "bf_trail_lab", "xv_rotor_lab"):
-        config = EvalConfig.model_validate(tomllib.loads((ROOT / f"configs/physim/{name}.toml").read_text()))
-        assert config.env.taskset.id == "physim"
-        assert config.push is False
-        if name != "eval":
-            assert config.select.limit == 1
-            assert config.env.taskset.task.tools.bundle_source.revision == "dcd6abd5eae76a47f326c70518315d2d1e101d86"
+    config = EvalConfig.model_validate(tomllib.loads((ROOT / "configs/physim/eval.toml").read_text()))
+    assert config.env.taskset.id == "physim"
+    assert config.push is False
+    # No bundle override: the preset evaluates every preparation in the package's pinned catalog.
+    tools = config.env.taskset.task.tools
+    assert tools.bundle is None and tools.bundle_source is None
+    assert sorted(path.name for path in (ROOT / "configs/physim").glob("*.toml")) == ["eval.toml", "release.toml"]

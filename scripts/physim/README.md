@@ -9,9 +9,15 @@ Run from the repository root through `uv run python scripts/physim/<script>.py`.
   dependency outside the checkout, and
   reproduce the persistence score plus a short native experiment without a model.
 - `check_published_install.py`: install the public wheel and its public dependency,
-  fetch the three explicit world configs, and verify native/offline operation from
-  a fresh directory. Requires an HTTPS wheel URL with a SHA-256 fragment.
+  copy the three world configs from `--configs` (for example, a published release's setup
+  archive), fetch the bundles they pin, and verify
+  native/offline operation from a fresh directory. Requires an HTTPS wheel URL with a
+  SHA-256 fragment.
 - `prepare_world_release.py`: stage approved data/license metadata for HF; never uploads.
+- Campaign tools: `run_campaign.py` (concurrent-world, spend-accounted campaigns),
+  `freeze_campaign.py`, `campaign_diagnostics.py`, `prime_agent_eval.py`, `prime_usage.py`,
+  and the no-charge smoke tests `smoke_campaign.py` and `smoke_prime_agent.py`. They use
+  the installed environment and its native harnesses; see `DEVELOPMENT.md`.
 - `validation/`: existing scientific and integration checks kept for local research
   reproducibility. These are not new per-environment tests for upstream submission.
 

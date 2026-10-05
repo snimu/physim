@@ -26,7 +26,8 @@ profile membership, physical parameters, suite plans, and bounded array headers.
 
 A bundle directory contains `manifest.json` plus only named payload files.
 Required inputs are `world.json`, `preparation.npz`, `apparatus.json`, `suite.json`,
-`checks.json`, and the suite's `truth/*.npz`. The simulation profile excludes suite
+and the suite's `truth/*.npz`. Exported bundles also carry `checks.json`, which
+`physim demo` and the validation scripts read. The simulation profile excludes suite
 and truth payloads. Files are SHA-256 checked before parsing.
 
 Identities use SHA-256 of canonical UTF-8 JSON: sorted keys, no insignificant

@@ -1,3 +1,6 @@
+> **Historical design log (February 2026)** for the retired raw-port benchmark, whose code
+> is archived in `probes/legacy/physim/`. For the current system, see [README.md](README.md).
+
 # physim — a simulated-universe benchmark for doing science
 *(working draft — design discussion, v0)*
 

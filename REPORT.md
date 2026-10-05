@@ -1,3 +1,7 @@
+> **Historical report (February 2026)** on the M0 environment, now archived in
+> `probes/legacy/physim/`. Its commands and module paths do not apply to the installed
+> `physim` package. For the current system, see [README.md](README.md).
+
 # physim M0 report — does difficulty track model performance?
 
 *2026-02-11. Environment: `environments/physim` (verifiers v1 taskset, chat tier /
@@ -88,7 +92,7 @@ uv pip install -e environments/physim
 # baselines
 .venv/bin/python -c "from physim.baselines import run_baseline; print(run_baseline('D0', 0, 'reference')['reward_accuracy'])"
 # eval grid (needs PRIME_API_KEY)
-./run_grid.sh google/gemini-3.5-flash D0 3
+probes/legacy/physim/run_grid.sh google/gemini-3.5-flash D0 3
 # collect
 .venv/bin/python -c "from physim.report import collect_traces, summarize; [print(s) for s in summarize(collect_traces())]"
 ```

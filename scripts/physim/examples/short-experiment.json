@@ -1,5 +1,5 @@
 {
-  "actions": [{"t": 0, "kind": "inject", "port": 0, "amp": 0.5, "dur": 0.04}],
+  "actions": [{"t": 0, "kind": "inject", "device": 0, "port": 0, "amp": 0.5, "dur": 0.04}],
   "queries": [
     {"sensor": "device0", "t": [0, 0.02, 0.06]},
     {"sensor": "device1", "t": [0, 0.02, 0.06]},

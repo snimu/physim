@@ -1,7 +1,7 @@
 {
   "description": "BF thread figures: native simulations of the recorded BF preparation; no inference.",
   "script": "scripts/render_bf_thread.py",
-  "script_sha256": "8a91adc7bf6b42e6e6be30995aa9610a864b745246c7802600b5711ad3fa2ba1",
+  "script_sha256": "417ef3c240704f2e0379b6b5f1fc022c1736579226baa4d492e520783650b876",
   "inputs": {
     "genome": {
       "path": "registry/artifact/d59f7d9d7ffdb0251bceb2f989f91d2e2ac86dce4409f5d36f3f3e65cad3e038.bin",

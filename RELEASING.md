@@ -25,10 +25,10 @@ portable world configs and Dockerfiles. Current portability receipts are in
 
 The dataset-card update at `0813ee4d0a4e97a12bbf598d5d43a45eddf5492f` links Physim 0.12.2
 and documents Hugging Face's verified Parquet conversion. Across the two card
-updates, only `README.md`, `registry/README.md`, and `release.json` changed. The
-portable configs deliberately retain the original data revision above because
-all scientific payloads and catalog rows are identical. The viewer contains
-24 world rows and three evaluation rows; both converted tables match their
+updates, only `README.md`, `registry/README.md`, and `release.json` changed. Through
+these updates the portable configs deliberately retained the original data revision
+above, because all scientific payloads and catalog rows were identical. The viewer
+contained 24 world rows and three evaluation rows; both converted tables matched their
 source JSONL exactly.
 
 The contribution-guide update at `1d8b73624669aea004befd54ec050bb7280f1678`
@@ -37,6 +37,15 @@ release manifest to inventory the guide; all scientific files and catalog rows
 remain unchanged. The editable guide is `registry/CONTRIBUTING.md`, which release
 staging copies to the dataset root. Publication and example-validation receipts
 are in `handoff/registry_contribution_20260915/`.
+
+The dataset was republished on 2026-09-28 at `bd77a0da2f14eef352bd80c4a38dff426e5c1bed`.
+Its catalog lists three `centered-pulse-v2` preparations from Physim 0.13.0.dev0:
+`bf_trail_lab_centered_v2` (the BF case-study bundle, 15 programs),
+`xv_rotor_lab_centered_v2` (15 programs) and `p4g2_044_centered_v2` (19 programs).
+`eval.toml` evaluates them through the installed environment's pinned catalog. The
+original three preparations remain only at `dcd6abd5…`. This repository's `registry/`
+matches the September 28 release: staging it reproduces the published records,
+bundles and catalogs byte for byte.
 
 The first live 0.12.1 smoke exposed a stock bash-harness setup timeout while
 fetching dependencies inside a fresh container. Version 0.12.2 ships an agent-image
@@ -57,17 +66,17 @@ PHYSIM_TEST_BUNDLE=dist/reference-bundle uv run python -m unittest discover \
   -s scripts/physim/validation -p test_bundles.py
 uv run python scripts/physim/check_clean_install.py --bundle dist/reference-bundle \
   --workdir /tmp/physim-clean-release --report handoff/residency_alignment/clean_install.json
-uv run python scripts/physim/prepare_world_release.py --bundle dist/reference-bundle \
-  --registry registry --output dist/hf-worlds-next
+uv run python scripts/physim/prepare_world_release.py --registry registry --output dist/hf-worlds-next
 uv run python scripts/build_docs.py
 uv run python scripts/check_docs.py
 ```
 
-Use fresh output directories. The exporter extracts the exact historical physical
+Use fresh output directories. The first four commands rebuild and check the original
+fixed-source `p4g2_044` reference bundle: the exporter extracts the exact historical physical
 start, serializes apparatus, and copies 15 verified native truth files. It does
 not regenerate truths or call a model. Staging exports the entire verified generation registry and every eval-ready
-bundle. The original reference bundle is supplied with `--bundle`; BF and XV are
-reconstructed from their registry artifacts. The HF directory contains separate
+bundle, reconstructing all three current bundles from their registry artifacts;
+`--bundle` supplies a bundle whose files are not archived there. The HF directory contains separate
 world and evaluation catalogs, a dataset card, code/data licenses, and a checksummed
 `release.json` inventory. Missing declared evaluations fail staging. The evaluation loader reads only
 its data bundle and never executes recipe sources.
@@ -112,14 +121,13 @@ The zero predictor should pass the interface gate while scoring poorly.
    SHA-256, configs, a fresh work directory, and a report path. This installs from
    public URLs, fetches all three selected worlds, checks offline reuse and native
    task loading, reproduces reference scores, and runs fresh short simulations.
-5. Use the installed environment's runtime setup and run a stock Verifiers smoke using one of
-   `p4g2_044.toml`, `bf_trail_lab.toml`, or `xv_rotor_lab.toml`. The base `eval.toml`
-   now selects the installed package's immutable catalog. A supplied local bundle
-   overrides that selection.
+5. Use the installed environment's runtime setup and run a stock Verifiers smoke with
+   `eval.toml`, which selects the installed package's immutable catalog. A supplied
+   local bundle overrides that selection.
 6. Prepare the focused residency contribution described in `REPOSITORY.md`.
    Maintainers still need to choose the external runner's config and model panel.
 
-Download the verified current snapshot:
+Download the original snapshot used by these release checks:
 
 ```sh
 uv run physim catalog --repo seanpohorence/physim-worlds --revision dcd6abd5eae76a47f326c70518315d2d1e101d86
@@ -134,6 +142,10 @@ disclosed development material. Future held-out
 suites need distinct identities and an explicit access policy.
 
 ## Residency evaluation review
+
+This review was recorded on 2026-09-14 for the 0.12.x release. The current
+environment's selection and defaults are documented with it in the residency
+repository: by default it now evaluates every preparation in its pinned catalog.
 
 Checked upstream main at `01d9f5f80572b7ec82575b10d45a800ed844e496` on 2026-09-14.
 The repository's [maintainer notes](https://github.com/PrimeIntellect-ai/residency-environments/blob/01d9f5f80572b7ec82575b10d45a800ed844e496/.github/MAINTAINERS.md)

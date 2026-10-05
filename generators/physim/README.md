@@ -19,7 +19,10 @@ for callback contracts and recipe replay.
 
 The historical importer preserves the packaged genomes and available source
 evidence, and links the prepared reference world to its existing evaluation
-identities. Missing historical recipes/checkpoints are marked partial.
+identities. Missing historical recipes/checkpoints are marked partial. It reads the
+p4g2_044 source record from `probes/legacy/physim/physim/blobdata/`, but it also needs
+four untracked research files under `probes/blobs/agentenv/round6/worked_example/p4g2_044/`,
+so it cannot run from this checkout. The committed `registry/` already contains its output.
 
 ## Fresh phenomenology
 
@@ -67,7 +70,11 @@ compiles the existing programs, and copies the verified native truth files.
 source and short native continuations. Neither starts a world-search campaign or
 calls a model.
 
-These migration tools require the historical inputs in this research repository.
+These migration tools need historical research fixtures that are not in this
+repository: the untracked `probes/blobs/agentenv/round6/worked_example/p4g2_044/` origin
+and case scripts and the `probes/blobs/agentenv/cache/` state cache. Copies of the two
+scripts are kept in `handoff/repo_cleanup/original_source/` and as artifacts of the
+`historical-p4g2_044` registry recipe.
 After export, installed experiments and grading need only the bundle and declared
 packages. `_research.py` explicitly enables archived source imports for migration;
 that path is never enabled by the installed taskset.
@@ -80,8 +87,9 @@ uv run python generators/physim/check_reference_parity.py --bundle dist/referenc
   --output handoff/residency_alignment/native_parity.json
 ```
 
-The historical physics characterization and original case/truth production scripts
-remain under `probes/blobs/agentenv/round6/`. They are provenance for this first
-export, not runtime dependencies. The Prime contribution includes the portable BF/XV preparation and validation
+The historical physics characterization remains under
+`probes/blobs/agentenv/round6/physics/`; the original case and truth production scripts
+are the preserved copies named above. They are provenance for this first export, not
+runtime dependencies. The Prime contribution includes the portable BF/XV preparation and validation
 recipes. Historical import and first-reference migration remain personal-repo
 research tools; current evaluation uses the published bundles.

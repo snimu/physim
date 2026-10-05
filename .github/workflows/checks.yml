@@ -21,19 +21,7 @@ jobs:
           uv run ruff check --no-force-exclude packages/blobkit/blobkit/generation.py packages/blobkit/blobkit/registry.py packages/blobkit/blobkit/cli.py
           uv run ruff format --check --no-force-exclude packages/blobkit/blobkit/generation.py packages/blobkit/blobkit/registry.py packages/blobkit/blobkit/cli.py
       - name: Installed environment and research integration
-        env:
-          PHYSIM_TEST_BUNDLE: dist/residency-reference-bundle
-        run: |
-          uv run python - <<'PY'
-          import shutil, tomllib
-          from pathlib import Path
-          from physim.hub import fetch_bundle
-          config = tomllib.loads(Path("configs/physim/p4g2_044.toml").read_text())
-          source = config["env"]["taskset"]["task"]["tools"]["bundle_source"]
-          bundle = fetch_bundle(**source, profile="evaluation")
-          shutil.copytree(bundle, "dist/residency-reference-bundle")
-          PY
-          uv run pytest -n auto tests -v
+        run: uv run pytest -n auto tests -v
       - name: Blobkit package and CPU checks
         run: uv run pytest packages/blobkit/tests -m 'not accelerator and not slow' -v
       - name: Local scientific and integration checks

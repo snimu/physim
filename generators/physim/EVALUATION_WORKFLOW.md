@@ -6,12 +6,14 @@ workflow; they are concrete scientific recipes, not automatic certification of
 arbitrary genomes.
 
 The development recipe now writes `centered-pulse-v2` apparatus and explicit
-`device` injection commands. Existing published BF/XV evidence uses
-`fixed-source-v1`; its saved preparations retain that behavior when loaded.
-Fresh science, controls, truth and model rollouts are being collected under the
-[authorized campaign plan](../../handoff/evaluation_campaign_20260916/PLAN.md).
-Treat the bundle's stored protocol and identities as authoritative when
-reproducing either preparation.
+`device` injection commands. The current preparations, `*_centered_v2` at dataset
+revision `bd77a0da…`, use it; `configs/physim/eval.toml` evaluates them through the
+installed environment's catalog. Their science, controls and truth are recorded in the
+[preparation evidence](../../handoff/evaluation_campaign_20260916/SCIENCE.md), and the BF
+model rollouts in the [BF case study](../../BF_CASE_STUDY.md). Their registry records, in
+this repository's `registry/`, preserve each complete bundle. A bundle keeps its stored protocol (the
+original preparations at `dcd6abd5…` still load as `fixed-source-v1`); treat it and the
+bundle's identities as authoritative when reproducing a preparation.
 
 1. **Simulate afresh and preserve the origin.** Inspect full activator and channel
    fields with the current phenomenology. Keep initialization, seed, numerical

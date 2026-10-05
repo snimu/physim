@@ -1,6 +1,6 @@
 # BF Prime Agent case study
 
-The [Results page](https://swpo.github.io/physim/results.html) reports one selected
+The [Results section](https://swpo.github.io/physim/#results) reports one selected
 completed BF rollout for each of seven models. This is a case study of experimental
 strategies and prediction failures, not a replicated benchmark. The machine-readable
 [evidence snapshot](docs_source/data/bf-case-study.json) is the authoritative source
