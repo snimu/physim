@@ -10,8 +10,8 @@ The development recipe now writes `centered-pulse-v2` apparatus and explicit
 revision `bd77a0da…`, use it; `configs/physim/eval.toml` evaluates them through the
 installed environment's catalog. Their science, controls and truth are recorded in the
 [preparation evidence](../../handoff/evaluation_campaign_20260916/SCIENCE.md), and the BF
-model rollouts in the [BF case study](../../BF_CASE_STUDY.md). Their registry records are
-not yet in this repository's `registry/`. A bundle keeps its stored protocol (the
+model rollouts in the [BF case study](../../BF_CASE_STUDY.md). Their registry records, in
+this repository's `registry/`, preserve each complete bundle. A bundle keeps its stored protocol (the
 original preparations at `dcd6abd5…` still load as `fixed-source-v1`); treat it and the
 bundle's identities as authoritative when reproducing a preparation.
 

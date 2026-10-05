@@ -1,0 +1,47 @@
+{
+  "coupled_effect_rms": [
+    0.7538068654377179,
+    0.756069298237905,
+    0.7550116665599647
+  ],
+  "feedback_removed_effect_rms": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "removed_feedback_activator_identical": true,
+  "queries": [
+    {
+      "sensor": "device0",
+      "t": [
+        0,
+        2,
+        5,
+        10,
+        20,
+        30,
+        40,
+        50
+      ]
+    },
+    {
+      "sensor": "device1",
+      "t": [
+        0,
+        2,
+        5,
+        10,
+        20,
+        30,
+        40,
+        50
+      ]
+    }
+  ],
+  "members": 3,
+  "truth_seed": 53001,
+  "control": "Disable only the bilinear reaction contribution; identical prepared fields and paired future noise within each comparison.",
+  "scope": "Privileged mechanism control. The original trail pulse itself is an admitted agent action.",
+  "source_sha256": "e092d6029eae505800680a7743bed9b7d87ea1d568850af1e9930672c00753c2",
+  "preparation_sha256": "de9dda65ef430cd70353e472a956c32df462a5bb33b41641e26ced0b07bd68f8"
+}

@@ -1,0 +1,47 @@
+{
+  "ok": true,
+  "public_checks": [
+    {
+      "name": "mixed_sensors",
+      "ok": true
+    },
+    {
+      "name": "repeat_seed",
+      "ok": true
+    },
+    {
+      "name": "reordered_queries",
+      "ok": true
+    },
+    {
+      "name": "empty_times",
+      "ok": true
+    },
+    {
+      "name": "empty_queries",
+      "ok": true
+    },
+    {
+      "name": "single_member_actions",
+      "ok": true
+    },
+    {
+      "name": "default_members_repeated_sensor",
+      "ok": true
+    }
+  ],
+  "expected": {
+    "predictor": "initial_persistence",
+    "forecast_members": 4,
+    "primary_joint_energy": 0.4970086688520715,
+    "absolute_tolerance": 1e-10
+  },
+  "actual": 0.4970086688520715,
+  "references": {
+    "bundle": "bundle:sha256:38d159a8052bb0fc24d0d8feefe3985ac645fb19954f2c84aa54954a948b561e",
+    "manifest_sha256": "6796d01d07528fc49f70b3b64f51e9ecbab03634b99e738f78cd0a6b4c04b0db",
+    "world": "world:sha256:aa35f132db7ff9cc70280dc5af3be3f4b3c768a366a7d02be47c50a3479edb02",
+    "preparation": "preparation:sha256:579e736c902b534456a957ed03ba2d6a6190009f4887c37ce167b799487c9586",
+    "suite": "suite:sha256:4d1a8e77e4f9acad6e58d5dce9636e4ab5767f97092608a51487735b7edd7826"
+  }
+}

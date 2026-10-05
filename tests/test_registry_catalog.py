@@ -105,9 +105,9 @@ def test_current_catalog_has_only_two_statuses_and_no_future_plans():
     catalog = export.build_catalog(ROOT / "registry")
     assert catalog["availability"]["counts"] == {"eval-ready": 3, "preserved": 21}
     assert {w["name"] for w in catalog["worlds"] if w["status"] == "eval-ready"} == {
-        "p4g2_044",
-        "bf_trail_lab",
-        "xv_rotor_lab",
+        "p4g2_044_centered_v2",
+        "bf_trail_lab_centered_v2",
+        "xv_rotor_lab_centered_v2",
     }
     for row in catalog["worlds"]:
         assert not ({"curation", "role", "priority", "next_check", "evaluation_stage"} & row.keys())

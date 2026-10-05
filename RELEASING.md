@@ -44,7 +44,8 @@ Its catalog lists three `centered-pulse-v2` preparations from Physim 0.13.0.dev0
 `xv_rotor_lab_centered_v2` (15 programs) and `p4g2_044_centered_v2` (19 programs).
 `eval.toml` evaluates them through the installed environment's pinned catalog. The
 original three preparations remain only at `dcd6abd5…`. This repository's `registry/`
-still matches `dcd6abd5…`.
+matches the September 28 release: staging it reproduces the published records,
+bundles and catalogs byte for byte.
 
 The first live 0.12.1 smoke exposed a stock bash-harness setup timeout while
 fetching dependencies inside a fresh container. Version 0.12.2 ships an agent-image
@@ -65,17 +66,17 @@ PHYSIM_TEST_BUNDLE=dist/reference-bundle uv run python -m unittest discover \
   -s scripts/physim/validation -p test_bundles.py
 uv run python scripts/physim/check_clean_install.py --bundle dist/reference-bundle \
   --workdir /tmp/physim-clean-release --report handoff/residency_alignment/clean_install.json
-uv run python scripts/physim/prepare_world_release.py --bundle dist/reference-bundle \
-  --registry registry --output dist/hf-worlds-next
+uv run python scripts/physim/prepare_world_release.py --registry registry --output dist/hf-worlds-next
 uv run python scripts/build_docs.py
 uv run python scripts/check_docs.py
 ```
 
-Use fresh output directories. The exporter extracts the exact historical physical
+Use fresh output directories. The first four commands rebuild and check the original
+fixed-source `p4g2_044` reference bundle: the exporter extracts the exact historical physical
 start, serializes apparatus, and copies 15 verified native truth files. It does
 not regenerate truths or call a model. Staging exports the entire verified generation registry and every eval-ready
-bundle. The original reference bundle is supplied with `--bundle`; BF and XV are
-reconstructed from their registry artifacts. The HF directory contains separate
+bundle, reconstructing all three current bundles from their registry artifacts;
+`--bundle` supplies a bundle whose files are not archived there. The HF directory contains separate
 world and evaluation catalogs, a dataset card, code/data licenses, and a checksummed
 `release.json` inventory. Missing declared evaluations fail staging. The evaluation loader reads only
 its data bundle and never executes recipe sources.

@@ -1,0 +1,59 @@
+{
+  "schema_version": "physim-reference-checks-v1",
+  "source_origin": {
+    "world": "p4g2_044",
+    "preparation_seed": 928,
+    "prepared_cache_member": "snapF_1700",
+    "original_time": 1700.0,
+    "public_time": 0.0,
+    "initial_field_sha256": "847754b2bff40693e2f830ea083a97d1b23a513fab50ad11ca7f9d44399cc7ea",
+    "field_dtype": "float32",
+    "field_shape": [
+      12,
+      256,
+      256
+    ],
+    "noise_policy": "independent-experiment-v1",
+    "native_noise_coefficient": 0.002,
+    "ports": 12,
+    "slots": {
+      "device0": 13,
+      "device1": 19,
+      "global": 2
+    },
+    "source_sha256": {
+      "probes/blobs/agentenv/round6/worked_example/p4g2_044/origin.py": "829d495db95ec01d1599ab4988e667a71f2907c69d4f0f7f91858b7909bb40c7",
+      "environments/physim/physim/blobround6.py": "7fa965d513aa6ddeb2193596731981fc5a2f4f465eeef1bb73f836d19525827d",
+      "probes/blobs/agentenv/device.py": "5d18f15143c86d118faffaa8eaf4cf1a33b0192eb15b7270230a1b56a0686906",
+      "probes/blobs/blobkit/blobkit/soup/sim_cpu.py": "4cf2d9ea8d39ee8d7c4b34c4f13e7a9caa9d1e385287079f710e898388500f84",
+      "environments/physim/physim/blobdata/p4g2_044.json": "e09f647cc1c9e946e4a6a9111d2a55cde10fbeac1b3b2791536f49360ceb3802"
+    }
+  },
+  "retained_truth_sha256": {
+    "c001": "37e2c7c3cefc6b593983218b1bfa136d5acf6fd60aa7be4abebf7a51e05b58b8",
+    "c002": "9ce9c3547030b00b78dcfb66abf356df367409e9f20bc0888dfc4802bbbe3bb4",
+    "c003": "bc18ff9a2acf68ae6998c42852f2a44ea5cf1c8f597ea5867e0dbab24bf3882a",
+    "c004": "ea14ff2188f1ba2c6ddadcbd98d2dce41fdf0917a0c324161b1a45fa172e805e",
+    "c005": "a8d9c12982ab9f8332987dd0d4a465b05a6dc8051c656674d5cdafd551ae9eea",
+    "c006": "731b0c0b95b16434f982e04d6b623aaf49211f8ed9cb96407fd4752c6d9e3a13",
+    "c007": "460d990952dce96e6acbdd882169f545361e5f873ea952460c99458bdb945b4a",
+    "c008": "982a7027f3d6ad7f6e47746e6fb5ffa509c336aa431c54c7bb85a644d30be5f4",
+    "c009": "560a20de1b63b8a7ef338c6ebd2da96163e848f0f8be08477d32dc10c230f1ba",
+    "c113": "a3c6ee7127b2d2c02e26f83b6465718f3c2d8089c34fdec85b04c8f5fe70f1a4",
+    "c129": "30f05d3afb806092a387ceb820a66d7226867c442ac48ed66303c3b7dc7b379d",
+    "c146": "e79540e359086ceed505a356703319e2c2b013fe5c5bbb1a654c8b94162f3dad",
+    "c166": "fb09cec12b70b07703b2666c936182f9c78de49632fb1d9e758a47a8c825db2b",
+    "c169": "0ade949229a0f02d0c4af3eac16df582f3a5691088b9afda41f795d8cf5e48c1",
+    "c173": "771fc4bdf605e248996479ccfbec45bb0289b8412dcc82310f2ddaef9b9e13f2"
+  },
+  "reference": {
+    "predictor": "initial_persistence",
+    "forecast_members": 4,
+    "primary_joint_energy": 0.8271209896216252,
+    "absolute_tolerance": 1e-10
+  },
+  "source_code_sha256": {
+    "probes/blobs/agentenv/round6/worked_example/p4g2_044/origin.py": "829d495db95ec01d1599ab4988e667a71f2907c69d4f0f7f91858b7909bb40c7",
+    "probes/blobs/agentenv/round6/worked_example/p4g2_044/cases/build_cases.py": "dd97f2191930de24b9887329cacd9f8ca292aa103b5286cdee4abc82b8739de6"
+  }
+}

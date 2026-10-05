@@ -1,0 +1,41 @@
+{
+  "schema_version": "physim-reference-checks-v1",
+  "source_origin": {
+    "world": "bf",
+    "source": "/Users/spoho/Documents/prime/test/physim/outputs/phenomenology-20260913/bf_s11001",
+    "original_time": 2500,
+    "source_fields_sha256": "c40ffe28cebe33ef43f9e8f446672e6e33b1e93ce1e7ec869a8e03bc3a58b760",
+    "recipe_sha256": "e78f75ef1ecd9315fbbfda0b37093777d8311efcd09500b6ec679c5ff762225f",
+    "implementation": {
+      "blobkit_version": "0.3.5",
+      "reference_dependencies": {
+        "numpy": "2.5.2",
+        "scipy": "1.18.0"
+      },
+      "source_sha256": {
+        "blobkit.genome": "8f63c563b5beb75350ea3d06dbde74ca77898857425160a5347a0323810981c1",
+        "blobkit.soup.sim_cpu": "4cf2d9ea8d39ee8d7c4b34c4f13e7a9caa9d1e385287079f710e898388500f84",
+        "blobkit.soup.sim_v1": "7f8f4f465a1aa65db5054623f18a6f3e749bd85465ae3e841a759af31c0f841f",
+        "physim.devices": "43229b5040b4be428d7dbd35c99a680f5c8c6dbf83280a2620a73ffa706425b6",
+        "physim.blobround6": "d1b4a8b4a7231b011b418ab9d8d9d1a49418b879ab1b93a9263c3cc06b4f809b"
+      }
+    },
+    "noise_policy": "independent-experiment-v1",
+    "noise_coefficient": 0.002,
+    "selection": "First independently simulated preparation; apparatus centered by fixed activator-0 maximum rule."
+  },
+  "reference": {
+    "predictor": "initial_persistence",
+    "forecast_members": 4,
+    "primary_joint_energy": 0.4970086688520715,
+    "absolute_tolerance": 1e-10
+  },
+  "control_scores": {
+    "independent_native": 0.002211658634838555,
+    "ignore_actions": 0.20224133870949884,
+    "remove_feedback": 0.13832800342585688,
+    "wrong_probe_geometry": 0.4678514404557609,
+    "initial_persistence": 0.4970086688520715
+  },
+  "recipe_sha256": "dfaaa41fb26dc3151df14c87be82ceb54fe8210293050500fafda93ae4013a60"
+}

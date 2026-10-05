@@ -1,0 +1,263 @@
+{
+  "schema_version": "physim-world-bundle-v1",
+  "bundle_id": "bundle:sha256:0c133190c1c86450f56651b47e35f0d729f6a84c7c51a4bc7d91850a9a392ff2",
+  "status": "local-reference-verified",
+  "licenses": {
+    "code": "Apache-2.0",
+    "data": "CC-BY-4.0"
+  },
+  "objects": {
+    "world": {
+      "name": "p4g2_044",
+      "genome_sha256": "3493101590a98492a9aa9ae8384c42577fcf99d2d970d29a15ef023d5e6a70d8",
+      "numerics": {
+        "backend": "blobkit-cpu",
+        "dtype": "float32",
+        "grid": [
+          256,
+          256
+        ],
+        "L": 128.0,
+        "dx": 0.5,
+        "dt": 0.02,
+        "boundary": "periodic",
+        "workers": 1
+      },
+      "implementation": {
+        "blobkit_version": "0.3.5",
+        "reference_dependencies": {
+          "numpy": "2.5.2",
+          "scipy": "1.18.0"
+        },
+        "source_sha256": {
+          "blobkit.genome": "8f63c563b5beb75350ea3d06dbde74ca77898857425160a5347a0323810981c1",
+          "blobkit.soup.sim_cpu": "4cf2d9ea8d39ee8d7c4b34c4f13e7a9caa9d1e385287079f710e898388500f84",
+          "blobkit.soup.sim_v1": "7f8f4f465a1aa65db5054623f18a6f3e749bd85465ae3e841a759af31c0f841f",
+          "physim.devices": "43229b5040b4be428d7dbd35c99a680f5c8c6dbf83280a2620a73ffa706425b6",
+          "physim.blobround6": "7fa965d513aa6ddeb2193596731981fc5a2f4f465eeef1bb73f836d19525827d"
+        }
+      },
+      "id": "world:sha256:d6e85267eba7a4acb281f4d77e5dc29f1a981de74add624eaccf3ce7762d37e2"
+    },
+    "preparation": {
+      "world_id": "world:sha256:d6e85267eba7a4acb281f4d77e5dc29f1a981de74add624eaccf3ce7762d37e2",
+      "field_sha256": "847754b2bff40693e2f830ea083a97d1b23a513fab50ad11ca7f9d44399cc7ea",
+      "file_sha256": "6898298af7bf49fbda7749a27d537dc5e1da32b8acd80a8eeabc277d639dc0c5",
+      "apparatus_sha256": "33c132cff0c450dced24421472db8a8bcce45488f0c4185979ab970178a5e390",
+      "noise_policy": "independent-experiment-v1",
+      "noise_coefficient": 0.002,
+      "original_time": 1700.0,
+      "public_time": 0.0,
+      "id": "preparation:sha256:2d4e5a56452a1c4c1e31121da5d90ce9b86de42653786f64b27e225421197c8a"
+    },
+    "suite": {
+      "preparation_id": "preparation:sha256:2d4e5a56452a1c4c1e31121da5d90ce9b86de42653786f64b27e225421197c8a",
+      "file_sha256": "cffe457a50b33a0843bef3436610fb78bca3f10a824c93994dbfe5608fd84588",
+      "scoring_source_sha256": "dcd1ab237e992645c5c50d4dbc252aa35617c143652126af0ae76c77924fc464",
+      "truth_sha256": {
+        "truth/c001.npz": "37e2c7c3cefc6b593983218b1bfa136d5acf6fd60aa7be4abebf7a51e05b58b8",
+        "truth/c002.npz": "9ce9c3547030b00b78dcfb66abf356df367409e9f20bc0888dfc4802bbbe3bb4",
+        "truth/c003.npz": "bc18ff9a2acf68ae6998c42852f2a44ea5cf1c8f597ea5867e0dbab24bf3882a",
+        "truth/c004.npz": "ea14ff2188f1ba2c6ddadcbd98d2dce41fdf0917a0c324161b1a45fa172e805e",
+        "truth/c005.npz": "a8d9c12982ab9f8332987dd0d4a465b05a6dc8051c656674d5cdafd551ae9eea",
+        "truth/c006.npz": "731b0c0b95b16434f982e04d6b623aaf49211f8ed9cb96407fd4752c6d9e3a13",
+        "truth/c007.npz": "460d990952dce96e6acbdd882169f545361e5f873ea952460c99458bdb945b4a",
+        "truth/c008.npz": "982a7027f3d6ad7f6e47746e6fb5ffa509c336aa431c54c7bb85a644d30be5f4",
+        "truth/c009.npz": "560a20de1b63b8a7ef338c6ebd2da96163e848f0f8be08477d32dc10c230f1ba",
+        "truth/c113.npz": "a3c6ee7127b2d2c02e26f83b6465718f3c2d8089c34fdec85b04c8f5fe70f1a4",
+        "truth/c129.npz": "30f05d3afb806092a387ceb820a66d7226867c442ac48ed66303c3b7dc7b379d",
+        "truth/c146.npz": "e79540e359086ceed505a356703319e2c2b013fe5c5bbb1a654c8b94162f3dad",
+        "truth/c166.npz": "fb09cec12b70b07703b2666c936182f9c78de49632fb1d9e758a47a8c825db2b",
+        "truth/c169.npz": "0ade949229a0f02d0c4af3eac16df582f3a5691088b9afda41f795d8cf5e48c1",
+        "truth/c173.npz": "771fc4bdf605e248996479ccfbec45bb0289b8412dcc82310f2ddaef9b9e13f2"
+      },
+      "id": "suite:sha256:c411b8ccfb3db7054e0b6bc326ddd2ba0a2f42e2e4b5fbc56669e5614ccbf6ce"
+    }
+  },
+  "files": [
+    {
+      "path": "apparatus.json",
+      "bytes": 2227,
+      "sha256": "33c132cff0c450dced24421472db8a8bcce45488f0c4185979ab970178a5e390",
+      "role": "apparatus",
+      "profiles": [
+        "simulation",
+        "evaluation"
+      ]
+    },
+    {
+      "path": "checks.json",
+      "bytes": 2964,
+      "sha256": "0a0bd2fc91cb839b9bd6fd931fdf53088b0fcb477115f3bafd6f89e465762a68",
+      "role": "checks",
+      "profiles": [
+        "simulation",
+        "evaluation"
+      ]
+    },
+    {
+      "path": "preparation.npz",
+      "bytes": 2743196,
+      "sha256": "6898298af7bf49fbda7749a27d537dc5e1da32b8acd80a8eeabc277d639dc0c5",
+      "role": "preparation",
+      "profiles": [
+        "simulation",
+        "evaluation"
+      ]
+    },
+    {
+      "path": "suite.json",
+      "bytes": 143551,
+      "sha256": "cffe457a50b33a0843bef3436610fb78bca3f10a824c93994dbfe5608fd84588",
+      "role": "suite",
+      "profiles": [
+        "evaluation"
+      ]
+    },
+    {
+      "path": "truth/c001.npz",
+      "bytes": 97637,
+      "sha256": "37e2c7c3cefc6b593983218b1bfa136d5acf6fd60aa7be4abebf7a51e05b58b8",
+      "role": "truth",
+      "profiles": [
+        "evaluation"
+      ]
+    },
+    {
+      "path": "truth/c002.npz",
+      "bytes": 97359,
+      "sha256": "9ce9c3547030b00b78dcfb66abf356df367409e9f20bc0888dfc4802bbbe3bb4",
+      "role": "truth",
+      "profiles": [
+        "evaluation"
+      ]
+    },
+    {
+      "path": "truth/c003.npz",
+      "bytes": 97393,
+      "sha256": "bc18ff9a2acf68ae6998c42852f2a44ea5cf1c8f597ea5867e0dbab24bf3882a",
+      "role": "truth",
+      "profiles": [
+        "evaluation"
+      ]
+    },
+    {
+      "path": "truth/c004.npz",
+      "bytes": 97372,
+      "sha256": "ea14ff2188f1ba2c6ddadcbd98d2dce41fdf0917a0c324161b1a45fa172e805e",
+      "role": "truth",
+      "profiles": [
+        "evaluation"
+      ]
+    },
+    {
+      "path": "truth/c005.npz",
+      "bytes": 97403,
+      "sha256": "a8d9c12982ab9f8332987dd0d4a465b05a6dc8051c656674d5cdafd551ae9eea",
+      "role": "truth",
+      "profiles": [
+        "evaluation"
+      ]
+    },
+    {
+      "path": "truth/c006.npz",
+      "bytes": 68621,
+      "sha256": "731b0c0b95b16434f982e04d6b623aaf49211f8ed9cb96407fd4752c6d9e3a13",
+      "role": "truth",
+      "profiles": [
+        "evaluation"
+      ]
+    },
+    {
+      "path": "truth/c007.npz",
+      "bytes": 68721,
+      "sha256": "460d990952dce96e6acbdd882169f545361e5f873ea952460c99458bdb945b4a",
+      "role": "truth",
+      "profiles": [
+        "evaluation"
+      ]
+    },
+    {
+      "path": "truth/c008.npz",
+      "bytes": 97385,
+      "sha256": "982a7027f3d6ad7f6e47746e6fb5ffa509c336aa431c54c7bb85a644d30be5f4",
+      "role": "truth",
+      "profiles": [
+        "evaluation"
+      ]
+    },
+    {
+      "path": "truth/c009.npz",
+      "bytes": 97384,
+      "sha256": "560a20de1b63b8a7ef338c6ebd2da96163e848f0f8be08477d32dc10c230f1ba",
+      "role": "truth",
+      "profiles": [
+        "evaluation"
+      ]
+    },
+    {
+      "path": "truth/c113.npz",
+      "bytes": 3075,
+      "sha256": "a3c6ee7127b2d2c02e26f83b6465718f3c2d8089c34fdec85b04c8f5fe70f1a4",
+      "role": "truth",
+      "profiles": [
+        "evaluation"
+      ]
+    },
+    {
+      "path": "truth/c129.npz",
+      "bytes": 3043,
+      "sha256": "30f05d3afb806092a387ceb820a66d7226867c442ac48ed66303c3b7dc7b379d",
+      "role": "truth",
+      "profiles": [
+        "evaluation"
+      ]
+    },
+    {
+      "path": "truth/c146.npz",
+      "bytes": 3064,
+      "sha256": "e79540e359086ceed505a356703319e2c2b013fe5c5bbb1a654c8b94162f3dad",
+      "role": "truth",
+      "profiles": [
+        "evaluation"
+      ]
+    },
+    {
+      "path": "truth/c166.npz",
+      "bytes": 3067,
+      "sha256": "fb09cec12b70b07703b2666c936182f9c78de49632fb1d9e758a47a8c825db2b",
+      "role": "truth",
+      "profiles": [
+        "evaluation"
+      ]
+    },
+    {
+      "path": "truth/c169.npz",
+      "bytes": 3047,
+      "sha256": "0ade949229a0f02d0c4af3eac16df582f3a5691088b9afda41f795d8cf5e48c1",
+      "role": "truth",
+      "profiles": [
+        "evaluation"
+      ]
+    },
+    {
+      "path": "truth/c173.npz",
+      "bytes": 3061,
+      "sha256": "771fc4bdf605e248996479ccfbec45bb0289b8412dcc82310f2ddaef9b9e13f2",
+      "role": "truth",
+      "profiles": [
+        "evaluation"
+      ]
+    },
+    {
+      "path": "world.json",
+      "bytes": 2850,
+      "sha256": "3493101590a98492a9aa9ae8384c42577fcf99d2d970d29a15ef023d5e6a70d8",
+      "role": "world",
+      "profiles": [
+        "simulation",
+        "evaluation"
+      ]
+    }
+  ]
+}

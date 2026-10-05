@@ -81,10 +81,10 @@ uv run python scripts/check_docs.py
 uv build --package blobkit
 ```
 
-Set `PHYSIM_TEST_BUNDLE` to the verified 15-case p4g2_044 reference bundle (CI fetches
-it at the pinned revision) to enable the additional bundle/cache/reference tests.
-Without it, those checks explicitly skip; the release-staging test also looks for the
-bundle in `dist/residency-reference-bundle`. Native
+Set `PHYSIM_TEST_BUNDLE` to the original 15-case p4g2_044 reference bundle (see
+[RELEASING.md](RELEASING.md)) to enable the additional bundle/cache/reference tests.
+Without it, those checks explicitly skip. The release-staging test needs no download:
+it reconstructs all three current bundles from `registry/`. Native
 migration checks also need the original research fixtures. CI runs the
 independent checks; [RELEASING.md](RELEASING.md) covers native and clean-install
 validation. The linked environment README contains the eval CLI smoke command.

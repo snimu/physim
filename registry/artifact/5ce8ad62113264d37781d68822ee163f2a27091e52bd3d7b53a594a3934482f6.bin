@@ -1,0 +1,108 @@
+{
+  "request": {
+    "id": "move_during_pulse",
+    "actions": [
+      {
+        "t": 0,
+        "kind": "inject",
+        "device": 0,
+        "port": 1,
+        "amp": 0.3,
+        "dur": 5
+      },
+      {
+        "t": 2,
+        "kind": "adjust",
+        "device": 0,
+        "u": [
+          1,
+          0,
+          0
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "sensor": "device0",
+        "t": [
+          0,
+          2,
+          5,
+          8,
+          10,
+          12,
+          15,
+          20,
+          22,
+          25,
+          30,
+          35,
+          40,
+          45,
+          50
+        ]
+      },
+      {
+        "sensor": "device1",
+        "t": [
+          0,
+          2,
+          5,
+          8,
+          10,
+          12,
+          15,
+          20,
+          22,
+          25,
+          30,
+          35,
+          40,
+          45,
+          50
+        ]
+      },
+      {
+        "sensor": "global",
+        "t": [
+          0,
+          2,
+          5,
+          8,
+          10,
+          12,
+          15,
+          20,
+          22,
+          25,
+          30,
+          35,
+          40,
+          45,
+          50
+        ]
+      }
+    ]
+  },
+  "members": 3,
+  "truth_seed": 51014,
+  "seconds": 18.16593641694635,
+  "observations_sha256": "cfba43251985d98f83b0c2c893fbcfc57e21384f069dbe11648245fe768e4294",
+  "fields_sha256": "b83b57605ebb8d5fed30ff8fd7bc314cd6572f0ad1cda258bc3bff2a827bb7ef",
+  "preparation_sha256": "de9dda65ef430cd70353e472a956c32df462a5bb33b41641e26ced0b07bd68f8",
+  "implementation": {
+    "blobkit_version": "0.3.5",
+    "reference_dependencies": {
+      "numpy": "2.5.2",
+      "scipy": "1.18.0"
+    },
+    "source_sha256": {
+      "blobkit.genome": "8f63c563b5beb75350ea3d06dbde74ca77898857425160a5347a0323810981c1",
+      "blobkit.soup.sim_cpu": "4cf2d9ea8d39ee8d7c4b34c4f13e7a9caa9d1e385287079f710e898388500f84",
+      "blobkit.soup.sim_v1": "7f8f4f465a1aa65db5054623f18a6f3e749bd85465ae3e841a759af31c0f841f",
+      "physim.devices": "43229b5040b4be428d7dbd35c99a680f5c8c6dbf83280a2620a73ffa706425b6",
+      "physim.blobround6": "d1b4a8b4a7231b011b418ab9d8d9d1a49418b879ab1b93a9263c3cc06b4f809b"
+    }
+  },
+  "recipe_sha256": "e78f75ef1ecd9315fbbfda0b37093777d8311efcd09500b6ec679c5ff762225f"
+}
