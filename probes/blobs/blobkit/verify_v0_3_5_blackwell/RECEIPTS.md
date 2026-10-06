@@ -20,13 +20,19 @@ initial-field ownership, full-grid seven-world batch vs CPU (f64, < 1e-5),
 assay repack+ballast canonical equality, devrec/asyncapply record parity,
 CPU suite, registry, generation resume/lineage, packaging, integrity.
 
-## Run 2 — this branch (relocked source), JAX 0.11.2 + CUDA-12 wheels
+## Run 2 — this branch (built wheel), JAX 0.11.2 + CUDA-12 wheels
 
-    uv pip install -e ./packages/blobkit 'jax[cuda12]' pytest
+    uv build -o dist            # wheel built from this branch
+    pip install dist/blobkit-0.3.5-py3-none-any.whl 'jax[cuda12]' pytest
     pytest tests --require-gpu -q
 
-See the PR description for the recorded result (executed on the same node,
-same driver).
+    84 passed, 2 skipped, 3 warnings in 1077.57s
+
+Pitfall for reproducing: a `pip install -e` of the source tree leaves a
+`blobkit.egg-info/` inside `packages/blobkit/` that shadows the installed
+distribution (sys-path order) and fails
+`test_fleet_bundle_preserves_install_metadata_and_data` with a missing
+LICENSE; remove it or install from the wheel.
 
 ## Parity notes
 
