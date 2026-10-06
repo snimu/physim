@@ -159,8 +159,8 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "jax", marker = "extra == 'accelerator'", specifier = "==0.4.38" },
-    { name = "jax", extras = ["cuda12"], marker = "extra == 'gpu'", specifier = "==0.4.38" },
+    { name = "jax", marker = "extra == 'accelerator'", specifier = ">=0.4.38" },
+    { name = "jax", extras = ["cuda12"], marker = "extra == 'gpu'", specifier = ">=0.4.38" },
     { name = "matplotlib", marker = "extra == 'plot'", specifier = ">=3.8,<4" },
     { name = "numpy", specifier = ">=1.26,<3" },
     { name = "pytest", marker = "extra == 'test'", specifier = ">=8,<10" },

@@ -37,7 +37,11 @@ uv pip install './packages/blobkit[gpu]'
 blobkit --gpu
 ```
 
-Both accelerator extras pin JAX 0.4.38, the version used by these kernels. The
+Both accelerator extras require JAX 0.4.38 or newer. 0.4.38 is the version
+these kernels were developed and gated against; the full parity suite also
+passes on JAX 0.11.2 (CUDA-12 and CUDA-13 wheels) on Blackwell B300 — receipts
+in `probes/blobs/blobkit/verify_v0_3_5_blackwell/RECEIPTS.md`. Blackwell GPUs
+need a CUDA >= 12.8 wheel build. The
 CUDA extra installs the CUDA libraries through Python wheels; the host still
 needs a compatible NVIDIA driver. `blobkit --gpu` exits unsuccessfully if JAX
 cannot see a real GPU. `blobkit --accelerator` also allows JAX CPU devices.

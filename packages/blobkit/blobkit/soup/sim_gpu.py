@@ -100,7 +100,8 @@ def _jax():
     except ImportError as e:                      # pragma: no cover
         raise ImportError(
             "blobkit.soup.sim_gpu needs jax. Install the gpu extra: "
-            "pip install 'blobkit[gpu]' (or jax[cuda12]==0.4.38).") from e
+            "pip install 'blobkit[gpu]' (JAX>=0.4.38; Blackwell GPUs need a "
+            "CUDA>=12.8 wheel, validated with jax[cuda12] 0.11.2).") from e
     return jax, jnp
 
 

@@ -16,8 +16,8 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-accelerator = ["jax==0.4.38"]
-gpu = ["jax[cuda12]==0.4.38"]
+accelerator = ["jax>=0.4.38"]
+gpu = ["jax[cuda12]>=0.4.38"]
 plot = ["matplotlib>=3.8,<4"]
 test = ["pytest>=8,<10"]
 
